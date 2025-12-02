@@ -24,13 +24,90 @@
     @stack('styles')
 
     {{-- Blok <style> inline sudah dihapus --}}
+    <style>
+        /* Guest Layout Adjustments */
+        body.layout-guest main.main-content {
+            margin-left: 0 !important;
+            padding-top: 100px; /* Space for fixed navbar */
+        }
+        
+        body.layout-guest footer {
+            margin-left: 0 !important;
+        }
+
+        /* Navbar Glassmorphism */
+        .navbar-glass {
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-glass .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-glass .nav-link:hover {
+            color: #3b82f6;
+        }
+
+        .navbar-glass .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-glass .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
 </head>
-<body>
-    {{-- Premium SaaS Sidebar --}}
+<body class="{{ Auth::check() ? 'layout-auth' : 'layout-guest' }}">
+    
+    {{-- Navbar for Guests --}}
+    @guest
+    <nav class="navbar navbar-expand-lg fixed-top navbar-glass">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-filtered" style="height: 32px; margin-right: 10px;">
+                <span class="fw-bold">LaptopPremium</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#guestNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="guestNavbar">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('katalog.index') }}">Katalog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">Tentang Kami</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary px-4 rounded-pill" href="{{ route('login') }}">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @endguest
+
+    {{-- Premium SaaS Sidebar (Only for Authenticated Users) --}}
+    @auth
     <aside class="premium-sidebar" id="sidebar">
         {{-- Logo Section with Toggle Button --}}
         <div class="sidebar-logo">
-            <a href="{{ Auth::check() && Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}" 
+            <a href="{{ Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}" 
                class="d-flex align-items-center text-decoration-none">
                 <span class="sidebar-logo-text">UMKM</span>
             </a>
@@ -41,7 +118,6 @@
 
         {{-- Navigation Menu --}}
         <nav class="sidebar-nav">
-            @auth
             {{-- Main Menu Section --}}
             <div class="nav-section">
                 <span class="nav-section-title">MAIN MENU</span>
@@ -115,11 +191,9 @@
                 <span>Stok</span>
                 <div class="nav-item-glow"></div>
             </a>
-            @endauth
         </nav>
 
         {{-- Profile Section (Bottom) --}}
-        @auth
         <div class="sidebar-profile">
             <div class="profile-info">
                 <div class="profile-avatar">
@@ -147,17 +221,8 @@
                 </form>
             </div>
         </div>
-        @endauth
-
-        @guest
-        <div class="sidebar-profile">
-            <a href="{{ route('login') }}" class="btn-login-sidebar">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </a>
-        </div>
-        @endguest
     </aside>
+    @endauth
 
     {{-- Mobile Overlay --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -166,7 +231,8 @@
         @yield('content')
     </main>
 
-    {{-- SECTION FOOTER PROFESIONAL (Tata letak 4 kolom) --}}
+    {{-- SECTION FOOTER PROFESIONAL (Only for Guests) --}}
+    @guest
     <footer class="py-5">
         <div class="container">
             {{-- BARIS 1: LINK UTAMA (4 KOLOM) --}}
@@ -174,9 +240,7 @@
                 
                 {{-- Kolom 1: Brand & Socials --}}
                 <div class="col-12 col-md-6 col-lg-4">
-                    {{-- LOGIKA ROLE FOOTER BRAND --}}
-                    <a class="footer-brand" 
-                       href="{{ Auth::check() && Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}">
+                    <a class="footer-brand" href="{{ route('home') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="LaptopPremium Logo" class="logo-filtered">
                         <h5 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">LaptopPremium</h5>
                     </a>
@@ -194,17 +258,8 @@
                 <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                     <h6>Menu</h6>
                     <ul class="list-unstyled">
-                        {{-- LOGIKA ROLE FOOTER HOME --}}
-                        <li><a href="{{ Auth::check() && Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}">Home</a></li>
-                        @auth
-                        
-                        {{-- Sembunyikan Katalog di footer jika superadmin --}}
-                        @if(Auth::user()->role != 'superadmin')
+                        <li><a href="{{ route('home') }}">Home</a></li>
                         <li><a href="{{ route('katalog.index') }}">Katalog</a></li>
-                        @endif
-                        
-                        <li><a href="{{ route('stok.index') }}">Stok</a></li>
-                        @endauth
                         <li><a href="{{ route('about') }}">Tentang Kami</a></li>
                     </ul>
                 </div>
@@ -270,6 +325,7 @@
             </div>
         </div>
     </footer>
+    @endguest
 
     {{-- Page Transition Loader --}}
     <div id="page-loader" class="page-loader">
