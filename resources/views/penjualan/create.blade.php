@@ -29,18 +29,6 @@
     <div class="pos-row">
         {{-- LEFT PANEL: SHOPPING CART --}}
         <aside class="pos-cart-section">
-            {{-- Cart Header --}}
-            <header class="cart-header d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">
-                    <i class="bi bi-cart4"></i>
-                    <span>Keranjang</span>
-                </h4>
-                <button type="button" id="btn-reset-cart" class="btn btn-sm btn-outline-danger" title="Reset Keranjang">
-                    <i class="bi bi-trash3"></i>
-                </button>
-            </header>
-
-            {{-- Cart Body --}}
             <div class="cart-body">
                 {{-- Customer Selection --}}
                 <div class="customer-selection-wrapper">
@@ -57,11 +45,11 @@
                         <option value="">-- Pilih Pelanggan --</option>
                         @foreach($pelanggan as $p)
                             <option value="{{ $p->id_pelanggan }}" 
-                                    data-nama="{{ $p->name }}" 
+                                    data-nama="{{ $p->nama }}" 
                                     data-hp="{{ $p->no_hp }}" 
                                     data-email="{{ $p->email }}" 
                                     data-alamat="{{ $p->alamat }}">
-                                {{ $p->name }}
+                                {{ $p->nama }}
                             </option>
                         @endforeach
                     </select>
@@ -69,48 +57,81 @@
 
                 {{-- Cart Items Container --}}
                 <div id="cart-items-container">
-                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted py-5">
-                        <i class="bi bi-basket display-4 opacity-25 mb-3"></i>
-                        <p class="mb-1 fw-medium">Keranjang Kosong</p>
-                        <small class="opacity-75">Pilih produk untuk memulai transaksi</small>
+                    <div class="text-center text-muted py-5">
+                        <i class="bi bi-cart3" style="font-size: 3rem;"></i>
+                        <p class="mt-3">Keranjang kosong</p>
+                    </div>
+                </div>
+
+                {{-- Cart Summary (Subtotal, Total, Payment) --}}
+                <div class="cart-summary" id="cart-summary">
+                    {{-- Toggle Button --}}
+                    <div class="cart-summary-toggle" id="cart-summary-toggle">
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    {{-- Summary Content --}}
+                    <div class="cart-summary-content" id="cart-summary-content">
+                        {{-- Grand Total --}}
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="total-display">Rp 0</span>
+                        </div>
+
+                        {{-- Payment Method --}}
+                        <div class="payment-method-wrapper">
+                            <label class="form-label mb-2">Metode Pembayaran</label>
+                            <select id="metode_pembayaran" class="form-select">
+                                <option value="cash">Cash</option>
+                                <option value="transfer">Transfer Bank</option>
+                                <option value="qris">QRIS</option>
+                            </select>
+                        </div>
+
+                        {{-- Checkout Button --}}
+                        <button type="button" id="btn-bayar" class="btn-primary-custom">
+                            <i class="bi bi-cash-coin"></i>
+                            <span>Proses Pembayaran</span>
+                        </button>
                     </div>
                 </div>
             </div>
-
-            {{-- Cart Footer --}}
-            <footer class="cart-footer">
-                {{-- Subtotal --}}
-                <div class="total-row">
-                    <span>Subtotal</span>
-                    <span id="subtotal-display">Rp 0</span>
-                </div>
-
-                {{-- Grand Total --}}
-                <div class="total-row grand-total">
-                    <span>Total</span>
-                    <span id="total-display">Rp 0</span>
-                </div>
-
-                {{-- Payment Method --}}
-                <div class="payment-method-wrapper">
-                    <label class="form-label mb-2">Metode Pembayaran</label>
-                    <select id="metode_pembayaran" class="form-select">
-                        <option value="cash">💵 Cash</option>
-                        <option value="transfer">🏦 Transfer Bank</option>
-                        <option value="qris">📱 QRIS</option>
-                    </select>
-                </div>
-
-                {{-- Checkout Button --}}
-                <button type="button" id="btn-bayar" class="btn-primary-custom">
-                    <i class="bi bi-cash-coin"></i>
-                    <span>Proses Pembayaran</span>
-                </button>
-            </footer>
         </aside>
 
         {{-- RIGHT PANEL: PRODUCT CATALOG --}}
         <main class="pos-catalog-section">
+            {{-- Info Widget --}}
+            <div class="pos-info-widget">
+                <div class="info-left">
+                    <a href="{{ route('dashboard') }}" class="btn-back" title="Kembali ke Dashboard">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <div class="info-divider"></div>
+                    <div class="info-time">
+                        <i class="bi bi-clock"></i>
+                        <span id="widget-clock">00:00:00</span>
+                    </div>
+                    <div class="info-divider"></div>
+                    <div class="info-weather">
+                        <i class="bi bi-cloud-sun"></i>
+                        <span>28°C</span>
+                    </div>
+                </div>
+                <div class="info-right">
+                    <div class="user-info">
+                        <span class="user-name">{{ Auth::user()->name }}</span>
+                        <span class="user-role">{{ ucfirst(Auth::user()->role ?? 'Staff') }}</span>
+                    </div>
+                    <div class="user-avatar">
+                        @if(Auth::user()->photo)
+                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User">
+                        @else
+                            <i class="bi bi-person-circle"></i>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             {{-- Catalog Header --}}
             <header class="catalog-header">
                 {{-- Search Bar --}}
@@ -125,9 +146,10 @@
 
                 {{-- Category Filter --}}
                 <select id="filter-category" class="form-select">
-                    <option value="all">📦 Semua Kategori</option>
-                    <option value="laptop">💻 Laptop</option>
-                    <option value="aksesoris">🎧 Aksesoris</option>
+                    <option value="all">Semua Kategori</option>
+                    @foreach($kategori as $kat)
+                        <option value="{{ $kat->slug ?? strtolower($kat->nama_kategori) }}">{{ $kat->nama_kategori }}</option>
+                    @endforeach
                 </select>
             </header>
 

@@ -5,15 +5,9 @@
     <div class="modal-dialog modal-dialog-centered modal-struk">
         <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <h5 class="modal-title mb-1" id="konfirmasiModalLabel">
-                        <i class="bi bi-receipt me-2"></i>LaptopPremium
-                    </h5>
-                    <p class="store-info mb-0 small text-muted">
-                        Jl. Digital No. 1, Pekanbaru<br>
-                        <i class="bi bi-telephone me-1"></i>0812-3456-7890
-                    </p>
-                </div>
+                <h5 class="modal-title" id="konfirmasiModalLabel">
+                    <i class="bi bi-receipt me-2"></i>Ringkasan Transaksi
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
@@ -51,22 +45,24 @@
                 </div>
 
                 {{-- Warning --}}
-                <div class="alert alert-warning d-flex align-items-center p-3 mt-3 mb-0" style="border-radius: 12px;">
+                <div class="alert d-flex align-items-center p-3 mt-3 mb-0" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24; border-radius: 12px;">
                     <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
                     <small class="mb-0">Transaksi tidak dapat diubah setelah disimpan. Pastikan data sudah benar.</small>
                 </div>
             </div>
             
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle me-1"></i>Batal
                 </button>
-                <button type="button" class="btn btn-warning" id="confirmSubmitAndPrint">
-                    <i class="bi bi-printer me-1"></i>Cetak Struk
-                </button>
-                <button type="button" class="btn btn-success" id="confirmSubmitSaveOnly">
-                    <i class="bi bi-check-circle me-1"></i>Simpan Transaksi
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-info text-white" id="confirmSubmitAndPrint">
+                        <i class="bi bi-printer me-1"></i>Cetak Struk
+                    </button>
+                    <button type="button" class="btn btn-success" id="confirmSubmitSaveOnly">
+                        <i class="bi bi-check-circle me-1"></i>Simpan Transaksi
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -131,7 +127,7 @@
             </div>
             
             <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle me-1"></i>Batal
                 </button>
                 <button type="button" class="btn btn-primary" id="btn-save-customer">
@@ -187,7 +183,7 @@
             </div>
             
             <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">
                     <i class="bi bi-x-circle me-1"></i>Tutup
                 </button>
             </div>

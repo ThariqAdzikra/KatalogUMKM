@@ -406,18 +406,19 @@ body.sidebar-collapsed .profile-actions {
     gap: 0.75rem;
     padding: 0.75rem 1rem;
     width: 100%;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    background: #3b82f6;
     color: #ffffff;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-login-sidebar:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
 }
 
 .btn-login-sidebar span {
@@ -1534,4 +1535,20 @@ footer .social-icons a {
     .loader-text {
         font-size: 0.9rem;
     }
+}
+/* Navbar Login Button */
+.btn-login-nav {
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-login-nav:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    color: #ffffff;
 }
