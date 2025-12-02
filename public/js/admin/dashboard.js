@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const apiKey = '93b7587a55f39ff4f0dc94e189ea5bd3';
         const city = 'Pekanbaru';
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=id&appid=${apiKey}`;
-        
+
         const weatherWidget = document.getElementById('weather-widget');
         if (!weatherWidget) return;
 
@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Gagal mengambil data cuaca');
             }
-            
+
             const data = await response.json();
-            
+
             const temp = Math.round(data.main.temp);
             const description = data.weather[0].description;
             const iconCode = data.weather[0].icon.slice(0, -1);
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imgElement.alt = 'Ilustrasi Malam Hari';
         }
 
-        imgElement.onerror = function() {
+        imgElement.onerror = function () {
             console.warn('Gambar cuaca tidak ditemukan di path:', this.src);
             this.style.display = 'none';
         };
@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!clockWidget) return;
 
         const now = new Date();
-        
+
         const dateOptions = { weekday: 'long', day: 'numeric', month: 'long' };
         const formattedDate = now.toLocaleDateString('id-ID', dateOptions);
 
-        const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+        const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
         const formattedTime = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
 
         clockWidget.innerHTML = `
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <strong>${formattedTime}</strong>
             <span style="opacity: 0.9;">${formattedDate}</span>
         `;
-        
+
         const iconElement = clockWidget.querySelector('.bi-icon i');
         if (iconElement) {
             iconElement.style.fontSize = '1.5rem';
@@ -102,12 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Panggil fungsi cuaca, gambar, dan jam (SAMA SEPERTI SEBELUMNYA)
     fetchWeather();
     updateWeatherImage();
-    updateClock(); 
-    setInterval(updateClock, 1000); 
+    updateClock();
+    setInterval(updateClock, 1000);
 
     // Variabel global untuk menyimpan instance chart
-    let penjualanChart = null; 
-    
+    let penjualanChart = null;
+
     const canvas = document.getElementById('chartPenjualan');
     const ctx = canvas?.getContext('2d');
     const filterForm = document.getElementById('chart-filter-form');
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fungsi untuk mengambil data dan memperbarui chart
         async function fetchAndUpdateChart(startDate, endDate) {
-            
+
             // Tampilkan loader
             loader.classList.add('show');
             canvas.style.opacity = '0.3';
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const data = await response.json();
-                
+
                 // Format tanggal (label) ke Bahasa Indonesia
                 const formattedLabels = data.labels.map(date => {
                     const d = new Date(date);
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fungsi untuk me-render chart (atau menghancurkan & me-render ulang)
         function renderChart(labels, values) {
-            
+
             // Hancurkan chart lama jika ada
             if (penjualanChart) {
                 penjualanChart.destroy();
@@ -222,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             borderColor: 'rgba(59, 130, 246, 0.3)',
                             borderWidth: 1,
                             callbacks: {
-                                title: function(context) {
+                                title: function (context) {
                                     return context[0].label;
                                 },
-                                label: function(context) {
+                                label: function (context) {
                                     const value = context.parsed.y;
                                     return 'Total: Rp ' + new Intl.NumberFormat('id-ID').format(value);
                                 }
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 font: {
                                     size: 11
                                 },
-                                callback: function(value) {
+                                callback: function (value) {
                                     if (value >= 1000000) {
                                         return 'Rp ' + (value / 1000000).toFixed(1) + 'M';
                                     } else if (value >= 1000) {
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const today = new Date();
         const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(today.getDate() - 6); 
+        sevenDaysAgo.setDate(today.getDate() - 6);
 
         const defaultStartDate = getFormattedDate(sevenDaysAgo);
         const defaultEndDate = getFormattedDate(today);
@@ -291,8 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Tambahkan listener ke form 'submit'
         filterForm.addEventListener('submit', (e) => {
-            e.preventDefault(); 
-            
+            e.preventDefault();
+
             const startDate = dateStartInput.value;
             const endDate = dateEndInput.value;
 

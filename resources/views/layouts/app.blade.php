@@ -26,156 +26,143 @@
     {{-- Blok <style> inline sudah dihapus --}}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-glass">
-        <div class="container">
-            
-            {{-- 
-                LOGIKA ROLE LOGO NAVBAR:
-                - Jika role 'superadmin', link ke 'dashboard'.
-                - Jika role 'pegawai' (atau guest), link ke 'home'.
-            --}}
-            <a class="navbar-brand d-flex align-items-center" 
-               href="{{ Auth::check() && Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="LaptopPremium Logo" class="logo-filtered">
-                LaptopPremium
+    {{-- Premium SaaS Sidebar --}}
+    <aside class="premium-sidebar" id="sidebar">
+        {{-- Logo Section with Toggle Button --}}
+        <div class="sidebar-logo">
+            <a href="{{ Auth::check() && Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}" 
+               class="d-flex align-items-center text-decoration-none">
+                <span class="sidebar-logo-text">UMKM</span>
+            </a>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+
+        {{-- Navigation Menu --}}
+        <nav class="sidebar-nav">
+            @auth
+            {{-- Main Menu Section --}}
+            <div class="nav-section">
+                <span class="nav-section-title">MAIN MENU</span>
+            </div>
+
+            {{-- Dashboard/Katalog (Role-based) --}}
+            @if(Auth::user()->role == 'superadmin')
+                <a href="{{ route('dashboard') }}" 
+                   class="nav-item {{ request()->is('superadmin/dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                    <div class="nav-item-glow"></div>
+                </a>
+            @else
+                <a href="{{ route('katalog.index') }}" 
+                   class="nav-item {{ (request()->routeIs('katalog.*') || request()->routeIs('stok.show')) ? 'active' : '' }}">
+                    <i class="bi bi-laptop"></i>
+                    <span>Katalog</span>
+                    <div class="nav-item-glow"></div>
+                </a>
+            @endif
+
+            {{-- Kasir/Pegawai (Role-based) --}}
+            @if(Auth::user()->role == 'superadmin')
+                <a href="{{ route('pegawai.index') }}" 
+                   class="nav-item {{ request()->routeIs('pegawai.*') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i>
+                    <span>Pegawai</span>
+                    <div class="nav-item-glow"></div>
+                </a>
+            @else
+                <a href="{{ route('penjualan.create') }}" 
+                   class="nav-item {{ request()->routeIs('penjualan.create') ? 'active' : '' }}">
+                    <i class="bi bi-cash-register"></i>
+                    <span>Kasir</span>
+                    <div class="nav-item-glow"></div>
+                </a>
+            @endif
+
+            {{-- Management Section --}}
+            <div class="nav-section">
+                <span class="nav-section-title">MANAGEMENT</span>
+            </div>
+
+            <a href="{{ route('pembelian.index') }}" 
+               class="nav-item {{ request()->routeIs('pembelian.*') ? 'active' : '' }}">
+                <i class="bi bi-cart-plus"></i>
+                <span>Pembelian</span>
+                <div class="nav-item-glow"></div>
             </a>
 
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    
-                    @auth
-                    
-                    {{-- 
-                        LOGIKA ROLE MENU:
-                        - Jika role 'superadmin', tampilkan 'Dashboard'.
-                        - Jika role 'pegawai' (else), tampilkan 'Katalog'.
-                    --}}
-                    @if(Auth::user()->role == 'superadmin')
-                        <li class="nav-item">
-                            {{-- PERBAIKAN LOGIKA ACTIVE STATE DASHBOARD --}}
-                            <a class="nav-link {{ request()->is('superadmin/dashboard') ? 'active' : '' }}" 
-                               href="{{ route('dashboard') }}">
-                                Dashboard
-                            </a>
-                        </li>
+            @if(Auth::user()->role == 'superadmin')
+            <a href="{{ route('penjualan.index') }}" 
+               class="nav-item {{ (request()->routeIs('penjualan.*') && !request()->routeIs('penjualan.create')) ? 'active' : '' }}">
+                <i class="bi bi-receipt"></i>
+                <span>Penjualan</span>
+                <div class="nav-item-glow"></div>
+            </a>
+            @endif
+
+            <a href="{{ route('pelanggan.index') }}" 
+               class="nav-item {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}">
+                <i class="bi bi-person-badge"></i>
+                <span>Pelanggan</span>
+                <div class="nav-item-glow"></div>
+            </a>
+
+            <a href="{{ route('stok.index') }}" 
+               class="nav-item {{ (request()->routeIs('stok.*') && !request()->routeIs('stok.show')) ? 'active' : '' }}">
+                <i class="bi bi-box-seam"></i>
+                <span>Stok</span>
+                <div class="nav-item-glow"></div>
+            </a>
+            @endauth
+        </nav>
+
+        {{-- Profile Section (Bottom) --}}
+        @auth
+        <div class="sidebar-profile">
+            <div class="profile-info">
+                <div class="profile-avatar">
+                    @if(Auth::user()->photo)
+                        <img src="{{ asset('storage/'. Auth::user()->photo) }}" 
+                             alt="{{ Auth::user()->name }}">
                     @else
-                        <li class="nav-item">
-                            {{-- Logika 'Katalog' Aktif --}}
-                            <a class="nav-link {{ (request()->routeIs('katalog.*') || request()->routeIs('stok.show')) ? 'active' : '' }}" 
-                               href="{{ route('katalog.index') }}">
-                                Katalog
-                            </a>
-                        </li>
+                        <i class="bi bi-person-circle"></i>
                     @endif
-                    {{-- AKHIR DARI PERUBAHAN MENU --}}
-
-
-                    {{-- LOGIKA KASIR & MANAJEMEN PEGAWAI --}}
-                    @if(Auth::user()->role == 'superadmin')
-                        {{-- TAMPILKAN MANAJEMEN PEGAWAI UNTUK SUPERADMIN --}}
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('pegawai.*') ? 'active' : '' }}" 
-                               href="{{ route('pegawai.index') }}">
-                                Pegawai
-                            </a>
-                        </li>
-                    @else
-                        {{-- TAMPILKAN KASIR UNTUK ROLE LAIN (PEGAWAI) --}}
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('penjualan.create') ? 'active' : '' }}" 
-                               href="{{ route('penjualan.create') }}">
-                                Kasir
-                            </a>
-                        </li>
-                    @endif
-                    {{-- AKHIR DARI PERUBAHAN LOGIKA --}}
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('pembelian.*') ? 'active' : '' }}" 
-                           href="{{ route('pembelian.index')}}">
-                            Pembelian
-                        </a>
-                    </li>
-
-                    @if(Auth::user()->role == 'superadmin')
-                    <li class="nav-item">
-                        <a class="nav-link {{ (request()->routeIs('penjualan.*') && !request()->routeIs('penjualan.create')) ? 'active' : '' }}" 
-                           href="{{ route('penjualan.index') }}">
-                            Penjualan
-                        </a>
-                    </li>
-                    @endif
-                    
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}" 
-                           href="{{ route('pelanggan.index') }}">
-                            Pelanggan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                         {{-- Logika 'Stok' Aktif (Tidak termasuk 'show') --}}
-                        <a class="nav-link {{ (request()->routeIs('stok.*') && !request()->routeIs('stok.show')) ? 'active' : '' }}" 
-                           href="{{ route('stok.index') }}">
-                            Stok
-                        </a>
-                    </li>
-                    @endauth
-                </ul>
-
-                <ul class="navbar-nav ms-auto align-items-center">
-                    @guest
-                        <li class="nav-item">
-                            <a class="btn btn-nav btn-sm" href="{{ route('login') }}">
-                                <i class="bi bi-box-arrow-in-right me-1"></i>Login
-                            </a>
-                        </li>
-                    @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown"
-                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                
-                                @if(Auth::user()->photo)
-                                    <img src="{{ asset('storage/'. Auth::user()->photo) }}" 
-                                         alt="{{ Auth::user()->name }}" 
-                                         class="me-2" 
-                                         style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
-                                @else
-                                    <i class="bi bi-person-circle me-2" style="font-size: 1.7rem;"></i>
-                                @endif
-                                {{ Auth::user()->name }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {{-- 
-                                    ✅ ITEM DASHBOARD DI SINI SUDAH DIHAPUS.
-                                    Item pertama sekarang adalah Profile.
-                                --}}
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                        <i class="bi bi-person me-2"></i>Profile
-                                    </a>
-                                </li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item text-danger">
-                                            <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-
-                        </li>
-                    @endguest
-                </ul>
+                </div>
+                <div class="profile-details">
+                    <div class="profile-name">{{ Str::limit(Auth::user()->name, 15) }}</div>
+                    <div class="profile-role">{{ ucfirst(Auth::user()->role) }}</div>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a href="{{ route('profile.edit') }}" class="profile-action" title="Profile">
+                    <i class="bi bi-person-gear"></i>
+                </a>
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="profile-action" title="Logout">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
             </div>
         </div>
-    </nav>
+        @endauth
 
-    <main>
+        @guest
+        <div class="sidebar-profile">
+            <a href="{{ route('login') }}" class="btn-login-sidebar">
+                <i class="bi bi-box-arrow-in-right"></i>
+                <span>Login</span>
+            </a>
+        </div>
+        @endguest
+    </aside>
+
+    {{-- Mobile Overlay --}}
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
         @yield('content')
     </main>
 
@@ -409,6 +396,65 @@
                 
                 loader.classList.remove('hidden');
             }, true); // Use capture phase to run this BEFORE other handlers
+        });
+    </script>
+
+    {{-- Premium Sidebar Toggle JavaScript --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const body = document.body;
+
+            // Load sidebar state from localStorage (only for desktop)
+            if (window.innerWidth >= 993) {
+                const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                if (isCollapsed) {
+                    body.classList.add('sidebar-collapsed');
+                }
+            }
+
+            // Toggle sidebar
+            sidebarToggle.addEventListener('click', function() {
+                if (window.innerWidth >= 993) {
+                    // Desktop: Toggle collapsed state
+                    body.classList.toggle('sidebar-collapsed');
+                    const isCollapsed = body.classList.contains('sidebar-collapsed');
+                    localStorage.setItem('sidebarCollapsed', isCollapsed);
+                } else {
+                    // Mobile: Toggle overlay
+                    sidebar.classList.toggle('mobile-open');
+                    sidebarOverlay.classList.toggle('active');
+                }
+            });
+
+            // Close mobile sidebar on overlay click
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-open');
+                sidebarOverlay.classList.remove('active');
+            });
+
+            // Close mobile sidebar on navigation click
+            const navItems = sidebar.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (window.innerWidth < 993) {
+                        setTimeout(() => {
+                            sidebar.classList.remove('mobile-open');
+                            sidebarOverlay.classList.remove('active');
+                        }, 200);
+                    }
+                });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 993) {
+                    sidebar.classList.remove('mobile-open');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
         });
     </script>
 
