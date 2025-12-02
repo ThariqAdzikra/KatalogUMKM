@@ -64,7 +64,7 @@
 }
 
 .btn-hero {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    background: #3b82f6;
     color: #ffffff;
     font-weight: 700;
     padding: 1.1rem 2.75rem;
@@ -162,7 +162,7 @@
 }
 
 .btn-search {
-    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     border: none;
     color: #ffffff;
     padding: 1rem 2.25rem;
@@ -174,7 +174,7 @@
 }
 
 .btn-search:hover {
-    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     color: #ffffff;
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.4);
@@ -304,7 +304,7 @@
 }
 
 .btn-detail {
-    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     color: #ffffff;
     padding: 0.75rem 1.5rem;
     border-radius: 12px;
@@ -317,7 +317,7 @@
 }
 
 .btn-detail:hover {
-    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     color: #ffffff;
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4), 0 0 35px rgba(59, 130, 246, 0.3);

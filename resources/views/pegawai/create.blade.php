@@ -3,7 +3,7 @@
 @section('title', 'Tambah Pegawai - Laptop Store')
 
 @push('styles')
-<link rel="stylesheet" href="/css/manajemen/pegawai.css">
+<link rel="stylesheet" href="/css/manajemen/style.css">
 @endpush
 
 @section('content')
