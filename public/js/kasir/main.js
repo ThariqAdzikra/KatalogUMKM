@@ -40,8 +40,39 @@ $(document).ready(function () {
    * Show toast notification
    */
   const showToast = (message, type = 'info') => {
-    // You can integrate with Bootstrap Toast or custom toast system
-    console.log(`[${type.toUpperCase()}] ${message}`);
+    const $container = $('#toast-container');
+    const id = 'toast-' + Date.now();
+
+    let icon = 'bi-info-circle';
+    let headerClass = 'text-primary';
+
+    if (type === 'success') { icon = 'bi-check-circle'; headerClass = 'text-success'; }
+    if (type === 'warning') { icon = 'bi-exclamation-triangle'; headerClass = 'text-warning'; }
+    if (type === 'error') { icon = 'bi-x-circle'; headerClass = 'text-danger'; }
+
+    const html = `
+      <div id="${id}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <i class="bi ${icon} me-2 ${headerClass}"></i>
+          <strong class="me-auto ${headerClass}">${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+          <small class="text-muted">Baru saja</small>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          ${message}
+        </div>
+      </div>
+    `;
+
+    $container.append(html);
+    const toastEl = document.getElementById(id);
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+
+    // Remove from DOM after hidden
+    toastEl.addEventListener('hidden.bs.toast', () => {
+      toastEl.remove();
+    });
   };
 
   /**
@@ -84,21 +115,24 @@ $(document).ready(function () {
       // Image handling with fallback
       let imgHtml;
       if (product.gambar) {
-        const filename = product.gambar.split('/').pop();
-        const imgSrc = `/storage/produk/${filename}`;
+        // Use the path directly, assuming it's stored correctly or needs 'storage/' prefix
+        // If the path already contains 'storage/', don't add it again.
+        const imgSrc = product.gambar.startsWith('storage/')
+          ? `/${product.gambar}`
+          : `/storage/${product.gambar}`;
 
         imgHtml = `
           <div class="product-img-wrapper">
             <img src="${imgSrc}" 
                  alt="${product.nama_produk}" 
                  loading="lazy"
-                 onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'bi bi-image\\'  style=\\'font-size: 3rem; opacity: 0.3;\\'></i>'">
+                 onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'bi bi-image text-muted\\' style=\\'font-size: 3rem; opacity: 0.5;\\'></i>'">
           </div>
         `;
       } else {
         imgHtml = `
           <div class="product-img-wrapper">
-            <i class="bi bi-laptop" style="font-size: 3rem; opacity: 0.3;"></i>
+            <i class="bi bi-laptop text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
           </div>
         `;
       }
@@ -551,6 +585,18 @@ $(document).ready(function () {
   // Bind submit buttons
   $('#confirmSubmitSaveOnly').click(() => submitTransaction(false));
   $('#confirmSubmitAndPrint').click(() => submitTransaction(true));
+
+  // Reset Cart Button
+  $('#btn-reset-cart').click(function () {
+    if (cart.length > 0) {
+      if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
+        resetApplication();
+        showToast('Keranjang berhasil dikosongkan', 'info');
+      }
+    } else {
+      showToast('Keranjang sudah kosong', 'warning');
+    }
+  });
 
   // =====================================================
   // 8. INITIALIZATION

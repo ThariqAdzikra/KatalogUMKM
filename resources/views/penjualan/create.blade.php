@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.pos')
 
 @section('title', 'Point of Sale - Laptop Store')
 
@@ -30,11 +30,14 @@
         {{-- LEFT PANEL: SHOPPING CART --}}
         <aside class="pos-cart-section">
             {{-- Cart Header --}}
-            <header class="cart-header">
-                <h4>
+            <header class="cart-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">
                     <i class="bi bi-cart4"></i>
-                    <span>Keranjang Belanja</span>
+                    <span>Keranjang</span>
                 </h4>
+                <button type="button" id="btn-reset-cart" class="btn btn-sm btn-outline-danger" title="Reset Keranjang">
+                    <i class="bi bi-trash3"></i>
+                </button>
             </header>
 
             {{-- Cart Body --}}
@@ -84,12 +87,12 @@
 
                 {{-- Grand Total --}}
                 <div class="total-row grand-total">
-                    <span>Total Pembayaran</span>
+                    <span>Total</span>
                     <span id="total-display">Rp 0</span>
                 </div>
 
                 {{-- Payment Method --}}
-                <div class="mt-3 mb-3">
+                <div class="payment-method-wrapper">
                     <label class="form-label mb-2">Metode Pembayaran</label>
                     <select id="metode_pembayaran" class="form-select">
                         <option value="cash">💵 Cash</option>
