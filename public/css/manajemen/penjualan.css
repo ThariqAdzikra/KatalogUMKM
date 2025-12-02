@@ -11,15 +11,17 @@
 .modal-confirmation-style .modal-content {
     border-radius: 24px;
     border: none;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    background: #ffffff;
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 /* Header Modal (Overwrite style bawaan bootstrap/global) */
 .modal-confirmation-style .modal-header {
-    background: #ffffff !important;
-    color: #333 !important;
+    background: transparent !important;
+    color: #e5e7eb !important;
     border-bottom: none !important;
     padding: 1.5rem 1.5rem 0.5rem 1.5rem;
     display: flex;
@@ -48,7 +50,7 @@
 .modal-confirmation-style .modal-body {
     padding: 0 2rem 1.5rem 2rem;
     text-align: center;
-    background: #ffffff !important;
+    background: transparent !important;
 }
 
 /* Icon Sampah Besar dengan Animasi */
@@ -70,13 +72,13 @@
 .modal-title-text {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #3d2817; /* Primary Dark */
+    color: #e5e7eb;
     margin-bottom: 0.75rem;
     display: block;
 }
 
 .modal-desc-text {
-    color: #5d5349; /* Text Medium */
+    color: #9ca3af;
     font-size: 1rem;
     line-height: 1.5;
     margin-bottom: 1rem;
@@ -89,7 +91,7 @@
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    background: #ffffff !important;
+    background: transparent !important;
 }
 
 /* Tombol Modal */
@@ -103,7 +105,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .modal-confirmation-style .btn-modal-action i {
@@ -141,9 +143,19 @@
    ANIMASI
    ========================================================================== */
 @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Gentle wiggle for trash icon */
@@ -151,12 +163,27 @@
     animation: wiggle 600ms ease-in-out both;
     display: inline-block;
 }
+
 @keyframes wiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-12deg); }
-    50% { transform: rotate(10deg); }
-    75% { transform: rotate(-6deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-12deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-6deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* Animated trash components */
@@ -164,32 +191,78 @@
     transform-origin: 60px 33px;
     animation: lid-open 650ms ease-in-out both;
 }
+
 @keyframes lid-open {
-    0% { transform: rotate(0deg); }
-    40% { transform: rotate(-22deg); }
-    70% { transform: rotate(8deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(-22deg);
+    }
+
+    70% {
+        transform: rotate(8deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 .anim-trash .trash-item {
     animation: item-drop-bounce 900ms 80ms ease-in forwards;
 }
+
 @keyframes item-drop-bounce {
-    0% { transform: translateY(0); opacity: 0; }
-    20% { opacity: 1; }
-    85% { transform: translateY(72px); }
-    92% { transform: translateY(65px); }
-    100% { transform: translateY(72px); opacity: 1; }
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    85% {
+        transform: translateY(72px);
+    }
+
+    92% {
+        transform: translateY(65px);
+    }
+
+    100% {
+        transform: translateY(72px);
+        opacity: 1;
+    }
 }
 
 .anim-trash .dust {
     transform-origin: center;
     animation: puff 700ms 300ms ease-out both;
 }
-.anim-trash .puff-left { animation-delay: 320ms; }
-.anim-trash .puff-right { animation-delay: 360ms; }
+
+.anim-trash .puff-left {
+    animation-delay: 320ms;
+}
+
+.anim-trash .puff-right {
+    animation-delay: 360ms;
+}
+
 @keyframes puff {
-    0% { transform: scale(0.6); opacity: 0; }
-    40% { opacity: 0.5; }
-    100% { transform: scale(1.6); opacity: 0; }
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
 }

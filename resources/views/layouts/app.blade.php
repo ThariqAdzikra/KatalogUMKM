@@ -10,8 +10,8 @@
     {{-- Favicon & Theme Color --}}
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
-    <meta name="theme-color" content="#e8c77d">
-    <meta name="msapplication-TileColor" content="#e8c77d">
+    <meta name="theme-color" content="#0a0e27">
+    <meta name="msapplication-TileColor" content="#0a0e27">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">

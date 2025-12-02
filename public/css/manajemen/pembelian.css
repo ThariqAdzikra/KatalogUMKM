@@ -45,6 +45,7 @@
     border-radius: 6px;
     transition: 0.2s;
 }
+
 .btn-detail:hover {
     background-color: #0b5ed7;
     color: #fff;
@@ -93,12 +94,18 @@
 
 /* Tabel Card */
 .table-card {
-    background: #ffffff; 
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
     border-radius: 16px;
-    padding: 0; 
+    padding: 0;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    overflow: hidden !important;
+    border-radius: 16px;
+    padding: 0;
     box-shadow: var(--shadow-soft);
     border: 0 solid transparent !important;
-    overflow: hidden !important; 
+    overflow: hidden !important;
 }
 
 .table-responsive {
@@ -112,16 +119,16 @@
 }
 
 .table-header {
-    background: var(--primary-wood); 
-    color: #ffffff; 
+    background: var(--primary-wood);
+    color: #ffffff;
     padding: 1.25rem 1.5rem;
-    border-bottom: 2px solid rgba(0,0,0,0.1); 
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .table-header .table-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #ffffff; 
+    color: #ffffff;
     margin: 0;
 }
 
@@ -133,13 +140,13 @@
 }
 
 .table thead {
-    background: var(--primary-accent); 
+    background: var(--primary-accent);
 }
 
 .table thead th {
     color: white;
     font-weight: 600;
-    padding: 1rem 1.5rem; 
+    padding: 1rem 1.5rem;
     border: none;
     text-transform: uppercase;
     font-size: 0.85rem;
@@ -149,11 +156,11 @@
 
 .table tbody tr {
     transition: background 0.2s ease;
-    border-bottom: 1px solid var(--border-soft); 
+    border-bottom: 1px solid var(--border-soft);
 }
 
 .table tbody tr:hover {
-    background: var(--cream-bg);
+    background: rgba(45, 51, 84, 0.5);
 }
 
 .table tbody td {
@@ -172,7 +179,7 @@
     border: none !important;
 }
 
-.table tbody td:has(.empty-state), 
+.table tbody td:has(.empty-state),
 .table tbody tr:has(.empty-state) {
     border: none !important;
     border-bottom: none !important;
@@ -255,7 +262,12 @@
 }
 
 .form-card {
-    background: #ffffff; 
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: var(--shadow-soft);
@@ -273,7 +285,7 @@
     color: var(--primary-accent);
 }
 
-.form-select, 
+.form-select,
 .form-control {
     border: 2px solid var(--border-soft);
     border-radius: 10px;
@@ -283,7 +295,7 @@
     color: var(--text-dark);
 }
 
-.form-select:focus, 
+.form-select:focus,
 .form-control:focus {
     border-color: var(--primary-accent);
     box-shadow: 0 0 0 0.2rem rgba(107, 126, 74, 0.15);
@@ -316,12 +328,12 @@
 }
 
 .produk-row {
-    background: var(--cream-bg);
+    background: rgba(45, 51, 84, 0.5);
     border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1rem;
     transition: all 0.3s ease;
-    border: 2px solid transparent;
+    border: 2px solid rgba(59, 130, 246, 0.2);
 }
 
 .produk-row:hover {
@@ -402,9 +414,9 @@
 }
 
 .btn-cancel {
-    background: white;
+    background: rgba(30, 33, 57, 0.8);
     color: var(--text-dark);
-    border: 2px solid var(--border-soft);
+    border: 2px solid rgba(59, 130, 246, 0.3);
     padding: 1rem 2rem;
     border-radius: 12px;
     font-weight: 600;
@@ -442,6 +454,7 @@
 }
 
 @media (max-width: 768px) {
+
     .pembelian-container,
     .pembelian-container.form-view {
         padding: 1rem;
@@ -460,23 +473,25 @@
         width: 100%;
         /* overflow-x: hidden removed - will be auto on mobile */
     }
+
     .table-card {
-        padding: 0; 
-        overflow-x: auto !important; /* Changed from hidden to auto */
+        padding: 0;
+        overflow-x: auto !important;
+        /* Changed from hidden to auto */
     }
-    
+
     .table-header {
-        padding: 1rem; 
+        padding: 1rem;
     }
 
     .table {
         font-size: 0.85rem;
     }
-    
+
     .table thead th {
-        padding: 0.75rem 1rem; 
+        padding: 0.75rem 1rem;
     }
-    
+
     .table tbody td {
         padding: 0.75rem 1rem;
     }
@@ -516,15 +531,18 @@
     max-height: 200px;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     z-index: 1050 !important;
 }
+
 .ui-menu-item {
     padding: 8px 12px;
     cursor: pointer;
 }
+
 .ui-menu-item:hover {
     background: var(--primary-wood);
     color: white;
@@ -538,9 +556,11 @@
 .modal-confirmation-style .modal-content {
     border-radius: 24px;
     border: none;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    background: #ffffff;
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 /* Header (Minimalis - Hanya Close Button) */
@@ -599,7 +619,8 @@
 
 /* Styling Tombol Khusus Modal */
 .modal-confirmation-style .btn-modal-action {
-    flex: 1; /* Memastikan lebar tombol sama rata (50%) */
+    flex: 1;
+    /* Memastikan lebar tombol sama rata (50%) */
     padding: 0.85rem 1rem;
     border-radius: 12px;
     font-weight: 600;
@@ -608,7 +629,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .modal-confirmation-style .btn-modal-action i {
@@ -649,19 +670,40 @@
 
 /* Animasi Muncul Icon Modal */
 @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Simple pop-in for check icon */
 .icon-animate-pop {
     animation: popIn 400ms ease both;
 }
+
 @keyframes popIn {
-    0% { transform: scale(0.6); opacity: 0; }
-    60% { transform: scale(1.15); opacity: 1; }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Gentle wiggle for trash icon */
@@ -669,12 +711,27 @@
     animation: wiggle 600ms ease-in-out both;
     display: inline-block;
 }
+
 @keyframes wiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-12deg); }
-    50% { transform: rotate(10deg); }
-    75% { transform: rotate(-6deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-12deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-6deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* Animated check circle (draw effect) */
@@ -683,16 +740,23 @@
     stroke-dashoffset: 265;
     animation: circle-draw 900ms ease-out forwards;
 }
+
 .anim-check .check-mark {
     stroke-dasharray: 80;
     stroke-dashoffset: 80;
     animation: check-draw 700ms 350ms ease-out forwards;
 }
+
 @keyframes circle-draw {
-    to { stroke-dashoffset: 0; }
+    to {
+        stroke-dashoffset: 0;
+    }
 }
+
 @keyframes check-draw {
-    to { stroke-dashoffset: 0; }
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 /* Animated trash: lid wiggle + item drop into can */
@@ -700,30 +764,78 @@
     transform-origin: 60px 33px;
     animation: lid-open 650ms ease-in-out both;
 }
+
 @keyframes lid-open {
-    0% { transform: rotate(0deg); }
-    40% { transform: rotate(-22deg); }
-    70% { transform: rotate(8deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(-22deg);
+    }
+
+    70% {
+        transform: rotate(8deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
+
 .anim-trash .trash-item {
     animation: item-drop-bounce 900ms 80ms ease-in forwards;
 }
+
 @keyframes item-drop-bounce {
-    0% { transform: translateY(0); opacity: 0; }
-    20% { opacity: 1; }
-    85% { transform: translateY(72px); }
-    92% { transform: translateY(65px); }
-    100% { transform: translateY(72px); opacity: 1; }
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    85% {
+        transform: translateY(72px);
+    }
+
+    92% {
+        transform: translateY(65px);
+    }
+
+    100% {
+        transform: translateY(72px);
+        opacity: 1;
+    }
 }
+
 .anim-trash .dust {
     transform-origin: center;
     animation: puff 700ms 300ms ease-out both;
 }
-.anim-trash .puff-left { animation-delay: 320ms; }
-.anim-trash .puff-right { animation-delay: 360ms; }
+
+.anim-trash .puff-left {
+    animation-delay: 320ms;
+}
+
+.anim-trash .puff-right {
+    animation-delay: 360ms;
+}
+
 @keyframes puff {
-    0% { transform: scale(0.6); opacity: 0; }
-    40% { opacity: 0.5; }
-    100% { transform: scale(1.6); opacity: 0; }
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
 }

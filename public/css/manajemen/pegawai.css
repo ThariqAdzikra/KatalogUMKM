@@ -1,15 +1,15 @@
 :root {
-    --primary-dark: #3d2817;
-    --primary-main: #7a5c47;
-    --primary-wood: #8d6f56;
-    --primary-accent: #6b7e4a;
-    --primary-highlight: #e8c77d;
-    --cream-bg: #f4f7f6;
-    --text-dark: #2d2520;
-    --text-medium: #5d5349;
-    --border-soft: #e5dfd5;
-    --shadow-soft: 0 2px 8px rgba(61, 40, 23, 0.08);
-    --shadow-hover: 0 8px 24px rgba(61, 40, 23, 0.12);
+    --primary-dark: #0a0e27;
+    --primary-main: #1a1f3a;
+    --primary-wood: #3b82f6;
+    --primary-accent: #8b5cf6;
+    --primary-highlight: #3b82f6;
+    --cream-bg: #1e2139;
+    --text-dark: #e5e7eb;
+    --text-medium: #9ca3af;
+    --border-soft: rgba(59, 130, 246, 0.2);
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 8px 24px rgba(59, 130, 246, 0.3);
 }
 
 /* === Latar Belakang Body === */
@@ -18,19 +18,21 @@ body {
 }
 
 /* === INDEX: Page Header (Kartu Judul) === */
-.page-header {  
-    background: #ffffff;
+.page-header {
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
     border-radius: 12px;
     padding: 2rem;
     margin-bottom: 2rem;
     box-shadow: var(--shadow-soft);
     border-left: 4px solid var(--primary-wood);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .page-title {
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 
@@ -41,20 +43,24 @@ body {
 
 /* === INDEX: Filter Card === */
 .filter-card {
-    background: #ffffff;
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
     border-radius: 12px;
     padding: 1.75rem;
     margin-bottom: 2rem;
     box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 /* === INDEX: Table Card === */
 .table-card {
-    background: #ffffff;
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
     border-radius: 12px;
     padding: 0;
     box-shadow: var(--shadow-soft);
     overflow: hidden;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .table-header {
@@ -91,7 +97,7 @@ body {
 }
 
 .table tbody tr:hover {
-    background: var(--cream-bg);
+    background: rgba(45, 51, 84, 0.5);
 }
 
 .table tbody td {
@@ -140,45 +146,64 @@ body {
     background: #17a2b8;
     color: white;
 }
-.btn-detail:hover { background: #138496; }
 
-.btn-info { 
-    background: #0dcaf0; 
-    color: #000; 
-} 
-.btn-info:hover { 
+.btn-detail:hover {
+    background: #138496;
+}
+
+.btn-info {
+    background: #0dcaf0;
+    color: #000;
+}
+
+.btn-info:hover {
     background: #0b9ed0;
     color: #000;
 }
 
-.btn-edit { background: #ffc107; color: #000; }
-.btn-edit:hover { background: #e0a800; }
+.btn-edit {
+    background: #ffc107;
+    color: #000;
+}
 
-.btn-delete { background: #dc3545; color: white; }
-.btn-delete:hover { background: #c82333; }
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c82333;
+}
+
 .btn-delete:disabled {
     background: #aaa;
     cursor: not-allowed;
 }
 
-.btn-search, .btn-reset {
+.btn-search,
+.btn-reset {
     padding: 0.75rem 1.25rem;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
     font-size: 0.95rem;
     line-height: 1.5;
-    border: 2px solid transparent; 
+    border: 2px solid transparent;
 }
 
-.btn-search { 
-    background: var(--primary-wood); 
-    color: white; 
+.btn-search {
+    background: var(--primary-wood);
+    color: white;
     border-color: var(--primary-wood);
 }
-.btn-search:hover { 
-    background: var(--primary-main); 
-    color: white; 
+
+.btn-search:hover {
+    background: var(--primary-main);
+    color: white;
     border-color: var(--primary-main);
 }
 
@@ -197,11 +222,13 @@ body {
     border-left-color: #28a745;
     color: #155724;
 }
+
 .alert-warning {
     background: #fff3cd;
     border-left-color: #ffc107;
     color: #856404;
 }
+
 .alert-danger {
     background: #f8d7da;
     border-left-color: #dc3545;
@@ -214,17 +241,28 @@ body {
     text-align: center;
     padding: 4rem 2rem;
 }
+
 .empty-state i {
     font-size: 4rem;
     color: var(--text-medium);
     opacity: 0.5;
     margin-bottom: 1.5rem;
 }
-.empty-state h4 { color: var(--text-dark); margin-bottom: 0.75rem; }
-.empty-state p { color: var(--text-medium); }
+
+.empty-state h4 {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.empty-state p {
+    color: var(--text-medium);
+}
 
 /* === INDEX: Pagination === */
-.pagination { margin-top: 2rem; }
+.pagination {
+    margin-top: 2rem;
+}
+
 .page-link {
     border-radius: 6px;
     margin: 0 3px;
@@ -232,11 +270,13 @@ body {
     color: var(--primary-wood);
     padding: 0.5rem 0.875rem;
 }
+
 .page-link:hover {
     background: var(--primary-wood);
     color: white;
     border-color: var(--primary-wood);
 }
+
 .page-item.active .page-link {
     background: var(--primary-wood);
     border-color: var(--primary-wood);
@@ -249,13 +289,15 @@ body {
 }
 
 .form-card {
-    background: white;
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
     border-radius: 12px;
     padding: 3rem;
     box-shadow: var(--shadow-soft);
     margin-bottom: 2rem;
     border-top: 4px solid var(--primary-wood);
-    position: relative; 
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    position: relative;
 }
 
 .form-header {
@@ -268,11 +310,13 @@ body {
 .form-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 
-.form-subtitle { color: var(--text-medium); }
+.form-subtitle {
+    color: var(--text-medium);
+}
 
 .form-label {
     font-weight: 600;
@@ -280,9 +324,14 @@ body {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
 }
-.form-label .required { color: #dc3545; }
 
-.form-control, .form-select, textarea {
+.form-label .required {
+    color: #dc3545;
+}
+
+.form-control,
+.form-select,
+textarea {
     border-radius: 8px;
     border: 2px solid var(--border-soft);
     padding: 0.75rem 1rem;
@@ -290,15 +339,19 @@ body {
     line-height: 1.5;
 }
 
-.form-control:focus, .form-select:focus, textarea:focus {
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
     border-color: var(--primary-wood);
     box-shadow: 0 0 0 0.2rem rgba(141, 111, 86, 0.15);
     outline: none;
 }
 
-.form-control.is-invalid, .form-select.is-invalid { 
-    border-color: #dc3545; 
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
 }
+
 .form-select:disabled {
     background-color: #e9ecef;
 }
@@ -321,7 +374,7 @@ body {
 }
 
 .btn-secondary-custom {
-    background: var(--primary-accent); 
+    background: var(--primary-accent);
     border: none;
     padding: 0.875rem 2.5rem;
     border-radius: 8px;
@@ -329,8 +382,9 @@ body {
     font-weight: 600;
     transition: all 0.3s ease;
 }
-.btn-secondary-custom:hover { 
-    background: var(--primary-main); 
+
+.btn-secondary-custom:hover {
+    background: var(--primary-main);
     color: white;
 }
 
@@ -341,6 +395,7 @@ body {
     border-radius: 12px;
     box-shadow: var(--shadow-hover);
 }
+
 .modal-header {
     background: var(--primary-wood);
     color: white;
@@ -349,16 +404,20 @@ body {
     border-bottom: none;
     padding: 1.5rem;
 }
+
 .modal-header .btn-close {
     filter: invert(1) grayscale(100%) brightness(200%);
 }
+
 .modal-title {
     font-weight: 700;
 }
+
 .modal-body {
     padding: 1.5rem;
     color: var(--text-dark);
 }
+
 .modal-footer {
     border-top: 1px solid var(--border-soft);
     padding: 1rem 1.5rem;
@@ -370,6 +429,7 @@ body {
     overflow: hidden;
     border: 1px solid var(--border-soft);
 }
+
 .info-header {
     background: var(--primary-wood);
     color: white;
@@ -379,29 +439,35 @@ body {
     align-items: center;
     gap: 0.5rem;
 }
+
 .info-content {
     padding: 1rem;
 }
+
 .info-item {
     padding: 0.75rem 0;
     border-bottom: 1px solid var(--border-soft);
 }
+
 .info-item:last-child {
     border-bottom: none;
 }
+
 .info-label {
     font-weight: 600;
-    color: var(--primary-dark);
+    color: #ffffff;
     font-size: 0.9rem;
     margin-bottom: 0.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
+
 .info-value {
     color: var(--text-medium);
     font-size: 1rem;
 }
+
 .btn-secondary-modern {
     background: #6c757d;
     color: white;
@@ -410,6 +476,7 @@ body {
     border-radius: 8px;
     font-weight: 600;
 }
+
 .btn-secondary-modern:hover {
     background: #5a6268;
     color: white;
@@ -430,9 +497,11 @@ body {
 .modal-confirmation-style .modal-content {
     border-radius: 24px;
     border: none;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     overflow: hidden;
-    background: #ffffff;
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 /* ⚠️ BAGIAN PENTING: HEADER FIX 
@@ -440,8 +509,8 @@ body {
    dari style .modal-header global di atas.
 */
 .modal-confirmation-style .modal-header {
-    background: #ffffff !important; /* Menghilangkan warna coklat */
-    color: var(--text-dark) !important; /* Mengubah warna teks jadi gelap */
+    background: transparent !important;
+    color: #e5e7eb !important;
     border-bottom: none !important;
     padding: 1.5rem 1.5rem 0.5rem 1.5rem;
     display: flex;
@@ -460,7 +529,8 @@ body {
     align-items: center;
     justify-content: center;
     transition: opacity 0.2s ease, background-color 0.2s ease;
-    filter: none !important; /* Reset jika ada filter invert */
+    filter: none !important;
+    /* Reset jika ada filter invert */
 }
 
 .modal-confirmation-style .btn-close:hover {
@@ -472,7 +542,7 @@ body {
 .modal-confirmation-style .modal-body {
     padding: 0 2rem 1.5rem 2rem;
     text-align: center;
-    background: #ffffff !important;
+    background: transparent !important;
 }
 
 /* Icon Sampah Besar dengan Animasi */
@@ -494,7 +564,7 @@ body {
 .modal-title-text {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-dark);
+    color: #e5e7eb;
     margin-bottom: 0.75rem;
     display: block;
 }
@@ -513,12 +583,13 @@ body {
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    background: #ffffff !important;
+    background: transparent !important;
 }
 
 /* Styling Tombol Khusus Modal */
 .modal-confirmation-style .btn-modal-action {
-    flex: 1; /* Memastikan lebar tombol sama rata (50%) */
+    flex: 1;
+    /* Memastikan lebar tombol sama rata (50%) */
     padding: 0.85rem 1rem;
     border-radius: 12px;
     font-weight: 600;
@@ -527,7 +598,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .modal-confirmation-style .btn-modal-action i {
@@ -568,9 +639,19 @@ body {
 
 /* Animasi Muncul Icon Modal */
 @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Gentle wiggle for trash icon */
@@ -578,12 +659,27 @@ body {
     animation: wiggle 600ms ease-in-out both;
     display: inline-block;
 }
+
 @keyframes wiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-12deg); }
-    50% { transform: rotate(10deg); }
-    75% { transform: rotate(-6deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-12deg);
+    }
+
+    50% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-6deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* Animated trash: lid wiggle + item drop into can */
@@ -591,41 +687,89 @@ body {
     transform-origin: 60px 33px;
     animation: lid-open 650ms ease-in-out both;
 }
+
 @keyframes lid-open {
-    0% { transform: rotate(0deg); }
-    40% { transform: rotate(-22deg); }
-    70% { transform: rotate(8deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(-22deg);
+    }
+
+    70% {
+        transform: rotate(8deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
+
 .anim-trash .trash-item {
     animation: item-drop-bounce 900ms 80ms ease-in forwards;
 }
+
 @keyframes item-drop-bounce {
-    0% { transform: translateY(0); opacity: 0; }
-    20% { opacity: 1; }
-    85% { transform: translateY(72px); }
-    92% { transform: translateY(65px); }
-    100% { transform: translateY(72px); opacity: 1; }
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    85% {
+        transform: translateY(72px);
+    }
+
+    92% {
+        transform: translateY(65px);
+    }
+
+    100% {
+        transform: translateY(72px);
+        opacity: 1;
+    }
 }
+
 .anim-trash .dust {
     transform-origin: center;
     animation: puff 700ms 300ms ease-out both;
 }
-.anim-trash .puff-left { animation-delay: 320ms; }
-.anim-trash .puff-right { animation-delay: 360ms; }
+
+.anim-trash .puff-left {
+    animation-delay: 320ms;
+}
+
+.anim-trash .puff-right {
+    animation-delay: 360ms;
+}
+
 @keyframes puff {
-    0% { transform: scale(0.6); opacity: 0; }
-    40% { opacity: 0.5; }
-    100% { transform: scale(1.6); opacity: 0; }
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.6);
+        opacity: 0;
+    }
 }
 
 /* ==========================================================================
    ✅ FIX MODAL SUKSES - HEADER PUTIH (TIDAK COKLAT)
    ========================================================================== */
 #successModal .modal-header {
-    background: #ffffff !important;
-    color: var(--text-dark) !important;
-    border-bottom: 1px solid #e5e7eb !important;
+    background: rgba(30, 33, 57, 0.9) !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2) !important;
 }
 
 #successModal .modal-header .btn-close {
