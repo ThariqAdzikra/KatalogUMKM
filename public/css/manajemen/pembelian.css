@@ -1,0 +1,729 @@
+/* ==========================================================================
+   STYLE ASLI (DARI FILE UPLOAD ANDA)
+   ========================================================================== */
+.pembelian-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.pembelian-container.form-view {
+    max-width: 1000px;
+}
+
+/* Header Card */
+.header-card {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-hover);
+    color: white;
+}
+
+.header-card.edit-mode {
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
+}
+
+.header-card h3 {
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-card h3 i {
+    margin-right: 0.5rem;
+}
+
+/* Buttons inside Header */
+.btn-detail {
+    background-color: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+.btn-detail:hover {
+    background-color: #0b5ed7;
+    color: #fff;
+}
+
+/* Buttons - Add */
+.btn-add {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add:hover {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-add i {
+    margin-right: 0.5rem;
+}
+
+/* Alert */
+.alert-success {
+    background: linear-gradient(135deg, #8a9b6e 0%, #6b7e4a 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    font-weight: 500;
+}
+
+.alert-success i {
+    margin-right: 0.5rem;
+}
+
+/* Tabel Card */
+.table-card {
+    background: #ffffff; 
+    border-radius: 16px;
+    padding: 0; 
+    box-shadow: var(--shadow-soft);
+    border: 0 solid transparent !important;
+    overflow: hidden !important; 
+}
+
+.table-responsive {
+    border: none !important;
+    border-bottom: none !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    width: 100%;
+}
+
+.table-header {
+    background: var(--primary-wood); 
+    color: #ffffff; 
+    padding: 1.25rem 1.5rem;
+    border-bottom: 2px solid rgba(0,0,0,0.1); 
+}
+
+.table-header .table-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff; 
+    margin: 0;
+}
+
+.table {
+    margin: 0 !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border-bottom: 0 solid transparent !important;
+}
+
+.table thead {
+    background: var(--primary-accent); 
+}
+
+.table thead th {
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.5rem; 
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.table tbody tr {
+    transition: background 0.2s ease;
+    border-bottom: 1px solid var(--border-soft); 
+}
+
+.table tbody tr:hover {
+    background: var(--cream-bg);
+}
+
+.table tbody td {
+    padding: 1rem 1.5rem;
+    vertical-align: middle;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.table tbody tr:last-child {
+    border-bottom: 0 solid transparent !important;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: 0 solid transparent !important;
+    border: none !important;
+}
+
+.table tbody td:has(.empty-state), 
+.table tbody tr:has(.empty-state) {
+    border: none !important;
+    border-bottom: none !important;
+}
+
+.btn-edit {
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    margin-right: 0.5rem;
+}
+
+.btn-edit:hover {
+    background: var(--primary-green-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 126, 74, 0.3);
+    color: white;
+}
+
+.btn-delete {
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.btn-delete:hover {
+    background: #a94842;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 90, 84, 0.3);
+}
+
+.action-cell form {
+    display: inline-block;
+}
+
+.badge-number {
+    background: var(--cream-bg);
+    color: var(--primary-dark);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-gray);
+    overflow: hidden;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--primary-wood);
+    margin-bottom: 1rem;
+}
+
+.empty-state h5 {
+    margin-top: 1rem;
+    color: var(--text-medium);
+}
+
+.empty-state p {
+    color: var(--text-gray);
+}
+
+.empty-state .btn,
+.empty-state a,
+.empty-state button {
+    display: none !important;
+}
+
+.form-card {
+    background: #ffffff; 
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.form-label {
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-label i {
+    margin-right: 0.5rem;
+    color: var(--primary-accent);
+}
+
+.form-select, 
+.form-control {
+    border: 2px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.form-select:focus, 
+.form-control:focus {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 0.2rem rgba(107, 126, 74, 0.15);
+    outline: none;
+}
+
+.section-divider {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-wood), transparent);
+    margin: 2rem 0;
+}
+
+.section-divider.edit-mode {
+    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
+}
+
+.section-title {
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    color: var(--primary-accent);
+    margin-right: 0.75rem;
+}
+
+.produk-row {
+    background: var(--cream-bg);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.produk-row:hover {
+    border-color: var(--primary-wood);
+    box-shadow: var(--shadow-soft);
+}
+
+.edit-mode .produk-row:hover {
+    border-color: var(--primary-accent);
+}
+
+.btn-remove {
+    background: #c85a54;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-remove:hover {
+    background: #a94842;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 90, 84, 0.3);
+}
+
+.btn-remove i {
+    margin-right: 0.5rem;
+}
+
+.btn-add-row {
+    background: var(--primary-accent);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-add-row:hover {
+    background: var(--primary-green-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(107, 126, 74, 0.3);
+}
+
+.btn-add-row i {
+    margin-right: 0.5rem;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-soft);
+    font-size: 1.05rem;
+}
+
+.btn-submit.edit-mode {
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
+}
+
+.btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-submit i {
+    margin-right: 0.5rem;
+}
+
+.btn-cancel {
+    background: white;
+    color: var(--text-dark);
+    border: 2px solid var(--border-soft);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+    margin-right: 1rem;
+}
+
+.btn-cancel:hover {
+    border-color: var(--primary-wood);
+    background: var(--cream-bg);
+}
+
+.edit-mode .btn-cancel:hover {
+    border-color: var(--primary-accent);
+}
+
+.btn-cancel i {
+    margin-right: 0.5rem;
+}
+
+.info-badge {
+    background: linear-gradient(135deg, var(--primary-highlight) 0%, #ffd966 100%);
+    color: var(--primary-dark);
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.info-badge i {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .pembelian-container,
+    .pembelian-container.form-view {
+        padding: 1rem;
+    }
+
+    .header-card {
+        padding: 1.5rem;
+    }
+
+    .header-card h3 {
+        font-size: 1.35rem;
+    }
+
+    .table-responsive {
+        display: block;
+        width: 100%;
+        /* overflow-x: hidden removed - will be auto on mobile */
+    }
+    .table-card {
+        padding: 0; 
+        overflow-x: auto !important; /* Changed from hidden to auto */
+    }
+    
+    .table-header {
+        padding: 1rem; 
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    .table thead th {
+        padding: 0.75rem 1rem; 
+    }
+    
+    .table tbody td {
+        padding: 0.75rem 1rem;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .produk-row {
+        padding: 0.75rem;
+    }
+
+    .btn-remove {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-submit {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .btn-cancel {
+        width: 100%;
+        margin-top: 1rem;
+        margin-right: 0;
+    }
+}
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 1050 !important;
+}
+.ui-menu-item {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.ui-menu-item:hover {
+    background: var(--primary-wood);
+    color: white;
+}
+
+/* ==========================================================================
+   ✅ MODAL KONFIRMASI PROFESSIONAL & ESTETIK (NEW STYLE)
+   ========================================================================== */
+
+/* Container Modal */
+.modal-confirmation-style .modal-content {
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background: #ffffff;
+}
+
+/* Header (Minimalis - Hanya Close Button) */
+.modal-confirmation-style .modal-header {
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Body (Pusat Perhatian) */
+.modal-confirmation-style .modal-body {
+    padding: 0 2rem 1.5rem 2rem;
+    text-align: center;
+}
+
+/* Icon Sampah Besar dengan Animasi */
+.modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 2.5rem;
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Text Styling */
+.modal-title-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.modal-desc-text {
+    color: var(--text-medium);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Footer (Layout Tombol 50:50) */
+.modal-confirmation-style .modal-footer {
+    border-top: none;
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+/* Styling Tombol Khusus Modal */
+.modal-confirmation-style .btn-modal-action {
+    flex: 1; /* Memastikan lebar tombol sama rata (50%) */
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.modal-confirmation-style .btn-modal-action i {
+    margin-right: 0.5rem;
+}
+
+/* Tombol Batal (Soft) */
+.btn-cancel-soft {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 2px solid transparent;
+}
+
+.btn-cancel-soft:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+    transform: translateY(-2px);
+}
+
+/* Tombol Hapus (Solid Danger) */
+.btn-delete-solid {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-delete-solid:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    color: white;
+}
+
+/* ==========================================================================
+   ✅ ANIMASI (DIPINDAHKAN DARI INDEX.BLADE.PHP)
+   ========================================================================== */
+
+/* Animasi Muncul Icon Modal */
+@keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Simple pop-in for check icon */
+.icon-animate-pop {
+    animation: popIn 400ms ease both;
+}
+@keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* Gentle wiggle for trash icon */
+.icon-animate-wiggle {
+    animation: wiggle 600ms ease-in-out both;
+    display: inline-block;
+}
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-12deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-6deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Animated check circle (draw effect) */
+.anim-check .check-circle {
+    stroke-dasharray: 265;
+    stroke-dashoffset: 265;
+    animation: circle-draw 900ms ease-out forwards;
+}
+.anim-check .check-mark {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    animation: check-draw 700ms 350ms ease-out forwards;
+}
+@keyframes circle-draw {
+    to { stroke-dashoffset: 0; }
+}
+@keyframes check-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Animated trash: lid wiggle + item drop into can */
+.anim-trash .trash-lid {
+    transform-origin: 60px 33px;
+    animation: lid-open 650ms ease-in-out both;
+}
+@keyframes lid-open {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(-22deg); }
+    70% { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+}
+.anim-trash .trash-item {
+    animation: item-drop-bounce 900ms 80ms ease-in forwards;
+}
+@keyframes item-drop-bounce {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    85% { transform: translateY(72px); }
+    92% { transform: translateY(65px); }
+    100% { transform: translateY(72px); opacity: 1; }
+}
+.anim-trash .dust {
+    transform-origin: center;
+    animation: puff 700ms 300ms ease-out both;
+}
+.anim-trash .puff-left { animation-delay: 320ms; }
+.anim-trash .puff-right { animation-delay: 360ms; }
+@keyframes puff {
+    0% { transform: scale(0.6); opacity: 0; }
+    40% { opacity: 0.5; }
+    100% { transform: scale(1.6); opacity: 0; }
+}

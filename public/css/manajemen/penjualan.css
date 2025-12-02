@@ -1,0 +1,195 @@
+/* ==========================================================================
+   STYLE MODAL KONFIRMASI & SUKSES (PENJUALAN)
+   ========================================================================== */
+
+/* Fix Z-Index agar modal tampil di atas elemen lain */
+.modal-confirmation-style.fade .modal.show {
+    z-index: 1055;
+}
+
+/* Container Modal */
+.modal-confirmation-style .modal-content {
+    border-radius: 24px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background: #ffffff;
+}
+
+/* Header Modal (Overwrite style bawaan bootstrap/global) */
+.modal-confirmation-style .modal-header {
+    background: #ffffff !important;
+    color: #333 !important;
+    border-bottom: none !important;
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Close Button Styling */
+.modal-confirmation-style .btn-close {
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center / 1em auto no-repeat;
+    opacity: 0.7;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-confirmation-style .btn-close:hover {
+    opacity: 1;
+    background-color: #f0f0f0;
+}
+
+/* Body Modal */
+.modal-confirmation-style .modal-body {
+    padding: 0 2rem 1.5rem 2rem;
+    text-align: center;
+    background: #ffffff !important;
+}
+
+/* Icon Sampah Besar dengan Animasi */
+.modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    font-size: 2.5rem;
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Typography */
+.modal-title-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3d2817; /* Primary Dark */
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.modal-desc-text {
+    color: #5d5349; /* Text Medium */
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Footer (Layout 50:50) */
+.modal-confirmation-style .modal-footer {
+    border-top: none;
+    padding: 0 2rem 2rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    background: #ffffff !important;
+}
+
+/* Tombol Modal */
+.modal-confirmation-style .btn-modal-action {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.modal-confirmation-style .btn-modal-action i {
+    margin-right: 0.5rem;
+}
+
+/* Varian Tombol */
+.btn-cancel-soft {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 2px solid transparent;
+}
+
+.btn-cancel-soft:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+    transform: translateY(-2px);
+}
+
+.btn-delete-solid {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.btn-delete-solid:hover {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+    color: white;
+}
+
+/* ==========================================================================
+   ANIMASI
+   ========================================================================== */
+@keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Gentle wiggle for trash icon */
+.icon-animate-wiggle {
+    animation: wiggle 600ms ease-in-out both;
+    display: inline-block;
+}
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-12deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-6deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Animated trash components */
+.anim-trash .trash-lid {
+    transform-origin: 60px 33px;
+    animation: lid-open 650ms ease-in-out both;
+}
+@keyframes lid-open {
+    0% { transform: rotate(0deg); }
+    40% { transform: rotate(-22deg); }
+    70% { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.anim-trash .trash-item {
+    animation: item-drop-bounce 900ms 80ms ease-in forwards;
+}
+@keyframes item-drop-bounce {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: 1; }
+    85% { transform: translateY(72px); }
+    92% { transform: translateY(65px); }
+    100% { transform: translateY(72px); opacity: 1; }
+}
+
+.anim-trash .dust {
+    transform-origin: center;
+    animation: puff 700ms 300ms ease-out both;
+}
+.anim-trash .puff-left { animation-delay: 320ms; }
+.anim-trash .puff-right { animation-delay: 360ms; }
+@keyframes puff {
+    0% { transform: scale(0.6); opacity: 0; }
+    40% { opacity: 0.5; }
+    100% { transform: scale(1.6); opacity: 0; }
+}

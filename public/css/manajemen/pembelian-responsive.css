@@ -1,0 +1,153 @@
+/* =====================================================
+   RESPONSIVE ENHANCEMENTS FOR PEMBELIAN PAGE
+===================================================== */
+
+/* Tablet responsive (768px and below) - keep desktop layout mostly intact */
+@media (max-width: 768px) {
+    /* Page header improvements */
+    .page-header .d-flex {
+        gap: 1rem;
+    }
+
+    /* Filter responsive */
+    .filter-card .row.g-3 {
+        gap: 0.75rem !important;
+    }
+
+    /* Table compact on mobile */
+    .table {
+        font-size: 0.875rem;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.65rem 0.5rem;
+    }
+}
+
+/* Small mobile only (576px and below) - stack everything */
+@media (max-width: 576px) {
+    .page-header {
+        padding: 1.25rem 1rem;
+    }
+
+    .page-header .btn-primary-custom {
+        width: 100%;
+    }
+
+    .page-title {
+        font-size: 1.35rem;
+    }
+
+    .page-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .filter-card {
+        padding: 1rem;
+    }
+
+    /* Date inputs spacing */
+    .filter-card .form-control[type="date"] {
+        font-size: 0.875rem;
+        padding: 0.65rem 0.875rem;
+    }
+
+    /* Make btn-add full width on mobile */
+    .btn-add {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+    /* Action buttons horizontal layout like screenshot */
+    .table td .d-flex {
+        flex-direction: row; /* Horizontal not vertical */
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    .table td .btn-action {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .table td .btn-action i {
+        margin: 0 !important;
+        font-size: 1rem;
+    }
+
+    /* Specific colors matching desktop/stok - darker tones */
+    .table td .btn-info {
+        background: #3a8bb5 !important; /* Darker cyan/teal */
+        color: white !important;
+    }
+
+    .table td .btn-warning,
+    .table td .btn-edit {
+        background: #d4af37 !important; /* Darker gold/yellow */
+        color: white !important;
+    }
+
+    .table td .btn-delete {
+        background: #c85a54 !important; /* Keep same red */
+        color: white !important;
+    }
+
+    .table td .delete-form {
+        display: inline-block;
+        margin: 0;
+    }
+
+    .table td .delete-form .btn-action {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Ensure table cells don't break */
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+
+    /* Ensure table can scroll horizontally - FORCE IT */
+    .table-responsive {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        display: block;
+        width: 100%;
+    }
+
+    .table-responsive table {
+        min-width: 900px !important; /* Force horizontal scroll on small screens */
+        margin-bottom: 0;
+    }
+
+    /* Form action buttons responsive */
+    .d-flex.justify-content-end,
+    .d-flex.justify-content-between,
+    .d-flex.gap-2,
+    .d-flex.gap-3 {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        width: 100%;
+    }
+
+    .btn-submit,
+    .btn-cancel,
+    .btn-back,
+    .btn-primary-custom,
+    .btn-secondary-custom {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.85rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
+}

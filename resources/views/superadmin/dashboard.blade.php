@@ -1,0 +1,225 @@
+@extends('layouts.app')
+
+@push('styles')
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+@endpush
+
+@section('content')
+<div class="admin-dashboard-container container py-4">
+
+    {{-- ========================================================== --}}
+    {{-- Welcome Card dengan Cuaca & Jam --}}
+    {{-- ========================================================== --}}
+    <div class="card welcome-card mb-4 shadow-sm">
+        <div class="card-body p-4 p-md-5">
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <h2 class="welcome-title mb-2">Selamat Datang, {{ Auth::user()->name ?? 'Admin' }}!</h2>
+                    <p class="welcome-subtitle mb-3">Semoga harimu menyenangkan. Berikut adalah ringkasan sistem hari ini.</p>
+                    
+                    {{-- Grup Widget Cuaca & Jam --}}
+                    <div class="d-flex flex-column flex-lg-row gap-2 w-100">
+                        {{-- Widget Cuaca (diisi oleh JS) --}}
+                        <div id="weather-widget" class="weather-widget">
+                            <div class="spinner-border spinner-border-sm text-highlight" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span class="text-highlight ms-2">Memuat cuaca...</span>
+                        </div>
+
+                        {{-- Widget Jam (diisi oleh JS) --}}
+                        <div id="live-clock" class="weather-widget">
+                            <span class="bi-icon"><i class="bi bi-clock"></i></span>
+                            <span>Memuat jam...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 text-center text-md-end mt-4 mt-md-0">
+                    {{-- Gambar dinamis (diisi oleh JS) --}}
+                    <img src="" alt="Ilustrasi Cuaca" id="weather-image" class="weather-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========================================================== --}}
+    {{-- 4 Kartu Statistik Utama --}}
+    {{-- ========================================================== --}}
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-box stat-box-produk h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-3 text-white">Total Produk</h6>
+                            <h2 class="fw-bold mb-0 text-white">{{ number_format($totalProduk) }}</h2>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
+                    </div>
+                    <small class="text-white-75">Total item dalam inventori</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-box stat-box-pelanggan h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-3 text-white">Total Pelanggan</h6>
+                            <h2 class="fw-bold mb-0 text-white">{{ number_format($totalPelanggan) }}</h2>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                    <small class="text-white-75">Pelanggan terdaftar</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-box stat-box-penjualan h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-3 text-white">Total Penjualan</h6>
+                            <h2 class="fw-bold mb-0 text-white">{{ number_format($totalPenjualan) }}</h2>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-cart-check-fill"></i>
+                        </div>
+                    </div>
+                    <small class="text-white-75">Transaksi penjualan</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="stat-box stat-box-pembelian h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="mb-3 text-white">Total Pembelian</h6>
+                            <h2 class="fw-bold mb-0 text-white">{{ number_format($totalPembelian) }}</h2>
+                        </div>
+                        <div class="icon-box">
+                            <i class="bi bi-bag-check-fill"></i>
+                        </div>
+                    </div>
+                    <small class="text-white-75">Transaksi pembelian</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========================================================== --}}
+    {{-- Pendapatan & Statistik Cepat --}}
+    {{-- ========================================================== --}}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+            <div class="card theme-card h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-graph-up-arrow me-2 text-accent"></i>
+                        Pendapatan Minggu Ini
+                    </h5>
+                    <h2 class="fw-bold mb-2 text-accent">Rp {{ number_format($pendapatanMingguan, 0, ',', '.') }}</h2>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" style="width: 75%"></div>
+                    </div>
+                    <small class="text-gray mt-2 d-block">Target mingguan tercapai 75%</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card theme-card h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">Statistik Cepat</h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="quick-stat-item">
+                                <small class="text-gray d-block mb-1">Transaksi Hari Ini</small>
+                                <h4 class="fw-bold mb-0 text-main">{{ $transaksiHariIni ?? 0 }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="quick-stat-item">
+                                <small class="text-gray d-block mb-1">Produk Terlaris</small>
+                                <h4 class="fw-bold mb-0 text-accent">{{ $produkTerlaris ?? '-' }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="quick-stat-item">
+                                <small class="text-gray d-block mb-1">Stok Menipis</small>
+                                <h4 class="fw-bold mb-0 text-highlight">{{ $stokMenipis ?? 0 }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="quick-stat-item">
+                                <small class="text-gray d-block mb-1">User Aktif</small>
+                                <h4 class="fw-bold mb-0 text-main">{{ $userAktif ?? 0 }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========================================================== --}}
+    {{-- Grafik Penjualan (DIUBAH UNTUK AJAX) --}}
+    {{-- ========================================================== --}}
+    <div class="row g-3">
+        <div class="col-12">
+            <div class="card theme-card">
+                <div class="card-body p-4">
+
+                    {{-- Judul dan Form Filter --}}
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                        <div>
+                            <h5 class="fw-bold mb-1">Grafik Penjualan</h5>
+                            <small class="text-gray">Filter berdasarkan rentang tanggal</small>
+                        </div>
+                        
+                        {{-- Form Filter Tanggal --}}
+                        <form id="chart-filter-form" class="d-flex flex-wrap align-items-end gap-2">
+                            <div>
+                                <label for="chart-date-start" class="form-label form-label-sm text-gray mb-1">Mulai</label>
+                                <input type="date" class="form-control form-control-sm" id="chart-date-start" required>
+                            </div>
+                            <div>
+                                <label for="chart-date-end" class="form-label form-label-sm text-gray mb-1">Selesai</label>
+                                <input type="date" class="form-control form-control-sm" id="chart-date-end" required>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" id="btn-filter-chart">
+                                <i class="bi bi-filter me-1"></i> Filter
+                            </button>
+                        </form>
+                    </div>
+                    
+                    {{-- Kontainer Chart & Loader --}}
+                    <div style="height: 300px; position: relative;">
+                        {{-- Loader akan muncul di sini (di-toggle oleh JS) --}}
+                        <div id="chart-loader" class="chart-loader-overlay">
+                            <div class="spinner-border text-main" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        {{-- Canvas (tanpa data-attributes) --}}
+                        <canvas id="chartPenjualan"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/admin/dashboard.js"></script>
+@endpush

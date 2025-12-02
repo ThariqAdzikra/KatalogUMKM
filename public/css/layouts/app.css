@@ -1,0 +1,1253 @@
+:root {
+    /* Warm & Cozy Palette - Inspired by natural wood & plants */
+    --primary-dark: #3d2817;
+    --primary-main: #7a5c47;
+    --primary-wood: #8d6f56;
+    --primary-accent: #6b7e4a;
+    --primary-green-soft: #8a9b6e;
+    --primary-highlight: #e8c77d;
+    --primary-light: #faf7f0;
+    --cream-bg: #ffffff;
+    --text-dark: #2d2520;
+    --text-medium: #5d5349;
+    --text-gray: #847a6f;
+    --border-soft: #e5dfd5;
+    --shadow-soft: 0 2px 8px rgba(61, 40, 23, 0.08);
+    --shadow-hover: 0 8px 24px rgba(61, 40, 23, 0.12);
+}
+
+* { 
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body { 
+    background: var(--cream-bg);
+    min-height: 100vh;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+main { 
+    padding-top: 85px;
+}
+
+/* GLASSMORPHISM NAVBAR - FIXED POSITION */
+.navbar-glass {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background: linear-gradient(135deg, 
+        rgba(61, 40, 23, 0.65) 0%, 
+        rgba(87, 68, 48, 0.6) 50%, 
+        rgba(61, 40, 23, 0.65) 100%) !important;
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    padding: 1rem 0;
+    box-shadow: 0 8px 32px 0 rgba(31, 20, 11, 0.3),
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass effect overlay dengan gradient */
+.navbar-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(61, 40, 23, 0.3) 0%,
+        rgba(77, 56, 38, 0.2) 25%,
+        rgba(97, 76, 56, 0.15) 50%,
+        rgba(77, 56, 38, 0.2) 75%,
+        rgba(61, 40, 23, 0.3) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Shimmer effect (ini masih oke karena di background) */
+.navbar-glass::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.08) 50%,
+        transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+    animation: shimmer 8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Ensure content is above overlays */
+.navbar-glass .container {
+    position: relative;
+    z-index: 1;
+}
+
+.navbar-brand { 
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: -0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+                 0 0 20px rgba(232, 199, 125, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.navbar-brand:hover { 
+    transform: translateY(-2px);
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+                 0 0 30px rgba(232, 199, 125, 0.4);
+}
+
+.navbar-brand i { 
+    color: var(--primary-highlight);
+    margin-right: 0.75rem;
+    filter: drop-shadow(0 2px 6px rgba(232, 199, 125, 0.5));
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover i {
+    transform: rotate(-10deg) scale(1.1);
+    filter: drop-shadow(0 4px 10px rgba(232, 199, 125, 0.7));
+}
+
+.nav-link { 
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.65rem 1.25rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================================== */
+/* === PERBAIKAN HOVER NAV-LINK (MINIMALIS & ELEGAN) === */
+/* ========================================================== */
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 6px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--primary-highlight);
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+    width: 60%; /
+}
+
+.nav-link:hover, 
+.nav-link.active { 
+    color: #ffffff !important;
+}
+
+.nav-link.active {
+    font-weight: 600;
+}
+
+/* ========================================================== */
+/* === PERBAIKAN TOMBOL LOGIN (MINIMALIS & ELEGAN) === */
+/* ========================================================== */
+.btn-nav { 
+    background: rgba(255, 255, 255, 0.15); 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    color: #ffffff;
+    font-weight: 600; 
+    padding: 0.5rem 1.25rem; 
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.btn-nav:hover { 
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced Dropdown Menu with Strong Glass Effect */
+.dropdown-menu {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(229, 223, 213, 0.6);
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(61, 40, 23, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.dropdown-item {
+    color: var(--text-dark);
+    border-radius: 10px;
+    padding: 0.7rem 1.1rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+    position: relative;
+}
+
+/* ========================================================== */
+/* === PERBAIKAN HOVER DROPDOWN (MINIMALIS & ELEGAN) === */
+/* ========================================================== */
+
+.dropdown-item:hover {
+    background: rgba(138, 155, 110, 0.15); 
+    color: var(--primary-accent);
+}
+
+.dropdown-divider {
+    border-color: rgba(229, 223, 213, 0.4);
+    margin: 0.5rem 0;
+}
+
+/* Navbar Toggler Enhancement */
+.navbar-toggler {
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(232, 199, 125, 0.4);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3<path stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Elegant Footer with Depth */
+footer {
+    background: linear-gradient(135deg, #6b5844 0%, #7a5c47 50%, #8d6f56 100%);
+    margin-top: 8rem;
+    padding: 5rem 0 2rem;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+footer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.03"/></svg>');
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+footer .container {
+    position: relative;
+    z-index: 1;
+}
+
+footer h5 { 
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer h6 { 
+    color: var(--primary-highlight);
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+footer a { 
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-weight: 500;
+}
+
+footer a:hover { 
+    color: var(--primary-highlight);
+    transform: translateX(6px);
+    text-shadow: 0 2px 8px rgba(232, 199, 125, 0.3);
+}
+
+footer .text-muted { 
+    color: rgba(255, 255, 255, 0.7) !important;
+    line-height: 1.8;
+}
+
+footer .col-lg-4 p.text-muted {
+    text-align: justify;
+}
+
+
+footer hr { 
+    border-color: rgba(255, 255, 255, 0.15);
+    margin: 3rem 0 2rem;
+    opacity: 0.3;
+}
+
+footer .bi {
+    color: var(--primary-highlight);
+    margin-right: 0.5rem;
+}
+
+/* Smooth Scrolling & Selection */
+html { 
+    scroll-behavior: smooth;
+}
+
+::selection { 
+    background: var(--primary-highlight);
+    color: var(--primary-dark);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-wood);
+    border-radius: 6px;
+    border: 2px solid var(--cream-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-main);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: linear-gradient(135deg, 
+            rgba(61, 40, 23, 0.75) 0%, 
+            rgba(87, 68, 48, 0.7) 50%, 
+            rgba(61, 40, 23, 0.75) 100%);
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        padding: 1.5rem;
+        border-radius: 14px;
+        margin-top: 1rem;
+        box-shadow: 0 10px 40px rgba(31, 20, 11, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-link {
+        margin: 0.25rem 0;
+    }
+
+    .btn-nav {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+/* Professional Touch - Subtle Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main > * {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Glow effect on hover for important elements */
+@keyframes glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 5px rgba(232, 199, 125, 0.4));
+    }
+    50% {
+        filter: drop-shadow(0 0 18px rgba(232, 199, 125, 0.7));
+    }
+}
+
+.navbar-brand i:hover {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* ========================================================== */
+/* === CSS TAMBAHAN YANG DIINTEGRASIKAN === */
+/* ========================================================== */
+
+.navbar-brand .logo-filtered {
+    filter: brightness(0) saturate(100%) invert(86%) sepia(34%) saturate(301%) hue-rotate(345deg) brightness(98%) contrast(92%); /* Mendekati #e8c77d */
+    height: 40px;
+    margin-right: 8px; 
+}
+
+.footer-brand .logo-filtered {
+    filter: brightness(0) saturate(100%) invert(86%) sepia(34%) saturate(301%) hue-rotate(345deg) brightness(98%) contrast(92%); /* Mendekati #e8c77d */
+    height: 40px;
+    margin-right: 8px;
+}
+
+.footer-brand {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 1.5rem;
+}
+
+/* IKON MEDSOS DIPERBESAR (Sesuai permintaan sebelumnya) */
+footer .social-icons a {
+    font-size: 1.75rem; 
+}
+
+/* =====================================================
+   RESPONSIVE ENHANCEMENTS
+===================================================== */
+
+/* Tablet responsive */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: linear-gradient(135deg, 
+            rgba(61, 40, 23, 0.75) 0%, 
+            rgba(87, 68, 48, 0.7) 50%, 
+            rgba(61, 40, 23, 0.75) 100%);
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        padding: 1.5rem;
+        border-radius: 14px;
+        margin-top: 1rem;
+        box-shadow: 0 10px 40px rgba(31, 20, 11, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .nav-link {
+        margin: 0.25rem 0;
+    }
+
+    .btn-nav {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    footer {
+        padding: 4rem 0 1.5rem;
+        margin-top: 6rem;
+    }
+
+    footer h5 {
+        font-size: 1.35rem;
+    }
+
+    footer .col-lg-4,
+    footer .col-lg-2,
+    footer .col-lg-3,
+    footer .col-md-6 {
+        margin-bottom: 2.5rem;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    main {
+        padding-top: 80px;
+    }
+
+    .navbar-brand {
+        font-size: 1.35rem;
+    }
+
+    .navbar-brand .logo-filtered {
+        height: 35px;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem !important;
+    }
+
+    footer {
+        padding: 3.5rem 0 1.25rem;
+        margin-top: 5rem;
+    }
+
+    footer h5 {
+        font-size: 1.25rem;
+    }
+
+    footer h6 {
+        font-size: 0.95rem;
+    }
+
+    footer a {
+        font-size: 0.9rem;
+    }
+
+    footer .text-muted {
+        font-size: 0.875rem;
+    }
+
+    footer .social-icons a {
+        font-size: 1.5rem;
+    }
+
+    footer iframe {
+        height: 250px !important;
+    }
+}
+
+/* Small mobile responsive */
+@media (max-width: 576px) {
+    main {
+        padding-top: 75px;
+    }
+
+    .navbar-glass {
+        padding: 0.85rem 0;
+    }
+
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+
+    .navbar-brand .logo-filtered {
+        height: 32px;
+        margin-right: 6px;
+    }
+
+    .navbar-toggler {
+        padding: 0.4rem;
+    }
+
+    .nav-link {
+        font-size: 0.875rem;
+        padding: 0.55rem 0.875rem !important;
+    }
+
+    .dropdown-menu {
+        margin-top: 0.5rem;
+        padding: 0.35rem;
+    }
+
+    .dropdown-item {
+        padding: 0.6rem 0.95rem;
+        font-size: 0.875rem;
+    }
+
+    footer {
+        padding: 3rem 0 1rem;
+        margin-top: 4rem;
+    }
+
+    footer h5 {
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+    }
+
+    footer h6 {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    footer a {
+        font-size: 0.875rem;
+    }
+
+    footer p.text-muted {
+        font-size: 0.8rem;
+        text-align: left !important;
+    }
+
+    footer .social-icons {
+        margin-top: 1rem;
+    }
+
+    footer .social-icons a {
+        font-size: 1.35rem;
+    }
+
+    footer iframe {
+        height: 220px !important;
+        border-radius: 8px;
+    }
+
+    footer .col-lg-4,
+    footer .col-lg-2,
+    footer .col-lg-3,
+    footer .col-md-6,
+    footer .col-sm-6 {
+        margin-bottom: 2rem;
+    }
+
+    footer ul {
+        padding-left: 0;
+    }
+
+    footer .bi {
+        font-size: 1rem;
+    }
+
+    footer hr {
+        margin: 2rem 0 1.5rem;
+    }
+
+    .copyright-section {
+        font-size: 0.8rem;
+    }
+
+    .copyright-section a {
+        font-size: 0.8rem;
+    }
+
+    .footer-brand .logo-filtered {
+        height: 35px;
+    }
+
+    .footer-brand h5 {
+        font-size: 1.25rem;
+    }
+}
+
+/* =====================================================
+   MOBILE NAVBAR DROPDOWN IMPROVEMENTS
+===================================================== */
+@media (max-width: 991px) {
+    /* Navbar collapse background */
+    .navbar-collapse {
+        background: rgba(93, 74, 59, 0.98);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        margin-top: 1rem;
+        padding: 1rem 0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Menu items styling */
+    .navbar-nav {
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-nav .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        padding: 0.85rem 1rem;
+        margin: 0.25rem 0;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center text */
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white !important;
+        transform: translateX(0); /* Remove slide effect for centered text */
+    }
+
+    /* User dropdown in mobile */
+    .navbar-nav.ms-auto {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+    }
+
+    .navbar-nav .dropdown {
+        width: 100%;
+    }
+
+    .navbar-nav .dropdown-toggle {
+        width: 100%;
+        justify-content: center; /* Center instead of space-between */
+        padding: 0.85rem 1rem;
+        text-align: center;
+    }
+
+    .navbar-nav .dropdown-toggle img {
+        width: 32px;
+        height: 32px;
+        margin-right: 0.75rem;
+    }
+
+    /* Dropdown menu in mobile */
+    .navbar-nav .dropdown-menu {
+        background: rgba(74, 59, 47, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+    }
+
+    .navbar-nav .dropdown-menu .dropdown-item {
+        color: rgba(255, 255, 255, 0.9);
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        margin: 0.15rem 0;
+        transition: all 0.3s ease;
+        text-align: center; /* Center text */
+    }
+
+    .navbar-nav .dropdown-menu .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        transform: translateX(0); /* Remove slide for centered text */
+    }
+
+    .navbar-nav .dropdown-menu .dropdown-item i {
+        width: 20px;
+        margin-right: 0.5rem;
+    }
+
+    .navbar-nav .dropdown-divider {
+        border-color: rgba(255, 255, 255, 0.1);
+        margin: 0.5rem 0;
+    }
+
+    /* Toggler button improvements */
+    .navbar-toggler {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+    }
+}
+
+/* =====================================================
+   PAGE TRANSITION LOADER
+===================================================== */
+/* =====================================================
+   PAGE TRANSITION LOADER - 3D LAPTOP ANIMATION
+===================================================== */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(250, 247, 240, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-content {
+    text-align: center;
+    position: relative;
+}
+
+/* ==========================================
+   3D LAPTOP ANIMATION
+========================================== */
+.loader-laptop-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+}
+
+.laptop-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    perspective: 1000px;
+}
+
+/* Laptop Screen */
+.laptop-screen {
+    width: 120px;
+    height: 80px;
+    background: linear-gradient(135deg, #2d2520 0%, #3d2817 100%);
+    border-radius: 8px 8px 2px 2px;
+    position: relative;
+    transform-origin: bottom;
+    animation: laptopOpen 2s ease-in-out infinite;
+    box-shadow: 
+        0 0 20px rgba(107, 126, 74, 0.3),
+        inset 0 0 30px rgba(232, 199, 125, 0.1);
+    border: 2px solid #7a5c47;
+}
+
+/* Screen Glow Effect */
+.screen-glow {
+    position: absolute;
+    inset: 8px;
+    background: linear-gradient(135deg, 
+        rgba(107, 126, 74, 0.2) 0%, 
+        rgba(138, 155, 110, 0.3) 50%,
+        rgba(232, 199, 125, 0.2) 100%);
+    border-radius: 4px;
+    animation: screenPulse 2s ease-in-out infinite;
+}
+
+/* Code Lines Animation */
+.code-lines {
+    position: absolute;
+    inset: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+}
+
+.code-lines span {
+    height: 3px;
+    background: linear-gradient(90deg, 
+        rgba(232, 199, 125, 0.6) 0%, 
+        rgba(138, 155, 110, 0.8) 50%,
+        transparent 100%);
+    border-radius: 2px;
+    animation: codeLine 1.5s ease-in-out infinite;
+}
+
+.code-lines span:nth-child(1) {
+    width: 70%;
+    animation-delay: 0s;
+}
+
+.code-lines span:nth-child(2) {
+    width: 50%;
+    animation-delay: 0.3s;
+}
+
+.code-lines span:nth-child(3) {
+    width: 60%;
+    animation-delay: 0.6s;
+}
+
+/* Laptop Base */
+.laptop-base {
+    width: 140px;
+    height: 8px;
+    background: linear-gradient(135deg, #7a5c47 0%, #8d6f56 100%);
+    border-radius: 0 0 4px 4px;
+    position: relative;
+    top: 80px;
+    left: -10px;
+    box-shadow: 0 4px 12px rgba(61, 40, 23, 0.3);
+}
+
+.laptop-base::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(232, 199, 125, 0.5),
+        transparent);
+    animation: baseShine 2s ease-in-out infinite;
+}
+
+/* Laptop Shadow */
+.laptop-shadow {
+    position: absolute;
+    width: 150px;
+    height: 10px;
+    background: radial-gradient(ellipse, 
+        rgba(61, 40, 23, 0.3) 0%, 
+        transparent 70%);
+    top: 95px;
+    left: -15px;
+    border-radius: 50%;
+    animation: shadowPulse 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   FLOATING PARTICLES
+========================================== */
+.particles-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, 
+        var(--primary-accent), 
+        var(--primary-highlight));
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 10px rgba(107, 126, 74, 0.5);
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation: particleFloat1 3s ease-in-out infinite;
+}
+
+.particle:nth-child(2) {
+    top: 60%;
+    left: 15%;
+    animation: particleFloat2 4s ease-in-out infinite;
+}
+
+.particle:nth-child(3) {
+    top: 30%;
+    left: 80%;
+    animation: particleFloat3 3.5s ease-in-out infinite;
+}
+
+.particle:nth-child(4) {
+    top: 70%;
+    left: 85%;
+    animation: particleFloat1 4.5s ease-in-out infinite;
+}
+
+.particle:nth-child(5) {
+    top: 50%;
+    left: 5%;
+    animation: particleFloat2 3.2s ease-in-out infinite;
+}
+
+.particle:nth-child(6) {
+    top: 40%;
+    left: 90%;
+    animation: particleFloat3 3.8s ease-in-out infinite;
+}
+
+/* ==========================================
+   PROGRESS BAR
+========================================== */
+.progress-bar-wrapper {
+    width: 200px;
+    height: 6px;
+    background: rgba(229, 223, 213, 0.3);
+    border-radius: 10px;
+    margin: 0 auto 1.5rem;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(61, 40, 23, 0.1);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg,
+        var(--primary-accent) 0%,
+        var(--primary-green-soft) 50%,
+        var(--primary-highlight) 100%);
+    background-size: 200% 100%;
+    border-radius: 10px;
+    animation: progressFill 2s ease-in-out infinite,
+               progressShine 1.5s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(107, 126, 74, 0.5);
+}
+
+/* ==========================================
+   LOADING TEXT
+========================================== */
+.loader-text {
+    color: var(--primary-dark);
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+.typing-text {
+    display: inline-block;
+    animation: textPulse 2s ease-in-out infinite;
+}
+
+.dots {
+    display: inline-block;
+    animation: dotBlink 1.5s steps(4) infinite;
+}
+
+/* ==========================================
+   KEYFRAME ANIMATIONS
+========================================== */
+
+/* Laptop Opening Animation */
+@keyframes laptopOpen {
+    0%, 100% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(-15deg);
+    }
+}
+
+/* Screen Pulse */
+@keyframes screenPulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Code Lines */
+@keyframes codeLine {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scaleX(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+/* Base Shine */
+@keyframes baseShine {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Shadow Pulse */
+@keyframes shadowPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+/* Particle Float Variations */
+@keyframes particleFloat1 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translate(-20px, -20px) scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes particleFloat2 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translate(15px, -25px) scale(1.3);
+        opacity: 0.9;
+    }
+}
+
+@keyframes particleFloat3 {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translate(-15px, 20px) scale(1.1);
+        opacity: 0.7;
+    }
+}
+
+/* Progress Bar Fill */
+@keyframes progressFill {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 70%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Progress Bar Shine */
+@keyframes progressShine {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Text Pulse */
+@keyframes textPulse {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Dots Blink */
+@keyframes dotBlink {
+    0%, 25% {
+        content: '.';
+    }
+    26%, 50% {
+        content: '..';
+    }
+    51%, 75% {
+        content: '...';
+    }
+    76%, 100% {
+        content: '';
+    }
+}
+
+/* ==========================================
+   RESPONSIVE ADJUSTMENTS
+========================================== */
+@media (max-width: 768px) {
+    .loader-laptop-container {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .laptop-screen {
+        width: 90px;
+        height: 60px;
+    }
+    
+    .laptop-base {
+        width: 105px;
+        top: 60px;
+        left: -7.5px;
+    }
+    
+    .laptop-shadow {
+        width: 110px;
+        top: 70px;
+        left: -10px;
+    }
+    
+    .progress-bar-wrapper {
+        width: 150px;
+    }
+    
+    .loader-text {
+        font-size: 1rem;
+    }
+    
+    .particle {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loader-laptop-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .laptop-screen {
+        width: 70px;
+        height: 48px;
+    }
+    
+    .code-lines span {
+        height: 2px;
+    }
+    
+    .laptop-base {
+        width: 82px;
+        height: 6px;
+        top: 48px;
+        left: -6px;
+    }
+    
+    .laptop-shadow {
+        width: 90px;
+        top: 58px;
+        left: -10px;
+    }
+    
+    .progress-bar-wrapper {
+        width: 120px;
+        height: 5px;
+    }
+    
+    .loader-text {
+        font-size: 0.9rem;
+    }
+}

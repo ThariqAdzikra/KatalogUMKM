@@ -1,0 +1,1048 @@
+/* =====================================================
+   FILE: public/css/manajemen/kasir.css
+   BERISI SEMUA STYLE YANG DIPERLUKAN
+===================================================== */
+
+:root {
+    --primary-dark: #3d2817;
+    --primary-main: #7a5c47;
+    --primary-wood: #8d6f56;
+    --primary-accent: #6b7e4a;
+    --primary-highlight: #e8c77d;
+    --cream-bg: #f4f7f6;
+    --text-dark: #2d2520;
+    --text-medium: #5d5349;
+    --border-soft: #e5dfd5;
+    --shadow-soft: 0 2px 8px rgba(61, 40, 23, 0.08);
+    --shadow-hover: 0 8px 24px rgba(61, 40, 23, 0.12);
+    --color-danger: #e74c3c;
+    --color-danger-hover: #c0392b;
+}
+
+/* =====================================================
+   1. STYLE DASAR (Tema Utama)
+===================================================== */
+
+/* === Page Header === */
+.page-header {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-soft);
+    border-left: 4px solid var(--primary-wood);
+}
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+.page-subtitle {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+}
+
+/* === Form Styles === */
+.form-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.form-card {
+    background: #fdfcf7; 
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 2rem;
+    border-top: 4px solid var(--primary-wood);
+}
+.form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-soft);
+}
+.form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.5rem;
+}
+.form-subtitle { 
+    color: var(--text-medium); 
+}
+.form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    display: block;
+}
+.form-control, .form-select, textarea {
+    border-radius: 8px;
+    border: 2px solid var(--border-soft);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    min-height: calc(1.5em + 1.5rem + 4px);
+    width: 100%;
+}
+.form-control:focus, .form-select:focus, textarea:focus {
+    border-color: var(--primary-wood);
+    box-shadow: 0 0 0 0.2rem rgba(141, 111, 86, 0.15);
+    outline: none;
+}
+.form-card .btn-primary-custom {
+    padding: 0.875rem 2rem;
+}
+.btn-primary-custom {
+    background: var(--primary-wood);
+    border: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    text-align: center;
+}
+.btn-primary-custom:hover {
+    background: var(--primary-main);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+    color: white;
+}
+.btn-secondary-custom {
+    background: var(--cream-bg);
+    border: 2px solid var(--border-soft);
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.btn-secondary-custom:hover { 
+    background: var(--border-soft); 
+}
+
+/* Tombol Outline */
+.btn-outline-primary-custom {
+    background: transparent;
+    border: 2px solid var(--primary-wood);
+    padding: 0.875rem 2rem;
+    border-radius: 8px;
+    color: var(--primary-wood);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+.btn-outline-primary-custom:hover {
+    background: var(--primary-wood);
+    border-color: var(--primary-wood);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+/* ✅ PERUBAHAN DI SINI */
+.input-group-text {
+    background: var(--primary-wood); 
+    border: 2px solid var(--primary-wood); 
+    border-right: none;
+    color: white; 
+    font-weight: 600;
+    border-radius: 8px 0 0 8px;
+    min-height: calc(1.5em + 1.5rem + 4px);
+}
+
+.input-group .form-control {
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+}
+.input-group .form-control:focus {
+    border-left: none;
+}
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-soft);
+}
+.form-section:last-of-type { 
+    border-bottom: none; 
+    margin-bottom: 0; 
+    padding-bottom: 0;
+}
+.section-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+.section-title i {
+    margin-right: 0.75rem;
+    color: var(--primary-wood);
+}
+.text-muted {
+    color: var(--text-medium) !important;
+    font-size: 0.85rem;
+}
+
+/* =====================================================
+   2. STYLE KUSTOM KASIR (Layout 2 Kartu)
+===================================================== */
+
+/* Wrapper untuk membuat kolom ringkasan sticky */
+.summary-sticky-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-sticky-wrapper .form-card {
+    background: var(--border-soft); 
+    border: 1px solid var(--primary-wood);
+    color: var(--text-dark); 
+}
+
+.summary-sticky-wrapper .form-card .section-title,
+.summary-sticky-wrapper .form-card .form-label,
+.summary-sticky-wrapper .form-card .total-section h5,
+.summary-sticky-wrapper .form-card #qris-preview p {
+    color: var(--text-dark);
+}
+
+.summary-sticky-wrapper .form-card .total-section .text-muted,
+.summary-sticky-wrapper .form-card #qris-preview .text-muted {
+    color: var(--text-medium) !important;
+}
+
+.summary-sticky-wrapper .form-card #total-display {
+    color: var(--primary-dark); 
+    font-size: 1.5rem; 
+}
+
+.summary-sticky-wrapper .form-card .total-section {
+     border-top: 2px dashed var(--primary-wood); 
+}
+
+.summary-sticky-wrapper .form-card hr {
+    border-color: var(--primary-wood);
+}
+
+.summary-sticky-wrapper .form-card .form-select {
+     background: #ffffff;
+     color: var(--text-dark);
+     border-color: var(--primary-wood);
+}
+.summary-sticky-wrapper .form-card .form-select option {
+    background: #ffffff;
+    color: var(--text-dark);
+}
+
+.summary-sticky-wrapper .form-card .btn-primary-custom {
+    background: var(--primary-accent); 
+    color: #ffffff;
+    border: none;
+}
+
+.summary-sticky-wrapper .form-card .btn-primary-custom:hover {
+    background: #5a6a3f; 
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+
+/* =====================================================
+   3. RINGKASAN CONTAINER - FIX SCROLLING
+===================================================== */
+
+#ringkasan-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-soft);
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.summary-sticky-wrapper .form-card #ringkasan-container {
+    background: #ffffff;
+    border-color: var(--primary-wood);
+}
+
+#ringkasan-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.ringkasan-item {
+    background: #fdfcf7;
+    border: 1px solid var(--border-soft);
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.ringkasan-item:hover {
+    box-shadow: var(--shadow-soft);
+    border-color: var(--primary-wood);
+}
+
+/* Scrollbar styling untuk webkit browsers */
+#ringkasan-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#ringkasan-container::-webkit-scrollbar-track {
+    background: var(--cream-bg);
+    border-radius: 10px;
+}
+
+#ringkasan-container::-webkit-scrollbar-thumb {
+    background: var(--primary-wood);
+    border-radius: 10px;
+}
+
+#ringkasan-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-main);
+}
+
+#ringkasan-container {
+    scrollbar-color: var(--primary-wood) var(--cream-bg);
+    scrollbar-width: thin;
+}
+
+/* =====================================================
+   4. SELECT2 THEME
+===================================================== */
+
+.select2-container--bootstrap-5 .select2-selection {
+    border-radius: 8px !important;
+    border: 2px solid var(--border-soft) !important;
+    padding: 0.75rem 1rem !important;
+    height: auto !important;
+    background: #fff;
+    min-height: calc(1.5em + 1.5rem + 4px);
+}
+
+.select2-container--bootstrap-5.select2-container--focus .select2-selection,
+.select2-container--bootstrap-5.select2-container--open .select2-selection {
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.2rem rgba(141, 111, 86, 0.15) !important;
+}
+
+.summary-sticky-wrapper .form-card .select2-container--bootstrap-5 .select2-selection {
+    background: #ffffff !important;
+    color: var(--text-dark) !important;
+    border-color: var(--primary-wood) !important;
+}
+.summary-sticky-wrapper .form-card .select2-container--bootstrap-5 .select2-selection .select2-selection__rendered {
+    color: var(--text-dark) !important;
+}
+.summary-sticky-wrapper .form-card .select2-container--bootstrap-5 .select2-selection .select2-selection__arrow b {
+    border-color: var(--text-dark) transparent transparent transparent !important;
+}
+
+
+.select2-container--bootstrap-5 .select2-dropdown {
+    border-radius: 8px !important;
+    border: 2px solid var(--primary-wood) !important;
+    box-shadow: var(--shadow-soft) !important;
+    background: #fff;
+}
+
+.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
+    border-radius: 6px !important;
+    border: 2px solid var(--border-soft) !important;
+}
+
+.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field:focus {
+    border-color: var(--primary-wood) !important;
+}
+
+.select2-container--bootstrap-5 .select2-results__option--highlighted {
+    background-color: var(--primary-wood) !important;
+    color: white !important;
+}
+
+.select2-container--bootstrap-5 .select2-results__option--selected {
+    background-color: var(--cream-bg) !important;
+    color: var(--text-dark) !important;
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered .select2-selection__placeholder {
+    color: #6c757d;
+}
+
+/* =====================================================
+   5. CUSTOM STYLES
+===================================================== */
+
+/* Style Tombol Hapus */
+.remove-row {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    width: 100%;
+}
+
+/* Tata Letak Stok Info */
+.produk-label-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.produk-label-wrapper .form-label {
+    margin-bottom: 0;
+}
+
+.produk-label-wrapper .stok-info {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    margin-left: 0.5rem;
+}
+
+/* Kolom Pelanggan Baru */
+#kolom-pelanggan-baru {
+    display: none;
+    border: 1px dashed var(--primary-highlight);
+    background-color: #fffaf0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+#kolom-pelanggan-baru h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-main);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-soft);
+    padding-bottom: 0.5rem;
+}
+
+#kolom-pelanggan-baru .form-control-sm {
+    min-height: calc(1.5em + 1rem + 4px);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+/* Total Section */
+.total-section {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 2px dashed var(--primary-wood);
+}
+
+#total-display {
+    color: var(--primary-dark);
+    font-size: 2rem;
+}
+
+.modal-content {
+  border-radius: 12px;
+  box-shadow: var(--shadow-hover);
+}
+
+/* =====================================================
+   6. MODAL STRUK & PRINT (BARU & DIPERBAIKI)
+===================================================== */
+
+.modal-struk .modal-content {
+    border-radius: 12px; 
+    font-family: 'Courier New', Courier, monospace; 
+    color: var(--text-dark);
+    border: 1px solid var(--border-soft);
+    box-shadow: var(--shadow-hover); 
+    overflow: hidden; 
+}
+
+.modal-struk .modal-header {
+    background-color: var(--border-soft); 
+    border-bottom: 2px dashed var(--primary-wood); 
+    text-align: center;
+    display: block;
+    padding: 1.5rem;
+}
+
+.modal-struk .modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    color: var(--primary-dark); 
+}
+
+.modal-struk .store-info {
+    font-size: 0.85rem;
+    margin: 5px 0 0 0;
+    line-height: 1.4;
+    color: var(--text-medium); 
+}
+
+.modal-struk .modal-body {
+    padding: 1.5rem 2rem;
+    font-size: 0.9rem;
+    background: #ffffff; 
+    color: var(--text-dark);
+}
+
+.struk-section {
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--primary-main); 
+}
+.struk-section:last-of-type {
+    border-bottom: none;
+}
+
+.struk-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.struk-item span:first-child { text-align: left; }
+.struk-item span:last-child { text-align: right; }
+
+.struk-produk-list { margin-top: 10px; }
+.struk-produk {
+    margin-bottom: 8px;
+}
+.struk-produk .nama-produk {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.struk-produk .detail-produk {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    font-size: 0.9rem;
+}
+
+.struk-total {
+    padding-top: 10px;
+    border-top: 2px dashed var(--primary-dark); 
+    margin-top: 10px;
+}
+
+.struk-total .struk-item span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary-dark); 
+}
+
+.modal-struk .alert-warning {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Font normal, BUKAN monospace */
+    background-color: #fffaf0; 
+    border: 1px solid var(--primary-highlight); 
+    color: var(--primary-main); 
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+.modal-struk .alert-warning i {
+    color: var(--primary-highlight);
+}
+
+.modal-struk .modal-footer {
+    background-color: #fdfcf7; 
+    border-top: 1px solid var(--border-soft);
+    padding: 1rem 2rem;
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.75rem; 
+    align-items: center;
+}
+
+/* Style umum tombol di footer */
+.modal-struk .modal-footer .btn {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Font normal */
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.modal-struk .modal-footer > .btn-primary {
+    background: var(--primary-wood); 
+    color: white;
+    width: 100%; 
+}
+.modal-struk .modal-footer > .btn-primary:hover {
+    background: var(--primary-main); 
+}
+
+/* Wrapper untuk baris kedua (Batal & Simpan) */
+.modal-struk .modal-footer .footer-actions-split {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.75rem; 
+}
+.modal-struk .modal-footer .footer-actions-split .btn {
+    flex-grow: 1;
+}
+
+
+/* Tombol Batal (Secondary -> MERAH) */
+.modal-struk .modal-footer .btn-secondary {
+    background: var(--color-danger);
+    border: 2px solid var(--color-danger);
+    color: white;
+    flex-grow: 0; 
+}
+.modal-struk .modal-footer .btn-secondary:hover {
+    background: var(--color-danger-hover);
+    border-color: var(--color-danger-hover);
+}
+
+/* Tombol Langsung Simpan (Info -> HIJAU) */
+.modal-struk .modal-footer .btn-info {
+    background: var(--primary-accent); 
+    color: white;
+}
+.modal-struk .modal-footer .btn-info:hover {
+    background: #5a6a3f; 
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 20mm; 
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden; 
+        margin: 0;
+        padding: 0;
+        background: #fff;
+    }
+
+    .modal-struk, .modal-struk * {
+        visibility: visible;
+    }
+
+    .modal-struk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible; 
+        display: block !important;
+    }
+
+    .modal-struk .modal-dialog {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0;
+    }
+
+    .modal-struk .modal-content {
+        box-shadow: none !important;
+        border: none !important;
+        border-radius: 0;
+    }
+
+    .modal-struk .modal-header {
+        border-bottom: 2px dashed #000 !important;
+    }
+    .struk-section {
+        border-bottom: 1px dashed #777 !important;
+    }
+    .struk-total {
+        border-top: 2px dashed #000 !important;
+    }
+
+    .modal-struk .modal-footer,
+    .modal-struk .alert-warning {
+        display: none !important;
+    }
+    
+    .modal-struk .modal-content, 
+    .modal-struk .modal-body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+}
+
+/* Style di ringkasan kanan */
+.ringkasan-item .garansi-info-wrapper {
+    margin-top: 5px; 
+    padding-left: 15px; 
+    border-left: 2px solid var(--primary-accent); 
+    line-height: 1.3;
+}
+
+.ringkasan-item .garansi-info-wrapper .garansi-note {
+    color: var(--primary-accent);
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: block;
+}
+
+.ringkasan-item .garansi-info-wrapper .garansi-end-date {
+    color: var(--text-medium); 
+    font-size: 0.75rem;
+    display: block;
+}
+
+
+/* Style di modal struk */
+.struk-produk .struk-garansi {
+    padding-left: 10px; 
+    margin-top: 6px; 
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+.struk-produk .struk-garansi .garansi-note-struk {
+    font-weight: bold;
+    color: var(--primary-accent); 
+}
+
+.struk-produk .struk-garansi .garansi-end-date-struk {
+    color: var(--text-medium); 
+}
+
+
+/* =====================================================
+   TOAST NOTIFICATION (ESTETIK)
+===================================================== */
+#toast-container {
+    position: fixed;
+    top: 20px; 
+    left: 50%;
+    transform: translateX(-50%); 
+    z-index: 9999;
+    pointer-events: none; 
+}
+
+#toast-notification {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-accent); 
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-hover);
+    opacity: 0;
+    transform: translateY(-100px);
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1); 
+}
+
+/* State saat muncul */
+#toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+#toast-notification .toast-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-right: 1rem;
+}
+
+#toast-notification .toast-message {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+#toast-notification .toast-message strong {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+#toast-notification .toast-message span {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* =====================================================
+   7. RESPONSIVE DESIGN FOR KASIR
+===================================================== */
+
+/* Tablet View (max-width: 992px) */
+@media (max-width: 992px) {
+    /* Disable sticky summary on tablets */
+    .summary-sticky-wrapper {
+        position: static;
+        top: auto;
+    }
+
+    /* Reduce padding */
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .page-header {
+        padding: 1.5rem;
+    }
+
+    /* Stack form elements better */
+    .produk-row .col-md-5,
+    .produk-row .col-md-2,
+    .produk-row .col-md-3 {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Mobile View (max-width: 768px) */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 0 0.5rem;
+    }
+
+    .page-header {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .form-card {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Form elements full width */
+    .form-control, .form-select {
+        font-size: 0.9rem;
+        padding: 0.65rem 0.875rem;
+    }
+
+    /* Buttons */
+    .btn-primary-custom,
+    .btn-outline-primary-custom {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Modal adjustments */
+    .modal-struk .modal-body {
+        padding: 1.25rem 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    .modal-struk .modal-footer {
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+/* Small Mobile View (max-width: 576px) */
+@media (max-width: 576px) {
+    .form-container {
+        padding: 0;
+    }
+
+    .page-header {
+        padding: 1rem;
+    }
+
+    .page-title {
+        font-size: 1.35rem;
+    }
+
+    .page-subtitle {
+        font-size: 0.875rem;
+    }
+
+    .form-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: 0.95rem;
+    }
+
+    .section-title i {
+        font-size: 1rem;
+    }
+
+    /* Product row - stack vertically */
+    .produk-row {
+        flex-direction: column;
+    }
+
+    .produk-row .col-md-5,
+    .produk-row .col-md-2,
+    .produk-row .col-md-3,
+    .produk-row .col-md-2:last-child {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Remove button full width */
+    .remove-row {
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 0.65rem;
+    }
+
+    /* Add row button */
+    #add-row {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    /* Form controls smaller */
+    .form-control, .form-select {
+        font-size: 0.875rem;
+        padding: 0.6rem 0.75rem;
+        min-height: calc(1.5em + 1.2rem + 4px);
+    }
+
+    .form-control-sm {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.65rem;
+        min-height: calc(1.5em + 0.9rem + 4px);
+    }
+
+    /* Input group */
+    .input-group-text {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.875rem;
+        min-height: calc(1.5em + 1.2rem + 4px);
+    }
+
+    /* Buttons responsive */
+    .btn-primary-custom,
+    .btn-outline-primary-custom,
+    .btn-secondary-custom {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    /* Kolom pelanggan baru */
+    #kolom-pelanggan-baru {
+        padding: 1rem;
+    }
+
+    #kolom-pelanggan-baru h5 {
+        font-size: 0.9rem;
+    }
+
+    /* Ringkasan container */
+    #ringkasan-container {
+        max-height: 300px;
+    }
+
+    .ringkasan-item {
+        padding: 0.65rem 0.875rem;
+        font-size: 0.85rem;
+    }
+
+    /* Total section */
+    .total-section {
+        padding-top: 0.75rem;
+        margin-top: 0.75rem;
+    }
+
+    #total-display {
+        font-size: 1.5rem;
+    }
+
+    #subtotal-display {
+        font-size: 0.9rem;
+    }
+
+    .modal-struk .modal-header {
+        padding: 1rem 1.25rem;
+    }
+
+    .modal-struk .modal-title {
+        font-size: 1.2rem;
+    }
+
+    .modal-struk .store-info {
+        font-size: 0.8rem;
+    }
+
+    .modal-struk .modal-body {
+        padding: 1rem 1.25rem;
+        font-size: 0.8rem;
+    }
+
+    .struk-item {
+        font-size: 0.85rem;
+    }
+
+    .struk-total .struk-item span {
+        font-size: 1rem;
+    }
+
+    .modal-struk .modal-footer {
+        padding: 0.75rem 1rem;
+    }
+
+    .modal-struk .modal-footer .btn {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    /* Select2 responsive */
+    .select2-container--bootstrap-5 .select2-selection {
+        padding: 0.6rem 0.75rem !important;
+        font-size: 0.875rem !important;
+        min-height: calc(1.5em + 1.2rem + 4px);
+    }
+
+    /* Garansi info smaller */
+    .garansi-info-wrapper .garansi-note {
+        font-size: 0.75rem;
+    }
+
+    .garansi-info-wrapper .garansi-end-date {
+        font-size: 0.7rem;
+    }
+
+    /* Toast notification */
+    #toast-notification {
+        padding: 0.875rem 1.25rem;
+        margin: 0 1rem;
+    }
+
+    #toast-notification .toast-icon {
+        font-size: 1.5rem;
+        margin-right: 0.75rem;
+    }
+
+    #toast-notification .toast-message strong {
+        font-size: 1rem;
+    }
+
+    #toast-notification .toast-message span {
+        font-size: 0.875rem;
+    }
+
+    /* Add margin between stacked cards on mobile only */
+    .row.g-4 .col-12.col-lg-4 {
+        margin-top: 1.5rem;
+    }
+}

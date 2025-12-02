@@ -1,0 +1,241 @@
+main {
+    padding-top: 0 !important;
+    background: none !important;
+}
+
+footer {
+    margin-top: 0 !important;
+}
+
+#login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 85px 1rem 2rem 1rem; 
+}
+
+#login-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    background-image: url('/images/background.jpeg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px) brightness(0.7);
+    z-index: -2;
+}
+
+#login-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(61, 40, 23, 0.6), rgba(107, 88, 68, 0.5));
+    z-index: -1;
+}
+
+.login-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Efek Glass Card Transparan */
+.login-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.login-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative; /* Diperlukan agar ikon & toggle bisa di-posisikan */
+}
+
+/* Hapus style 'input-wrapper', tidak lagi jadi box */
+.input-wrapper {
+    position: relative;
+}
+
+/* Ikon diposisikan absolute DI DALAM input */
+.input-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem; 
+    color: var(--primary-main);
+    font-size: 1.5rem;
+    z-index: 10;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.95); 
+    border-radius: 12px;
+    border: 1px solid transparent;
+    padding: 1rem 3.5rem 1rem 4.5rem; 
+    font-size: 1rem;
+    color: var(--text-dark); 
+    outline: none;
+    transition: all 0.3s ease;
+    height: 3.5rem;
+    box-sizing: border-box;
+    width: 100%; 
+}
+
+.form-control::placeholder {
+    color: var(--text-gray); 
+}
+
+.form-control:focus {
+    background: #ffffff;
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 4px rgba(107, 126, 74, 0.1);
+}
+
+/* Posisikan password toggle di dalam .form-group */
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    background: none;
+    border: none;
+    color: var(--primary-main); 
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    z-index: 10;
+    height: 3.5rem;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-check-input {
+    width: 1.1em;
+    height: 1.1em;
+    margin-top: 0;
+    vertical-align: top;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-accent);
+}
+
+.form-check-label {
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.forgot-password-link {
+    color: #ffffff;
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot-password-link:hover {
+    color: var(--primary-highlight);
+    text-decoration: underline;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-accent);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(107, 126, 74, 0.25);
+}
+
+.btn-login:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(61, 40, 23, 0.3);
+}
+
+.invalid-feedback {
+    display: block;
+    color: #fecaca;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ubah style invalid */
+.form-control.is-invalid {
+    border: 2px solid #fecaca;
+}
+
+@media (max-width: 576px) {
+    #login-wrapper {
+        padding-top: 6rem;
+    }
+    .login-card {
+        padding: 2rem 1.5rem;
+        border-radius: 25px;
+    }
+
+    .login-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+::selection {
+    background: var(--primary-light);
+    color: var(--primary-main);
+}

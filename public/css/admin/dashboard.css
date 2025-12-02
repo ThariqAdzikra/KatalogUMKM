@@ -1,0 +1,286 @@
+/* =================================
+   Tema "Warm & Cozy"
+   ================================= */
+:root {
+    --primary-dark: #3d2817;
+    --primary-main: #7a5c47;
+    --primary-wood: #8d6f56;
+    --primary-accent: #6b7e4a;
+    --primary-green-soft: #8a9b6e;
+    --primary-highlight: #e8c77d;
+    --primary-light: #faf7f0;
+    --cream-bg: #ffffff; 
+    --text-dark: #2d2520;
+    --text-medium: #5d5349;
+    --text-gray: #847a6f;
+    --border-soft: #e5dfd5;
+    
+    --shadow-soft: 0 2px 8px rgba(61, 40, 23, 0.08);
+    --shadow-hover: 0 8px 24px rgba(61, 40, 23, 0.12);
+}
+
+/* =================================
+   Gaya Halaman Dasar
+   ================================= */
+body {
+    /* Latar belakang putih polos */
+    background-color: var(--cream-bg) !important;
+    color: var(--text-medium);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Mengganti warna navbar default */
+/* Navbar styles are handled by app.css (.navbar-glass) */
+
+/* Teks Dashboard */
+.admin-dashboard-container h2,
+.admin-dashboard-container h5,
+.admin-dashboard-container strong {
+    color: var(--text-dark);
+}
+
+.admin-dashboard-container .text-muted {
+    color: var(--text-gray) !important;
+}
+
+/* =================================
+   Welcome Card - Layout Diperbaiki
+   ================================= */
+.welcome-card {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #4a3425 100%);
+    color: var(--primary-light);
+    border-radius: 16px;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-card .card-body {
+    padding: 2.5rem 3rem !important;
+}
+
+.welcome-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.welcome-card .welcome-title {
+    color: var(--cream-bg);
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.welcome-card .welcome-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.weather-widget {
+    font-size: 1rem;
+    color: var(--primary-highlight);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 0.75rem 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: auto; /* Allow content to define width */
+    flex: 1 1 auto; /* Grow/shrink based on content size */
+    min-width: 0; /* Allow shrinking if needed */
+    justify-content: flex-start;
+    white-space: nowrap; 
+    overflow-x: auto; /* Scroll horizontally if content overflows */
+    overflow-y: hidden;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.weather-widget::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+}
+
+.weather-widget strong {
+    color: var(--cream-bg);
+    font-size: 1.1rem;
+}
+
+.weather-image {
+    max-width: 200px;
+    height: auto;
+    opacity: 0.95;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    margin-right: 2rem;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Responsif untuk mobile */
+@media (max-width: 768px) {
+    .welcome-card .card-body {
+        padding: 2rem 1.5rem !important;
+    }
+    
+    .welcome-card .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .weather-image {
+        max-width: 120px;
+        margin-top: 1rem;
+        margin-right: 0;
+    }
+}
+
+/* =================================
+   Base Card Theme
+   ================================= */
+.theme-card {
+    background-color: var(--cream-bg);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    color: var(--text-medium);
+    transition: all 0.3s ease;
+}
+
+/* =================================
+   Stats Box - Semua Angka Putih
+   ================================= */
+.stat-box {
+    border-radius: 12px;
+    color: var(--cream-bg);
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: var(--shadow-soft);
+}
+
+.stat-box .icon-box {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    padding: 0.75rem;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.stat-box h6,
+.stat-box h2,
+.stat-box small {
+    color: #ffffff !important;
+}
+
+.stat-box .text-white {
+    color: #ffffff !important;
+}
+
+.stat-box .text-white-75 {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Menerapkan Warna Tema */
+.stat-box.stat-box-produk {
+    background: linear-gradient(135deg, var(--primary-main) 0%, #8d6f56 100%);
+}
+
+.stat-box.stat-box-pelanggan {
+    background: linear-gradient(135deg, var(--primary-accent) 0%, #7a9154 100%);
+}
+
+.stat-box.stat-box-penjualan {
+    background: linear-gradient(135deg, #e8c77d 0%, #d4a960 100%);
+}
+
+.stat-box.stat-box-pembelian {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, #a0826a 100%);
+}
+
+/* =================================
+   Gaya Card Lainnya
+   ================================= */
+
+/* Statistik Cepat */
+.quick-stat-item {
+    background-color: var(--primary-light);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.quick-stat-item:hover {
+    background-color: #f5f0e8;
+}
+
+/* Progress Bar */
+.progress {
+    background-color: var(--border-soft);
+}
+.progress-bar {
+    background-color: var(--primary-accent);
+}
+
+/* Teks Berwarna Kustom */
+.text-accent {
+    color: var(--primary-accent) !important;
+}
+.text-main {
+    color: var(--primary-main) !important;
+}
+.text-highlight {
+    color: var(--primary-highlight) !important;
+}
+.text-gray {
+    color: var(--text-gray) !important;
+}
+
+/* Tombol Grup */
+.btn-group-sm .btn-outline-secondary {
+    color: var(--text-medium);
+    border-color: var(--border-soft);
+}
+.btn-group-sm .btn-outline-secondary.active {
+    background-color: var(--primary-main);
+    color: var(--cream-bg);
+    border-color: var(--primary-main);
+}
+.btn-group-sm .btn-outline-secondary:hover {
+    background-color: var(--primary-light);
+    color: var(--text-dark);
+}
+
+/* =================================
+   [BARU] Chart Loader
+   ================================= */
+.chart-loader-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.chart-loader-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}

@@ -1,0 +1,276 @@
+/* =====================================================
+   RESPONSIVE UTILITY CLASSES
+   File: responsive-utils.css
+   Purpose: Provide helper classes for responsive design
+===================================================== */
+
+/* =====================================================
+   RESPONSIVE SPACING UTILITIES
+===================================================== */
+
+/* Mobile margin bottom utilities */
+@media (max-width: 768px) {
+    .mob-mb-0 { margin-bottom: 0 !important; }
+    .mob-mb-1 { margin-bottom: 0.5rem !important; }
+    .mob-mb-2 { margin-bottom: 1rem !important; }
+    .mob-mb-3 { margin-bottom: 1.5rem !important; }
+    .mob-mb-4 { margin-bottom: 2rem !important; }
+
+    .mob-mt-0 { margin-top: 0 !important; }
+    .mob-mt-1 { margin-top: 0.5rem !important; }
+    .mob-mt-2 { margin-top: 1rem !important; }
+    .mob-mt-3 { margin-top: 1.5rem !important; }
+
+    .mob-p-1 { padding: 0.5rem !important; }
+    .mob-p-2 { padding: 1rem !important; }
+    .mob-p-3 { padding: 1.5rem !important; }
+}
+
+/* =====================================================
+   RESPONSIVE TEXT UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    .mob-text-xs { font-size: 0.75rem !important; }
+    .mob-text-sm { font-size: 0.875rem !important; }
+    .mob-text-base { font-size: 1rem !important; }
+    .mob-text-lg { font-size: 1.125rem !important; }
+
+    .mob-text-center { text-align: center !important; }
+    .mob-text-left { text-align: left !important; }
+    .mob-text-right { text-align: right !important; }
+}
+
+/* =====================================================
+   RESPONSIVE DISPLAY UTILITIES
+===================================================== */
+
+/* Hide on mobile (show on tablet and up) */
+@media (max-width: 768px) {
+    .hide-mobile { 
+        display: none !important; 
+    }
+}
+
+/* Hide on tablet and up (show only on mobile) */
+@media (min-width: 769px) {
+    .show-mobile-only { 
+        display: none !important; 
+    }
+}
+
+/* Hide on desktop (show on mobile and tablet) */
+@media (min-width: 1200px) {
+    .hide-desktop {
+        display: none !important;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE WIDTH UTILITIES
+===================================================== */
+
+@media (max-width: 576px) {
+    .mob-w-100 { 
+        width: 100% !important; 
+    }
+    
+    .mob-w-auto { 
+        width: auto !important; 
+    }
+}
+
+/* =====================================================
+   RESPONSIVE FLEX UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Stack flex items vertically on mobile */
+    .mob-flex-column {
+        flex-direction: column !important;
+    }
+
+    /* Stack children vertically with spacing */
+    .mob-stack > * {
+        width: 100%;
+        margin-bottom: 0.75rem;
+    }
+
+    .mob-stack > *:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Center flex items on mobile */
+    .mob-flex-center {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE TABLE UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Make tables horizontally scrollable */
+    .table-responsive-mobile {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-responsive-mobile table {
+        min-width: 600px;
+    }
+
+    /* Compress table on mobile */
+    .table-mobile-compact {
+        font-size: 0.875rem;
+    }
+
+    .table-mobile-compact td,
+    .table-mobile-compact th {
+        padding: 0.5rem;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE BUTTON UTILITIES
+===================================================== */
+
+@media (max-width: 576px) {
+    /* Full width buttons on mobile */
+    .mob-btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    /* Smaller button padding on mobile */
+    .mob-btn-sm {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.875rem !important;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE GRID UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Reduce gap between grid items on mobile */
+    .mob-gap-1 {
+        gap: 0.5rem !important;
+    }
+
+    .mob-gap-2 {
+        gap: 1rem !important;
+    }
+
+    .mob-gap-3 {
+        gap: 1.5rem !important;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE CARD UTILITIES
+===================================================== */
+
+@media (max-width: 576px) {
+    /* Remove card border radius on mobile for edge-to-edge */
+    .mob-card-flush {
+        border-radius: 0 !important;
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+    }
+
+    /* Reduce card padding on mobile */
+    .mob-card-compact .card-body {
+        padding: 1rem !important;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE IMAGE UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Full width images on mobile */
+    .mob-img-fluid {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Smaller image on mobile */
+    .mob-img-sm {
+        max-width: 200px;
+        height: auto;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE OVERFLOW UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Prevent horizontal overflow issues */
+    .mob-overflow-hidden {
+        overflow-x: hidden !important;
+    }
+
+    /* Allow scrolling on mobile */
+    .mob-overflow-auto {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* =====================================================
+   RESPONSIVE VISIBILITY UTILITIES
+===================================================== */
+
+/* Breakpoint-specific visibility */
+@media (max-width: 575px) {
+    .d-xs-none { display: none !important; }
+    .d-xs-block { display: block !important; }
+    .d-xs-inline { display: inline !important; }
+    .d-xs-inline-block { display: inline-block !important; }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .d-sm-only { display: block !important; }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .d-md-only { display: block !important; }
+}
+
+/* =====================================================
+   RESPONSIVE POSITIONING UTILITIES
+===================================================== */
+
+@media (max-width: 768px) {
+    /* Disable sticky positioning on mobile */
+    .mob-position-static {
+        position: static !important;
+    }
+
+    /* Reset top position on mobile */
+    .mob-top-auto {
+        top: auto !important;
+    }
+}
+
+/* =====================================================
+   PRINT UTILITIES
+===================================================== */
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    .print-only {
+        display: block !important;
+    }
+}

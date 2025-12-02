@@ -1,0 +1,31 @@
+/* Animasi Icon Pop-in */
+.icon-animate-pop {
+    animation: popIn 400ms ease both;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* Animasi Centang (Checkmark) */
+.anim-check .check-circle {
+    stroke-dasharray: 265;
+    stroke-dashoffset: 265;
+    animation: circle-draw 900ms ease-out forwards;
+}
+
+.anim-check .check-mark {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    animation: check-draw 700ms 350ms ease-out forwards;
+}
+
+@keyframes circle-draw {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes check-draw {
+    to { stroke-dashoffset: 0; }
+}
