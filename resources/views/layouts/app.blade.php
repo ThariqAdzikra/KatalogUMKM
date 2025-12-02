@@ -24,6 +24,54 @@
     @stack('styles')
 
     {{-- Blok <style> inline sudah dihapus --}}
+    <style>
+        /* Guest Layout Adjustments */
+        body.layout-guest main.main-content {
+            margin-left: 0 !important;
+            padding-top: 100px; /* Space for fixed navbar */
+        }
+        
+        body.layout-guest footer {
+            margin-left: 0 !important;
+        }
+
+        /* Navbar Glassmorphism */
+        .navbar-glass {
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-glass .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-glass .nav-link:hover {
+            color: #3b82f6;
+        }
+
+        .navbar-glass .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-glass .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     {{-- Navbar for Guests --}}
