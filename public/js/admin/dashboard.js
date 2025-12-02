@@ -164,11 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 penjualanChart.destroy();
             }
 
-            // Warna tema untuk grafik
-            const mainColor = '#7a5c47';
-            const accentColor = '#6b7e4a';
+            // Warna tema untuk grafik - Dark Cyber Theme
+            const mainColor = '#3b82f6';        // Electric Blue
+            const accentColor = '#06b6d4';      // Cyan
+            const gradientStart = '#8b5cf6';    // Purple
 
-            // Buat chart baru (KONFIGURASI SAMA SEPERTI SEBELUMNYA)
+            // Buat chart baru
             penjualanChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -177,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         label: 'Total Penjualan (Rp)',
                         data: values,
                         borderColor: mainColor,
-                        backgroundColor: 'rgba(122, 92, 71, 0.1)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
                         tension: 0.4,
                         fill: true,
                         pointRadius: 5,
@@ -202,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             display: true,
                             position: 'top',
                             labels: {
-                                color: '#5d5349',
+                                color: '#cbd5e1',           // Light grey for dark theme
                                 font: {
                                     size: 13,
                                     weight: '500'
@@ -212,12 +213,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         },
                         tooltip: {
-                            backgroundColor: '#3d2817',
+                            backgroundColor: 'rgba(30, 33, 57, 0.95)',  // Dark navy
                             titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
+                            bodyColor: '#e5e7eb',
                             padding: 12,
                             cornerRadius: 8,
                             displayColors: false,
+                            borderColor: 'rgba(59, 130, 246, 0.3)',
+                            borderWidth: 1,
                             callbacks: {
                                 title: function(context) {
                                     return context[0].label;
@@ -233,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                color: '#847a6f',
+                                color: '#9ca3af',           // Medium grey
                                 font: {
                                     size: 11
                                 },
@@ -248,13 +251,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             },
                             grid: {
                                 drawBorder: false,
-                                color: '#e5dfd5',
+                                color: 'rgba(59, 130, 246, 0.1)',  // Electric blue very subtle
                                 lineWidth: 1,
                             }
                         },
                         x: {
                             ticks: {
-                                color: '#847a6f',
+                                color: '#9ca3af',           // Medium grey
                                 font: {
                                     size: 11
                                 }
