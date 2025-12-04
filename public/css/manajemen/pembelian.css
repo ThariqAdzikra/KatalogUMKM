@@ -92,6 +92,57 @@
     margin-right: 0.5rem;
 }
 
+/* Table Dark Theme */
+.table-dark-theme {
+    color: #e5e7eb !important; /* Text color */
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background-color: transparent !important; /* Force transparent */
+    --bs-table-bg: transparent !important; /* Override Bootstrap var */
+}
+
+.table-dark-theme thead th {
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.2) 0%,
+        rgba(139, 92, 246, 0.2) 100%
+    ) !important;
+    color: white !important;
+    border: none !important;
+    padding: 1rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table-dark-theme tbody td {
+    padding: 1rem !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1) !important;
+    color: #e5e7eb !important;
+    vertical-align: middle;
+    background-color: transparent !important; /* Ensure transparent background */
+    box-shadow: none !important;
+}
+
+.table-dark-theme tbody tr {
+    background-color: transparent !important;
+}
+
+.table-dark-theme tbody tr:hover td {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: white !important;
+}
+
+/* Total Row */
+.table-row-total td {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    font-weight: bold;
+    border-top: 2px solid var(--primary-wood) !important;
+    color: white !important;
+}
+
 /* Alert */
 .alert-success {
     background: linear-gradient(135deg, #8a9b6e 0%, #6b7e4a 100%);
@@ -746,3 +797,78 @@ input.date-picker:focus {
 }
 
 /* Flatpickr Calendar Dark Theme Overrides REMOVED - Reverting to Light Theme */
+
+/* =================================
+   Purchase Detail View Dark Theme
+   ================================= */
+.text-highlight-large {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-wood);
+}
+
+.text-highlight-medium {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-wood);
+}
+
+.text-primary-wood {
+    color: var(--primary-wood);
+}
+
+/* Table Dark Theme */
+.table-dark-theme {
+    color: #e5e7eb !important; /* Text color */
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    background-color: transparent !important; /* Force transparent */
+    --bs-table-bg: transparent !important; /* Override Bootstrap var */
+}
+
+.table-dark-theme thead th {
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.2) 0%,
+        rgba(139, 92, 246, 0.2) 100%
+    ) !important;
+    color: white !important;
+    border: none !important;
+    padding: 1rem !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table-dark-theme tbody td {
+    padding: 1rem !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1) !important;
+    color: #e5e7eb !important;
+    vertical-align: middle;
+    background-color: transparent !important; /* Ensure transparent background */
+    box-shadow: none !important;
+}
+
+.table-dark-theme tbody tr {
+    background-color: transparent !important;
+}
+
+.table-dark-theme tbody tr:hover td {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    color: white !important;
+}
+
+/* Total Row */
+.table-row-total td {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    font-weight: bold;
+    border-top: 2px solid var(--primary-wood) !important;
+    color: white !important;
+}
+
+.text-total-price {
+    color: var(--primary-wood);
+    font-size: 1.25rem;
+}

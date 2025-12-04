@@ -109,52 +109,54 @@
                 </div>
 
                 {{-- Detail Barang (Full-Width) --}}
-                <div class="info-section info-section-fullwidth">
-                    <h3 class="section-title">
-                        <i class="bi bi-box-seam"></i>Detail Barang
-                    </h3>
+                <div class="detail-info-card mb-4">
+                    <div class="info-section mb-0">
+                        <h3 class="section-title">
+                            <i class="bi bi-box-seam"></i>Detail Barang
+                        </h3>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead style="background: linear-gradient(135deg, var(--primary-wood) 0%, var(--secondary-wood) 100%); color: white;">
-                                <tr>
-                                    <th style="border: none; padding: 1rem;">No</th>
-                                    <th style="border: none; padding: 1rem;">Nama Barang</th>
-                                    <th style="border: none; padding: 1rem;" class="text-center">Jumlah</th>
-                                    <th style="border: none; padding: 1rem;" class="text-end">Harga Satuan</th>
-                                    <th style="border: none; padding: 1rem;" class="text-end">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pembelian->detail as $i => $detail)
-                                <tr style="border-bottom: 1px solid #e0e0e0;">
-                                    <td style="padding: 1rem;">{{ $i + 1 }}</td>
-                                    <td style="padding: 1rem;">
-                                        <strong>{{ $detail->produk->nama_produk ?? '-' }}</strong>
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-center">
-                                        <span class="badge-merk show-page">{{ $detail->jumlah }} Unit</span>
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        Rp {{ number_format($detail->harga_satuan, 0, ',', '.') }}
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        <strong style="color: var(--primary-wood);">
-                                            Rp {{ number_format($detail->subtotal, 0, ',', '.') }}
-                                        </strong>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <tr style="background-color: #f8f9fa; font-weight: bold; border-top: 2px solid var(--primary-wood);">
-                                    <td colspan="4" style="padding: 1rem;" class="text-end">Total Keseluruhan:</td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        <span style="color: var(--primary-wood); font-size: 1.25rem;">
-                                            Rp {{ number_format($pembelian->total_harga, 0, ',', '.') }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-dark-theme">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-end">Harga Satuan</th>
+                                        <th class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pembelian->detail as $i => $detail)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>
+                                            <strong>{{ $detail->produk->nama_produk ?? '-' }}</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge-merk show-page">{{ $detail->jumlah }} Unit</span>
+                                        </td>
+                                        <td class="text-end">
+                                            Rp {{ number_format($detail->harga_satuan, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-end">
+                                            <strong class="text-primary-wood">
+                                                Rp {{ number_format($detail->subtotal, 0, ',', '.') }}
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    <tr class="table-row-total">
+                                        <td colspan="4" class="text-end">Total Keseluruhan:</td>
+                                        <td class="text-end">
+                                            <span class="text-total-price">
+                                                Rp {{ number_format($pembelian->total_harga, 0, ',', '.') }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
