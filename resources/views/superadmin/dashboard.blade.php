@@ -277,14 +277,14 @@
         </button>
 
         {{-- Chat Box --}}
-        <div id="ai-chat-box" class="card shadow-lg d-none" style="width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0;">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <div id="ai-chat-box" class="card shadow-lg d-none" style="width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0; display: flex; flex-direction: column;">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="flex-shrink: 0;">
                 <h6 class="mb-0"><i class="bi bi-stars me-2"></i>AI Assistant</h6>
                 <button id="ai-chat-close" class="btn btn-sm btn-link text-white p-0"><i class="bi bi-x-lg"></i></button>
             </div>
-            <div class="card-body d-flex flex-column p-0">
+            <div class="card-body p-0" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
                 {{-- Messages Area --}}
-                <div id="ai-chat-messages" class="flex-grow-1 p-3 overflow-auto" style="background-color: #f8f9fa;">
+                <div id="ai-chat-messages" class="p-3" style="flex: 1; overflow-y: auto; background-color: #f8f9fa; min-height: 0;">
                     <div class="d-flex flex-column gap-2">
                         {{-- Welcome Message --}}
                         <div class="align-self-start bg-white p-2 rounded shadow-sm" style="max-width: 80%;">
@@ -295,7 +295,7 @@
                 </div>
 
                 {{-- Input Area --}}
-                <div class="p-3 border-top bg-white">
+                <div class="p-3 border-top bg-white" style="flex-shrink: 0;">
                     <form id="ai-chat-form" class="d-flex gap-2">
                         <input type="text" id="ai-chat-input" class="form-control form-control-sm" placeholder="Ketik pesan..." required>
                         <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-send-fill"></i></button>

@@ -19,113 +19,101 @@ class AiAgentController extends Controller
             return response()->json(['reply' => 'Maaf, API Key belum dikonfigurasi. Silakan cek file .env Anda.']);
         }
 
-        // Definisi Tools/Functions untuk AI
-        $tools = [
-            [
-                'type' => 'function',
-                'function' => [
-                    'name' => 'get_sales_analytics',
-                    'description' => 'Mendapatkan data penjualan atau omset berdasarkan periode tertentu.',
-                    'parameters' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'period' => [
-                                'type' => 'string',
-                                'enum' => ['today', 'yesterday', 'this_week', 'last_week', 'this_month'],
-                                'description' => 'Periode waktu yang ditanyakan.'
-                            ],
-                            'metric' => [
-                                'type' => 'string',
-                                'enum' => ['revenue', 'count', 'best_seller'],
-                                'description' => 'Metrik yang ingin diketahui: revenue (omset), count (jumlah transaksi), atau best_seller (produk terlaris).'
-                            ]
-                        ],
-                        'required' => ['period', 'metric']
-                    ]
-                ]
-            ],
-            [
-                'type' => 'function',
-                'function' => [
-                    'name' => 'create_purchase_draft',
-                    'description' => 'Membuat draft pembelian (restock) untuk produk tertentu.',
-                    'parameters' => [
-                        'type' => 'object',
-                        'properties' => [
-                            'product_name' => [
-                                'type' => 'string',
-                                'description' => 'Nama produk yang ingin direstock.'
-                            ],
-                            'quantity' => [
-                                'type' => 'integer',
-                                'description' => 'Jumlah barang yang ingin dibeli (default: 10).',
-                                'default' => 10
-                            ]
-                        ],
-                        'required' => ['product_name']
-                    ]
-                ]
-            ]
-        ];
+        // Cek intent user (deteksi manual tanpa function calling)
+        $detectedAction = $this->detectUserIntent($userMessage);
 
+        if ($detectedAction['type'] === 'query_database') {
+            // Langsung execute query dan berikan data ke AI
+            $data = $this->fetchRelevantData($userMessage);
+            
+            $systemPrompt = "Anda adalah Asisten Manajer Toko. Berikut adalah data dari database:\n\n" . $data . "\n\nJawab pertanyaan user berdasarkan data ini dengan singkat dan jelas dalam Bahasa Indonesia.";
+            
+            try {
+                $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
+                    'model' => 'Claude Sonnet 4.5',
+                    'messages' => [
+                        ['role' => 'system', 'content' => $systemPrompt],
+                        ['role' => 'user', 'content' => $userMessage]
+                    ],
+                ]);
+
+                return response()->json(['reply' => $response->json('choices.0.message.content')]);
+            } catch (\Exception $e) {
+                return response()->json(['reply' => 'Maaf, terjadi kesalahan: ' . $e->getMessage()]);
+            }
+        }
+
+        // Untuk chat biasa tanpa query database
         try {
-            // 1. Kirim pesan user ke Kolosal AI (Claude)
             $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
                 'model' => 'Claude Sonnet 4.5',
                 'messages' => [
-                    ['role' => 'system', 'content' => 'Anda adalah Asisten Manajer Toko yang cerdas. Jawablah dengan singkat, padat, dan profesional dalam Bahasa Indonesia. Jika user meminta tindakan, gunakan function yang tersedia.'],
+                    ['role' => 'system', 'content' => 'Anda adalah Asisten Manajer Toko yang ramah. Jawab singkat dalam Bahasa Indonesia.'],
                     ['role' => 'user', 'content' => $userMessage]
                 ],
-                'tools' => $tools,
-                'tool_choice' => 'auto',
             ]);
 
-            $responseData = $response->json();
-            $message = $responseData['choices'][0]['message'];
-
-            // 2. Cek apakah AI ingin memanggil function
-            if (isset($message['tool_calls'])) {
-                $toolCall = $message['tool_calls'][0];
-                $functionName = $toolCall['function']['name'];
-                $arguments = json_decode($toolCall['function']['arguments'], true);
-
-                $functionResult = null;
-
-                // Eksekusi Function Lokal
-                if ($functionName === 'get_sales_analytics') {
-                    $functionResult = $this->getSalesAnalytics($arguments['period'], $arguments['metric']);
-                } elseif ($functionName === 'create_purchase_draft') {
-                    $qty = $arguments['quantity'] ?? 10;
-                    $functionResult = $this->createPurchaseDraft($arguments['product_name'], $qty);
-                }
-
-                // 3. Kirim hasil function kembali ke Kolosal AI untuk diformat jadi kalimat
-                $secondResponse = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
-                    'model' => 'Claude Sonnet 4.5',
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'Anda adalah Asisten Manajer Toko.'],
-                        ['role' => 'user', 'content' => $userMessage],
-                        $message, // Pesan assistant sebelumnya (tool_call)
-                        [
-                            'role' => 'tool',
-                            'tool_call_id' => $toolCall['id'],
-                            'content' => json_encode($functionResult)
-                        ]
-                    ]
-                ]);
-
-                return response()->json(['reply' => $secondResponse->json('choices.0.message.content')]);
-            }
-
-            // Jika tidak ada function call, kembalikan balasan biasa
-            return response()->json(['reply' => $message['content']]);
-
+            return response()->json(['reply' => $response->json('choices.0.message.content')]);
         } catch (\Exception $e) {
-            return response()->json(['reply' => 'Maaf, terjadi kesalahan pada sistem AI: ' . $e->getMessage()]);
+            return response()->json(['reply' => 'Maaf, terjadi kesalahan: ' . $e->getMessage()]);
         }
     }
 
-    // --- IMPLEMENTASI LOGIKA BISNIS ---
+    private function detectUserIntent($message)
+    {
+        $keywords = ['omset', 'penjualan', 'transaksi', 'produk terlaris', 'best seller', 'bulan', 'hari', 'minggu'];
+        
+        foreach ($keywords as $keyword) {
+            if (stripos($message, $keyword) !== false) {
+                return ['type' => 'query_database'];
+            }
+        }
+
+        return ['type' => 'general_chat'];
+    }
+
+    private function fetchRelevantData($message)
+    {
+        $now = Carbon::now();
+        $data = [];
+
+        // Omset hari ini
+        $todayRevenue = DB::table('penjualan')->whereDate('tanggal_penjualan', $now->today())->sum('total_harga');
+        $data[] = "📊 Omset Hari Ini: Rp " . number_format($todayRevenue, 0, ',', '.');
+
+        // Omset bulan ini
+        $monthRevenue = DB::table('penjualan')
+            ->whereMonth('tanggal_penjualan', $now->month)
+            ->whereYear('tanggal_penjualan', $now->year)
+            ->sum('total_harga');
+        $data[] = "📊 Omset Bulan Ini: Rp " . number_format($monthRevenue, 0, ',', '.');
+
+        // Omset bulan lalu
+        $lastMonth = $now->copy()->subMonth();
+        $lastMonthRevenue = DB::table('penjualan')
+            ->whereMonth('tanggal_penjualan', $lastMonth->month)
+            ->whereYear('tanggal_penjualan', $lastMonth->year)
+            ->sum('total_harga');
+        $data[] = "📊 Omset Bulan Lalu: Rp " . number_format($lastMonthRevenue, 0, ',', '.');
+
+        // Produk terlaris bulan ini
+        $bestSeller = DB::table('penjualan_detail')
+            ->join('penjualan', 'penjualan_detail.id_penjualan', '=', 'penjualan.id_penjualan')
+            ->join('produk', 'penjualan_detail.id_produk', '=', 'produk.id_produk')
+            ->select('produk.nama_produk', DB::raw('SUM(penjualan_detail.jumlah) as total'))
+            ->whereMonth('penjualan.tanggal_penjualan', $now->month)
+            ->groupBy('produk.nama_produk')
+            ->orderByDesc('total')
+            ->first();
+
+        if ($bestSeller) {
+            $data[] = "🏆 Produk Terlaris Bulan Ini: {$bestSeller->nama_produk} ({$bestSeller->total} unit terjual)";
+        }
+
+        return implode("\n", $data);
+    }
+
+    // --- IMPLEMENTASI LOGIKA BISNIS untuk restock (optional, jika diperlukan) ---
 
     private function getSalesAnalytics($period, $metric)
     {
