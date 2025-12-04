@@ -1,17 +1,17 @@
-$(function() {
+$(function () {
     // Ambil data yang di-pass dari file Blade
-    const scriptData = $('#pegawai-script-data');
-    const searchUrl = scriptData.data('search-url');
-    const csrfToken = scriptData.data('csrf-token');
-    
+    const scriptData = $("#pegawai-script-data");
+    const searchUrl = scriptData.data("search-url");
+    const csrfToken = scriptData.data("csrf-token");
+
     // Buat template URL untuk Edit dan Delete
     // Kita akan mengganti placeholder 'ID' dengan ID pegawai yang sebenarnya
-    const editUrlTemplate = scriptData.data('edit-url-template'); 
-    const deleteUrlTemplate = scriptData.data('delete-url-template');
+    const editUrlTemplate = scriptData.data("edit-url-template");
+    const deleteUrlTemplate = scriptData.data("delete-url-template");
 
-    const $tableBody = $('table tbody');
+    const $tableBody = $("table tbody");
     const $searchInput = $('input[name="search"]');
-    const $searchButton = $('.btn-search');
+    const $searchButton = $(".btn-search");
 
     // ========== SEARCH FUNCTION ==========
     function renderRows(data) {
@@ -30,16 +30,24 @@ $(function() {
 
         data.forEach((p, i) => {
             // Ganti placeholder 'ID' dengan ID pegawai
-            const editUrl = editUrlTemplate.replace('ID', p.id);
-            const deleteUrl = deleteUrlTemplate.replace('ID', p.id);
-            const formattedDate = p.created_at ? new Date(p.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-';
+            const editUrl = editUrlTemplate.replace("ID", p.id);
+            const deleteUrl = deleteUrlTemplate.replace("ID", p.id);
+            const formattedDate = p.created_at
+                ? new Date(p.created_at).toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                  })
+                : "-";
 
             $tableBody.append(`
                 <tr>
                     <td class="text-center">${i + 1}</td>
                     <td><strong>${p.name}</strong></td>
-                    <td>${p.email ?? '-'}</td>
-                    <td><span class="badge bg-secondary">${p.role ?? '-'}</span></td>
+                    <td>${p.email ?? "-"}</td>
+                    <td><span class="badge bg-secondary">${
+                        p.role ?? "-"
+                    }</span></td>
                     <td>
                         <div class="d-flex gap-2">
                             <button 
@@ -47,8 +55,8 @@ $(function() {
                                 data-bs-toggle="modal"
                                 data-bs-target="#detailModal"
                                 data-nama="${p.name}"
-                                data-email="${p.email ?? '-'}"
-                                data-role="${p.role ?? '-'}"
+                                data-email="${p.email ?? "-"}"
+                                data-role="${p.role ?? "-"}"
                                 data-tanggal="${formattedDate}"
                                 title="Lihat Detail">
                                 <i class="bi bi-eye"></i>
@@ -56,7 +64,9 @@ $(function() {
                             <a href="${editUrl}" class="btn-action btn-edit" title="Edit Pegawai">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form method="POST" action="${deleteUrl}" onsubmit="return confirm('Yakin hapus ${p.name}?')">
+                            <form method="POST" action="${deleteUrl}" onsubmit="return confirm('Yakin hapus ${
+                p.name
+            }?')">
                                 <input type="hidden" name="_token" value="${csrfToken}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="btn-action btn-delete" title="Hapus Pegawai">
@@ -72,57 +82,62 @@ $(function() {
 
     function searchPegawai() {
         const query = $searchInput.val().trim();
-        $searchButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-2"></i>Memuat...');
+        $searchButton
+            .prop("disabled", true)
+            .html('<i class="bi bi-hourglass-split me-2"></i>Memuat...');
 
         $.ajax({
             url: searchUrl, // Menggunakan URL dari data atribut
             type: "GET",
             data: { query },
-            success: function(response) {
+            success: function (response) {
                 renderRows(response);
             },
-            error: function() {
-                alert('Terjadi kesalahan saat memuat data pegawai.');
+            error: function () {
+                alert("Terjadi kesalahan saat memuat data pegawai.");
             },
-            complete: function() {
-                $searchButton.prop('disabled', false).html('<i class="bi bi-search me-2"></i>Cari');
-            }
+            complete: function () {
+                $searchButton
+                    .prop("disabled", false)
+                    .html('<i class="bi bi-search me-2"></i>Cari');
+            },
         });
     }
 
     // event untuk tombol & input search
     if ($searchInput.length > 0) {
-        $searchButton.on('click', searchPegawai);
-        
-        $searchInput.on('keydown', function(e) {
-            if (e.key === 'Enter') {
+        $searchButton.on("click", searchPegawai);
+
+        $searchInput.on("keydown", function (e) {
+            if (e.key === "Enter") {
                 e.preventDefault();
                 searchPegawai();
             }
         });
-        
+
         let typingTimer;
-        $searchInput.on('keyup', function() {
+        $searchInput.on("keyup", function () {
             clearTimeout(typingTimer);
             typingTimer = setTimeout(searchPegawai, 400);
         });
     }
 
     // ✅ EVENT MODAL (ini versi benar)
-    const detailModal = document.getElementById('detailModal');
+    const detailModal = document.getElementById("detailModal");
     if (detailModal) {
-        detailModal.addEventListener('show.bs.modal', function (event) {
+        detailModal.addEventListener("show.bs.modal", function (event) {
             const button = event.relatedTarget;
 
-            const nama = button.getAttribute('data-nama');
-            const email = button.getAttribute('data-email');
-            const role = button.getAttribute('data-role');
-            const tanggal = button.getAttribute('data-tanggal');
+            const nama = button.getAttribute("data-nama");
+            const email = button.getAttribute("data-email");
+            const role = button.getAttribute("data-role");
+            const tanggal = button.getAttribute("data-tanggal");
 
-            document.getElementById('modalNama').textContent = nama || '-';
-            document.getElementById('modalEmail').textContent = email || '-';
-            document.getElementById('modalRole').textContent = role || '-';
-            document.getElementById('modalTanggal').textContent = tanggal || '-';
+            document.getElementById("modalNama").textContent = nama || "-";
+            document.getElementById("modalEmail").textContent = email || "-";
+            document.getElementById("modalRole").textContent = role || "-";
+            document.getElementById("modalTanggal").textContent =
+                tanggal || "-";
         });
     }
 });

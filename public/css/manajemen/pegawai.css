@@ -1,0 +1,239 @@
+/* ==========================================================================
+   STYLE MANAJEMEN PEGAWAI (DARK THEME)
+   ========================================================================== */
+
+/* === SEARCH INPUT (FILTER CARD) === */
+.filter-card .form-control {
+    background-color: rgba(10, 14, 39, 0.6);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.filter-card .form-control:focus {
+    background-color: rgba(10, 14, 39, 0.8);
+    border-color: var(--primary-wood);
+    color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+.filter-card .form-control::placeholder {
+    color: rgba(156, 163, 175, 0.7);
+}
+
+/* === DETAIL MODAL (CUSTOMER INFO CARD) === */
+.customer-info-card {
+    background: rgba(30, 33, 57, 0.5);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    color: var(--primary-wood);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.info-header i {
+    font-size: 1.25rem;
+}
+
+.info-item {
+    margin-bottom: 1.25rem;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: 500;
+    padding-left: 0.5rem;
+}
+
+/* === ADD/EDIT FORM (FORM CARD) === */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-card {
+    background: rgba(30, 33, 57, 0.8);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 2.5rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.form-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    padding-bottom: 1.5rem;
+}
+
+.form-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    color: var(--text-medium);
+    font-size: 1rem;
+}
+
+.form-label {
+    color: #e5e7eb;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-label .required {
+    color: #ef4444;
+    margin-left: 0.25rem;
+}
+
+.form-card .form-control,
+.form-card .form-select {
+    background-color: rgba(10, 14, 39, 0.6) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #e5e7eb !important;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    background-color: rgba(10, 14, 39, 0.8) !important;
+    border-color: var(--primary-wood) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+}
+
+.form-card .form-select option {
+    background-color: #1e2139;
+    color: #ffffff;
+}
+
+/* Handle Browser Autofill */
+.form-card input:-webkit-autofill,
+.form-card input:-webkit-autofill:hover,
+.form-card input:-webkit-autofill:focus,
+.form-card input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(10, 14, 39, 0.6) inset !important;
+    -webkit-text-fill-color: #e5e7eb !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.form-card .form-control::placeholder {
+    color: rgba(229, 231, 235, 0.6) !important; /* Lighter placeholder */
+}
+
+/* Buttons */
+.btn-secondary-custom {
+    background-color: rgba(107, 114, 128, 0.2);
+    color: #e5e7eb;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-custom:hover {
+    background-color: rgba(107, 114, 128, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn-primary-custom {
+    background: linear-gradient(135deg, var(--primary-wood) 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    color: white;
+}
+
+/* === MODAL DETAIL PEGAWAI (DARK THEME) === */
+#detailModal .modal-content {
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    color: #e5e7eb;
+}
+
+#detailModal .modal-header {
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1.5rem;
+}
+
+#detailModal .modal-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+#detailModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+#detailModal .modal-body {
+    padding: 1.5rem;
+}
+
+#detailModal .modal-footer {
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1.25rem 1.5rem;
+    background-color: rgba(
+        30,
+        33,
+        57,
+        1
+    ) !important; /* Force solid dark background */
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    color: #e5e7eb; /* Ensure text is visible */
+}
+
+#detailModal .modal-footer .btn-secondary-modern {
+    background-color: rgba(107, 114, 128, 0.2);
+    color: #e5e7eb !important;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+#detailModal .modal-footer .btn-secondary-modern:hover {
+    background-color: rgba(107, 114, 128, 0.4);
+    color: #ffffff !important;
+}

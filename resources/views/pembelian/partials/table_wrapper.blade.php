@@ -5,7 +5,7 @@
     </h3>
   </div>
   <div class="table-responsive">
-    <table class="table table-custom">
+    <table class="table table-custom table-dark-theme">
       <thead>
         <tr>
           <th>No</th>

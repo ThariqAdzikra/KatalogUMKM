@@ -4,6 +4,7 @@
 
 @push('styles')
 <link rel="stylesheet" href="/css/manajemen/style.css">
+<link rel="stylesheet" href="/css/manajemen/pegawai.css">
 @endpush
 
 @section('content')

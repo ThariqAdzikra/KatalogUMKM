@@ -13,7 +13,11 @@
 
 /* Header Card */
 .header-card {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-main) 100%
+    );
     border-radius: 16px;
     padding: 2rem;
     margin-bottom: 2rem;
@@ -22,7 +26,11 @@
 }
 
 .header-card.edit-mode {
-    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-accent) 0%,
+        var(--primary-green-soft) 100%
+    );
 }
 
 .header-card h3 {
@@ -53,7 +61,11 @@
 
 /* Buttons - Add */
 .btn-add {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-main) 100%
+    );
     color: white;
     text-decoration: none;
     border: none;
@@ -65,7 +77,11 @@
 }
 
 .btn-add:hover {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-main) 100%
+    );
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     color: white;
@@ -143,12 +159,6 @@
     margin-right: 0.5rem;
 }
 
-
-
-
-
-
-
 .form-card {
     background: rgba(30, 33, 57, 0.8);
     backdrop-filter: blur(15px);
@@ -193,12 +203,22 @@
 .section-divider {
     border: none;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--primary-wood), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-wood),
+        transparent
+    );
     margin: 2rem 0;
 }
 
 .section-divider.edit-mode {
-    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-accent),
+        transparent
+    );
 }
 
 .section-title {
@@ -276,7 +296,11 @@
 }
 
 .btn-submit {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-main) 100%
+    );
     color: white;
     border: none;
     padding: 1rem 2.5rem;
@@ -289,7 +313,11 @@
 }
 
 .btn-submit.edit-mode {
-    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-accent) 0%,
+        var(--primary-green-soft) 100%
+    );
 }
 
 .btn-submit:hover {
@@ -327,7 +355,11 @@
 }
 
 .info-badge {
-    background: linear-gradient(135deg, var(--primary-highlight) 0%, #ffd966 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-highlight) 0%,
+        #ffd966 100%
+    );
     color: var(--primary-dark);
     padding: 0.75rem 1.25rem;
     border-radius: 10px;
@@ -342,7 +374,6 @@
 }
 
 @media (max-width: 768px) {
-
     .pembelian-container,
     .pembelian-container.form-view {
         padding: 1rem;
@@ -740,6 +771,25 @@
     color: var(--primary-wood) !important;
 }
 
+/* === Filter Card Inputs (Search & Date) === */
+.filter-card .form-control {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.filter-card .form-control:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.filter-card .form-control::placeholder {
+    color: rgba(229, 231, 235, 0.6) !important; /* Lighter placeholder */
+}
+
 /* =================================
    Flatpickr Dark Input & Filter Button
    ================================= */
@@ -794,6 +844,63 @@ input.date-picker:focus {
     width: 100%;
     background-color: transparent !important; /* Force transparent */
     --bs-table-bg: transparent !important; /* Override Bootstrap var */
+}
+
+/* =================================
+   Edit Form Dark Theme Inputs
+   ================================= */
+.form-card .form-control,
+.form-card .form-select {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.form-card .form-control::placeholder {
+    color: rgba(229, 231, 235, 0.6) !important;
+}
+
+.form-card .form-select option {
+    background-color: #1e2139;
+    color: #ffffff;
+}
+
+/* Input Group Icon (Rp) */
+.form-card .input-group-icon {
+    background-color: rgba(30, 33, 57, 0.8);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-right: none;
+    color: #e5e7eb;
+    padding: 0.75rem 1rem;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* Fix input group border radius when icon is present */
+.form-card .input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Handle Browser Autofill */
+.form-card input:-webkit-autofill,
+.form-card input:-webkit-autofill:hover,
+.form-card input:-webkit-autofill:focus,
+.form-card input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(10, 14, 39, 0.6) inset !important;
+    -webkit-text-fill-color: #e5e7eb !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .table-dark-theme thead th {
