@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
     {{-- Custom Dashboard CSS (Loaded last to override) --}}
     <link rel="stylesheet" href="/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/css/manajemen/style.css">
+    <link rel="stylesheet" href="/css/ai-chat.css">
 @endpush
 
 @section('content')
@@ -390,5 +392,6 @@
             });
         });
     </script>
+    <script src="/js/admin/ai-forecasting.js"></script>
     <script src="/js/admin/dashboard.js"></script>
 @endpush
