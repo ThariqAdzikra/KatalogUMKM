@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ROUTE PEMBELIAN
     // Resource Route untuk Index, Create, Show, Edit, Update, Destroy
+    Route::get('/pembelian/search/ajax', [PembelianController::class, 'index'])->name('pembelian.search.ajax');
     Route::resource('pembelian', PembelianController::class)->except(['store']);
     // Route POST untuk Store Header didefinisikan terpisah
     Route::post('pembelian', [PembelianController::class, 'storeHeader'])->name('pembelian.store');

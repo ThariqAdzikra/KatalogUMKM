@@ -719,3 +719,30 @@
 .filter-card .form-label i {
     color: var(--primary-wood) !important;
 }
+
+/* =================================
+   Flatpickr Dark Input & Filter Button
+   ================================= */
+.flatpickr-input,
+input.date-picker,
+input.date-picker.form-control,
+.flatpickr-input.form-control {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.flatpickr-input:focus,
+input.date-picker:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.flatpickr-input::placeholder {
+    color: rgba(156, 163, 175, 0.8) !important; /* text-gray-400 */
+}
+
+/* Flatpickr Calendar Dark Theme Overrides REMOVED - Reverting to Light Theme */
