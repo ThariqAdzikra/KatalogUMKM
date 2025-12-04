@@ -1371,3 +1371,72 @@ code {
     -webkit-text-fill-color: white !important;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+/* ========================================================== */
+/* === Dark Modal Styles (Detail Pegawai) === */
+/* ========================================================== */
+.modal-dark {
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #e5e7eb;
+}
+
+.modal-profile-header {
+    background: linear-gradient(
+        180deg,
+        rgba(30, 33, 57, 0.8) 0%,
+        rgba(30, 33, 57, 0) 100%
+    );
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: rgba(59, 130, 246, 0.15);
+    border: 2px solid var(--primary-wood);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary-wood);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.info-group {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.bg-dark-soft {
+    background: rgba(20, 23, 45, 0.5) !important;
+}
