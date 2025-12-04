@@ -392,164 +392,103 @@ document.addEventListener('DOMContentLoaded', () => {
                 forecastLoading.classList.add('d-none');
                 btnForecast.disabled = false;
             }
-        });
-    }
+            // 4. [BARU] Logika Chat Widget
+            const chatToggle = document.getElementById('ai-chat-toggle');
+            const chatBox = document.getElementById('ai-chat-box');
+            const chatClose = document.getElementById('ai-chat-close');
+            const chatForm = document.getElementById('ai-chat-form');
+            const chatInput = document.getElementById('ai-chat-input');
+            const chatMessages = document.getElementById('ai-chat-messages');
 
-    // ========================================
-    // 4. [NEW] AI Chat Widget - WhatsApp Style
-    // ========================================
-    const chatToggle = document.getElementById('ai-chat-toggle');
-    const chatBox = document.getElementById('ai-chat-box');
-    const chatClose = document.getElementById('ai-chat-close');
-    const chatMaximize = document.getElementById('ai-chat-maximize');
-    const maximizeIcon = document.getElementById('maximize-icon');
-    const chatBackdrop = document.getElementById('ai-chat-backdrop');
-    const chatForm = document.getElementById('ai-chat-form');
-    const chatInput = document.getElementById('ai-chat-input');
-    const chatMessages = document.getElementById('ai-chat-messages');
+            if (chatToggle && chatBox) {
+                // Toggle Chat Box
+                const toggleChat = () => {
+                    chatBox.classList.toggle('d-none');
+                    if (!chatBox.classList.contains('d-none')) {
+                        chatInput.focus();
+                    }
+                };
 
-    let isMaximized = false;
+                chatToggle.addEventListener('click', toggleChat);
+                chatClose.addEventListener('click', toggleChat);
 
-    if (chatToggle && chatBox) {
-        // Toggle Chat Box Open/Close
-        const toggleChat = () => {
-            const isHidden = chatBox.classList.contains('d-none');
-            chatBox.classList.toggle('d-none');
-            if (isHidden) {
-                chatToggle.classList.add('active');
-                chatInput.focus();
-            } else {
-                chatToggle.classList.remove('active');
-                // Close also minimizes if maximized
-                if (isMaximized) {
-                    minimizeChat();
-                }
-            }
-        };
+                // Helper: Add Message to UI
+                const addMessage = (text, sender) => {
+                    const isUser = sender === 'user';
+                    const align = isUser ? 'align-self-end bg-primary text-white' : 'align-self-start bg-white text-dark';
+                    const name = isUser ? 'Anda' : 'AI Assistant';
 
-        // Maximize/Minimize Chat
-        const toggleMaximize = () => {
-            isMaximized = !isMaximized;
-            if (isMaximized) {
-                chatBox.classList.add('maximized');
-                chatBackdrop.classList.add('active');
-                maximizeIcon.className = 'bi bi-arrows-angle-contract';
-            } else {
-                chatBox.classList.remove('maximized');
-                chatBackdrop.classList.remove('active');
-                maximizeIcon.className = 'bi bi-arrows-fullscreen';
-            }
-        };
-
-        const minimizeChat = () => {
-            if (isMaximized) {
-                isMaximized = false;
-                chatBox.classList.remove('maximized');
-                chatBackdrop.classList.remove('active');
-                maximizeIcon.className = 'bi bi-arrows-fullscreen';
-            }
-        };
-
-        // Event Listeners
-        chatToggle.addEventListener('click', toggleChat);
-        chatClose.addEventListener('click', toggleChat);
-        chatMaximize.addEventListener('click', toggleMaximize);
-        chatBackdrop.addEventListener('click', minimizeChat);
-
-        // Helper: Get current time
-        const getCurrentTime = () => {
-            const now = new Date();
-            return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-        };
-
-        // Helper: Add Message to UI (WhatsApp Style)
-        const addMessage = (text, sender) => {
-            const isUser = sender === 'user';
-            const bubbleClass = isUser ? 'chat-bubble-user' : 'chat-bubble-ai';
-            const senderName = isUser ? 'Anda' : 'AI Assistant';
-            const senderIcon = isUser ? 'person-circle' : 'robot';
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-bubble ${bubbleClass}`;
-            messageDiv.innerHTML = `
-                        <div class="chat-bubble-meta">
-                            <i class="bi bi-${senderIcon}"></i>
-                            <span>${senderName}</span>
-                        </div>
-                        <div class="chat-bubble-text">${text}</div>
-                        <div class="chat-bubble-time">${getCurrentTime()}</div>
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `${align} p-2 rounded shadow-sm`;
+                    messageDiv.style.maxWidth = '80%';
+                    messageDiv.innerHTML = `
+                        <small class="${isUser ? 'text-white-50' : 'text-muted'} d-block mb-1" style="font-size: 0.7rem;">${name}</small>
+                        ${text}
                     `;
 
-            chatMessages.appendChild(messageDiv);
+                    // Append to the flex-column container, not the scroll container
+                    const messageContainer = chatMessages.querySelector('.d-flex.flex-column');
+                    messageContainer.appendChild(messageDiv);
 
-            // Auto-scroll to bottom with smooth animation
-            setTimeout(() => {
-                chatMessages.scrollTo({
-                    top: chatMessages.scrollHeight,
-                    behavior: 'smooth'
+                    // Auto-scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                };
+
+                // Handle Submit
+                chatForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const message = chatInput.value.trim();
+                    if (!message) return;
+
+                    // Tampilkan pesan user
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    chatInput.disabled = true;
+
+                    // Tampilkan loading indicator
+                    const loadingId = 'chat-loading-' + Date.now();
+                    const loadingHtml = `
+                <div id="${loadingId}" class="align-self-start bg-white p-2 rounded shadow-sm" style="max-width: 80%;">
+                    <div class="spinner-dots">
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem;"></span>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem; animation-delay: 0.2s;"></span>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem; animation-delay: 0.4s;"></span>
+                    </div>
+                </div>
+            `;
+                    chatMessages.insertAdjacentHTML('beforeend', loadingHtml);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                    try {
+                        // Kirim ke Server
+                        const response = await fetch('/superadmin/ai/chat', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ message })
+                        });
+
+                        const data = await response.json();
+
+                        // Hapus loading
+                        document.getElementById(loadingId).remove();
+
+                        // Tampilkan balasan AI
+                        addMessage(data.reply, 'ai');
+
+                    } catch (error) {
+                        console.error('Chat Error:', error);
+                        document.getElementById(loadingId).remove();
+                        addMessage('Maaf, terjadi kesalahan koneksi.', 'ai');
+                    } finally {
+                        chatInput.disabled = false;
+                        chatInput.focus();
+                    }
                 });
-            }, 100);
-        };
-
-        // Helper: Show typing indicator
-        const showTypingIndicator = () => {
-            const typingId = 'typing-indicator';
-            const typingDiv = document.createElement('div');
-            typingDiv.id = typingId;
-            typingDiv.className = 'chat-bubble chat-bubble-ai';
-            typingDiv.innerHTML = `
-                        <div class="typing-indicator">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    `;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return typingId;
-        };
-
-        // Handle Submit
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            // Display user message
-            addMessage(message, 'user');
-            chatInput.value = '';
-            chatInput.disabled = true;
-
-            // Show typing indicator
-            const typingId = showTypingIndicator();
-
-            try {
-                // Send to server
-                const response = await fetch('/superadmin/ai/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ message })
-                });
-
-                const data = await response.json();
-
-                // Remove typing indicator
-                document.getElementById(typingId)?.remove();
-
-                // Display AI reply
-                addMessage(data.reply, 'ai');
-
-            } catch (error) {
-                console.error('Chat Error:', error);
-                document.getElementById(typingId)?.remove();
-                addMessage('❌ Maaf, terjadi kesalahan koneksi. Silakan coba lagi.', 'ai');
-            } finally {
-                chatInput.disabled = false;
-                chatInput.focus();
             }
+
         });
     }
 

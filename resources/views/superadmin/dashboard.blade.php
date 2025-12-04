@@ -1,3 +1,4 @@
+```
 @extends('layouts.app')
 
 @push('styles')
@@ -177,17 +178,44 @@
     {{-- ========================================================== --}}
     <div class="row g-3 mb-4">
         <div class="col-12">
-            <div class="card theme-card">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h5 class="fw-bold mb-1"><i class="bi bi-stars text-warning me-2"></i>AI Forecasting & Restock</h5>
-                            <small class="text-gray">Prediksi cerdas berbasis data historis</small>
+                            <h3 class="table-title mb-1">
+                                <i class="bi bi-stars text-warning me-2"></i>AI Forecasting & Restock
+                            </h3>
+                            <small class="text-muted d-block mt-1" style="font-size: 0.85rem;">Prediksi cerdas berbasis data historis</small>
                         </div>
-                        <button id="btn-generate-forecast" class="btn btn-sm btn-primary">
+                        <button id="btn-generate-forecast" class="btn btn-outline-info">
                             <i class="bi bi-cpu me-1"></i> Analisa Sekarang
                         </button>
                     </div>
+                                    
+                    {{-- Filter & Info Row --}}
+                    <div id="forecast-filter-row" class="d-none mt-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-4">
+                                <label class="form-label text-muted mb-1" style="font-size: 0.85rem;">
+                                    <i class="bi bi-funnel me-1"></i>Filter Rekomendasi
+                                </label>
+                                <select id="forecast-filter" class="form-select">
+                                    <option value="all">Semua</option>
+                                    <option value="aman">Aman</option>
+                                    <option value="warning">Waspada</option>
+                                    <option value="danger">Perlu Restock</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 text-end">
+                                <small class="text-muted" id="forecast-info">
+                                    <i class="bi bi-info-circle me-1"></i>Menampilkan <span id="showing-count">0</span> dari <span id="total-count">0</span> produk
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4">
 
                     <div id="forecast-loading" class="text-center py-5 d-none">
                         <div class="spinner-border text-primary" role="status">
@@ -199,24 +227,39 @@
                     <div id="forecast-error" class="alert alert-danger d-none"></div>
 
                     <div id="forecast-results" class="table-responsive d-none">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <th>Produk</th>
-                                    <th class="text-center">Prediksi Bulan Depan</th>
-                                    <th>Rekomendasi AI</th>
-                                    <th class="text-center">Status</th>
+                                    <th style="width: 60px;">NO</th>
+                                    <th>PRODUK</th>
+                                    <th class="text-center">PREDIKSI BULAN DEPAN</th>
+                                    <th>REKOMENDASI AI</th>
+                                    
+                                                                    <th class="text-center" style="width: 120px;">STATUS</th>
                                 </tr>
                             </thead>
                             <tbody id="forecast-table-body">
                                 {{-- Data akan diisi oleh JS --}}
                             </tbody>
                         </table>
+                    </div>                    
+                    {{-- Pagination Controls --}}
+                    <div id="forecast-pagination" class="d-none mt-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted">Halaman <span id="current-page">1</span> dari <span id="total-pages">1</span></small>
+                            </div>
+                            <div class="pagination-container">
+                                <ul class="pagination mb-0" id="pagination-controls">
+                                    {{-- Generated by JS --}}
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div id="forecast-empty" class="text-center py-4 text-gray">
-                        <i class="bi bi-bar-chart-line display-6 d-block mb-2"></i>
-                        Klik tombol "Analisa Sekarang" untuk melihat prediksi.
+                    <div id="forecast-empty" class="text-center py-5">
+                        <i class="bi bi-bar-chart-line display-6 d-block mb-3 opacity-50" style="color: rgba(59, 130, 246, 0.5);"></i>
+                        <p class="mb-0" style="color: #9ca3af;">Klik tombol "Analisa Sekarang" untuk melihat prediksi.</p>
                     </div>
                 </div>
             </div>
@@ -271,40 +314,59 @@
             </div>
         </div>
     </div>
+    
     {{-- ========================================================== --}}
     {{-- [BARU] Floating Chat Widget --}}
     {{-- ========================================================== --}}
     <div id="ai-chat-widget" class="position-fixed bottom-0 end-0 m-4" style="z-index: 1050;">
-        {{-- Chat Button --}}
-        <button id="ai-chat-toggle" class="btn btn-primary rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+        {{-- Chat Toggle Button - Cyan to match Analisa Sekarang --}}
+        <button id="ai-chat-toggle" class="btn btn-outline-info rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
             <i class="bi bi-robot fs-3"></i>
         </button>
 
-        {{-- Chat Box --}}
-        <div id="ai-chat-box" class="card shadow-lg d-none" style="width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0; display: flex; flex-direction: column;">
-            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center" style="flex-shrink: 0;">
-                <h6 class="mb-0"><i class="bi bi-stars me-2"></i>AI Assistant</h6>
-                <button id="ai-chat-close" class="btn btn-sm btn-link text-white p-0"><i class="bi bi-x-lg"></i></button>
+        {{-- Backdrop Overlay for Maximized View --}}
+        <div id="ai-chat-backdrop" class="ai-chat-backdrop"></div>
+
+        {{-- Chat Box - WhatsApp Style --}}
+        <div id="ai-chat-box" class="d-none">
+            {{-- Header --}}
+            <div class="ai-chat-header">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-robot fs-5"></i>
+                    <h6><i class="bi bi-stars me-2"></i>AI Assistant</h6>
+                </div>
+                <div class="ai-chat-header-actions">
+                    <button id="ai-chat-maximize" title="Maximize/Minimize">
+                        <i class="bi bi-arrows-fullscreen" id="maximize-icon"></i>
+                    </button>
+                    <button id="ai-chat-close" title="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
             </div>
-            <div class="card-body p-0" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
-                {{-- Messages Area --}}
-                <div id="ai-chat-messages" class="p-3" style="flex: 1; overflow-y: auto; background-color: #f8f9fa; min-height: 0;">
-                    <div class="d-flex flex-column gap-2">
-                        {{-- Welcome Message --}}
-                        <div class="align-self-start bg-white p-2 rounded shadow-sm" style="max-width: 80%;">
-                            <small class="text-muted d-block mb-1" style="font-size: 0.7rem;">AI Assistant</small>
-                            Halo! Saya bisa bantu cek omset, produk terlaris, atau buatkan draft restock. Mau tanya apa?
-                        </div>
+
+            {{-- Messages Area --}}
+            <div id="ai-chat-messages">
+                {{-- Welcome Message --}}
+                <div class="chat-bubble chat-bubble-ai">
+                    <div class="chat-bubble-meta">
+                        <i class="bi bi-robot"></i>
+                        <span>AI Assistant</span>
+                    </div>
+                    <div class="chat-bubble-text">
+                        👋 Halo! Saya bisa bantu cek omset, produk terlaris, atau buatkan draft restock. Mau tanya apa?
                     </div>
                 </div>
+            </div>
 
-                {{-- Input Area --}}
-                <div class="p-3 border-top bg-white" style="flex-shrink: 0;">
-                    <form id="ai-chat-form" class="d-flex gap-2">
-                        <input type="text" id="ai-chat-input" class="form-control form-control-sm" placeholder="Ketik pesan..." required>
-                        <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-send-fill"></i></button>
-                    </form>
-                </div>
+            {{-- Input Area --}}
+            <div class="ai-chat-input-area">
+                <form id="ai-chat-form">
+                    <input type="text" id="ai-chat-input" placeholder="Ketik pesan..." required autocomplete="off">
+                    <button type="submit" title="Send">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
