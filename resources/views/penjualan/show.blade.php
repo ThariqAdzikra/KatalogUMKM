@@ -5,6 +5,7 @@
 @push('styles')
 {{-- Gunakan CSS yang sama dengan detail produk --}}
 <link rel="stylesheet" href="/css/detail_produk/style.css">
+<link rel="stylesheet" href="/css/manajemen/penjualan.css">
 @endpush
 
 @section('content')
@@ -96,7 +97,7 @@
                                 <div class="info-row">
                                     <div class="info-label">Total Item</div>
                                     <div class="info-value">
-                                        <span style="font-size: 2rem; font-weight: 700; color: var(--primary-wood);">
+                                        <span class="text-highlight-large">
                                             {{ $penjualan->detail->count() }}
                                         </span>
                                         <span class="text-muted">Jenis Barang</span>
@@ -106,7 +107,7 @@
                                 <div class="info-row">
                                     <div class="info-label">Total Jumlah</div>
                                     <div class="info-value">
-                                        <span style="font-size: 1.5rem; font-weight: 600; color: var(--primary-wood);">
+                                        <span class="text-highlight-medium">
                                             {{ $penjualan->detail->sum('jumlah') }}
                                         </span>
                                         <span class="text-muted">Unit</span>
@@ -116,7 +117,7 @@
                                 <div class="info-row">
                                     <div class="info-label">Total Harga</div>
                                     <div class="info-value">
-                                        <span class="price-highlight" style="color: var(--primary-wood); font-size: 1.75rem;">
+                                        <span class="price-highlight">
                                             Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}
                                         </span>
                                     </div>
@@ -128,59 +129,61 @@
                 </div>
 
                 {{-- Detail Barang (Full-Width) --}}
-                <div class="info-section info-section-fullwidth">
-                    <h3 class="section-title">
-                        <i class="bi bi-bag-check"></i>Produk yang Terjual
-                    </h3>
+                <div class="detail-info-card mb-4">
+                    <div class="info-section mb-0">
+                        <h3 class="section-title">
+                            <i class="bi bi-bag-check"></i>Produk yang Terjual
+                        </h3>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead style="background: linear-gradient(135deg, var(--primary-wood) 0%, var(--secondary-wood) 100%); color: white;">
-                                <tr>
-                                    <th style="border: none; padding: 1rem;">No</th>
-                                    <th style="border: none; padding: 1rem;">Nama Produk</th>
-                                    <th style="border: none; padding: 1rem;" class="text-center">Jumlah</th>
-                                    <th style="border: none; padding: 1rem;" class="text-end">Harga Satuan</th>
-                                    <th style="border: none; padding: 1rem;" class="text-end">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($penjualan->detail as $i => $d)
-                                <tr style="border-bottom: 1px solid #e0e0e0;">
-                                    <td style="padding: 1rem;">{{ $i + 1 }}</td>
-                                    <td style="padding: 1rem;">
-                                        <strong>{{ $d->produk->nama_produk ?? '-' }}</strong>
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-center">
-                                        <span class="badge-merk show-page">{{ $d->jumlah }} Unit</span>
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        Rp {{ number_format($d->harga_satuan, 0, ',', '.') }}
-                                    </td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        <strong style="color: var(--primary-wood);">
-                                            Rp {{ number_format($d->subtotal, 0, ',', '.') }}
-                                        </strong>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        <i class="bi bi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
-                                        <p class="mt-2 mb-0">Tidak ada data produk untuk penjualan ini.</p>
-                                    </td>
-                                </tr>
-                                @endforelse
-                                <tr style="background-color: #f8f9fa; font-weight: bold; border-top: 2px solid var(--primary-wood);">
-                                    <td colspan="4" style="padding: 1rem;" class="text-end">Total Keseluruhan:</td>
-                                    <td style="padding: 1rem;" class="text-end">
-                                        <span style="color: var(--primary-wood); font-size: 1.25rem;">
-                                            Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-dark-theme">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Produk</th>
+                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-end">Harga Satuan</th>
+                                        <th class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($penjualan->detail as $i => $d)
+                                    <tr>
+                                        <td>{{ $i + 1 }}</td>
+                                        <td>
+                                            <strong>{{ $d->produk->nama_produk ?? '-' }}</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge-merk show-page">{{ $d->jumlah }} Unit</span>
+                                        </td>
+                                        <td class="text-end">
+                                            Rp {{ number_format($d->harga_satuan, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-end">
+                                            <strong class="text-primary-wood">
+                                                Rp {{ number_format($d->subtotal, 0, ',', '.') }}
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">
+                                            <i class="bi bi-inbox" style="font-size: 3rem; opacity: 0.3;"></i>
+                                            <p class="mt-2 mb-0">Tidak ada data produk untuk penjualan ini.</p>
+                                        </td>
+                                    </tr>
+                                    @endforelse
+                                    <tr class="table-row-total">
+                                        <td colspan="4" class="text-end">Total Keseluruhan:</td>
+                                        <td class="text-end">
+                                            <span class="text-total-price">
+                                                Rp {{ number_format($penjualan->total_harga, 0, ',', '.') }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
