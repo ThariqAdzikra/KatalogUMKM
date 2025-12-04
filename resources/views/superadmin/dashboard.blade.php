@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/manajemen/style.css">
     <link rel="stylesheet" href="/css/ai-chat.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 @endpush
 
 @section('content')
@@ -374,5 +373,20 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/js/admin/dashboard.js"></script>`n    <script src="/js/admin/ai-forecasting.js"></script>
+    {{-- Flatpickr JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr(".date-picker", {
+                dateFormat: "Y-m-d",
+                locale: "id",
+                allowInput: true,
+                altInput: true,
+                altFormat: "j F Y",
+            });
+        });
+    </script>
+    <script src="/js/admin/ai-forecasting.js"></script>
+    <script src="/js/admin/dashboard.js"></script>
 @endpush
