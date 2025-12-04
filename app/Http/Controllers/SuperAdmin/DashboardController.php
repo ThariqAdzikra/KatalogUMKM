@@ -133,8 +133,8 @@ class DashboardController extends Controller
             $dataSummary[$data->nama_produk]['history'][] = "$data->bulan: $data->total_qty terjual";
         }
 
-        // Batasi hanya 10 produk teratas yang ada penjualannya untuk menghemat token
-        $dataSummary = array_slice($dataSummary, 0, 10);
+        // Batasi hanya 20 produk teratas yang ada penjualannya untuk keseimbangan performance & data
+        $dataSummary = array_slice($dataSummary, 0, 20);
 
         if (empty($dataSummary)) {
             return response()->json(['error' => 'Belum ada data penjualan yang cukup untuk analisis AI.']);
