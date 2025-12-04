@@ -343,3 +343,29 @@
     color: var(--primary-wood);
     font-size: 1.25rem;
 }
+
+/* === Filter Card Inputs (Search & Date) === */
+.filter-card .form-control,
+.filter-card .form-select {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.filter-card .form-control:focus,
+.filter-card .form-select:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.filter-card .form-control::placeholder {
+    color: rgba(229, 231, 235, 0.6) !important; /* Lighter placeholder */
+}
+
+.filter-card .form-select option {
+    background-color: #1e2139;
+    color: #ffffff;
+}

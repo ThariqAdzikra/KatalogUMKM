@@ -183,3 +183,57 @@
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     color: white;
 }
+
+/* === MODAL DETAIL PEGAWAI (DARK THEME) === */
+#detailModal .modal-content {
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    color: #e5e7eb;
+}
+
+#detailModal .modal-header {
+    border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1.5rem;
+}
+
+#detailModal .modal-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+#detailModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+#detailModal .modal-body {
+    padding: 1.5rem;
+}
+
+#detailModal .modal-footer {
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1.25rem 1.5rem;
+    background-color: rgba(
+        30,
+        33,
+        57,
+        1
+    ) !important; /* Force solid dark background */
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    color: #e5e7eb; /* Ensure text is visible */
+}
+
+#detailModal .modal-footer .btn-secondary-modern {
+    background-color: rgba(107, 114, 128, 0.2);
+    color: #e5e7eb !important;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+#detailModal .modal-footer .btn-secondary-modern:hover {
+    background-color: rgba(107, 114, 128, 0.4);
+    color: #ffffff !important;
+}
