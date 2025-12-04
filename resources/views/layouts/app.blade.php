@@ -19,6 +19,7 @@
 
     {{-- CSS Global Dimuat dari file eksternal (public/css/app.css) --}}
     <link rel="stylesheet" href="/css/layouts/app.css">
+    <link rel="stylesheet" href="/css/global-premium.css">
     
     {{-- Stack untuk CSS spesifik per halaman --}}
     @stack('styles')
@@ -71,6 +72,27 @@
         .navbar-glass .nav-link:hover::after {
             width: 100%;
         }
+
+        /* Premium Login Button - Matches .btn-detail */
+        .btn-login-premium {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            color: white !important;
+            padding: 0.6rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-login-premium:hover {
+            /* Lighter cyan - contrasting color change only */
+            background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+            color: white !important;
+        }
     </style>
 </head>
 <body>
@@ -86,18 +108,9 @@
                 <i class="bi bi-list text-white fs-2"></i>
             </button>
             <div class="collapse navbar-collapse" id="guestNavbar">
-                <ul class="navbar-nav ms-auto align-items-center gap-3">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('home') }}" style="font-weight: 500;">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('katalog.index') }}" style="font-weight: 500;">Katalog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('about') }}" style="font-weight: 500;">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item ms-lg-2">
-                        <a href="{{ route('login') }}" class="btn btn-primary px-4 py-2 rounded-pill btn-login-nav">
+                        <a href="{{ route('login') }}" class="btn-login-premium">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Login
                         </a>
                     </li>
@@ -114,7 +127,7 @@
         <div class="sidebar-logo">
             <a href="{{ Auth::user()->role == 'superadmin' ? route('dashboard') : route('home') }}" 
                class="d-flex align-items-center text-decoration-none">
-                <span class="sidebar-logo-text">UMKM</span>
+                <span class="sidebar-logo-text">{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}</span>
             </a>
             <button class="sidebar-toggle" id="sidebarToggle">
                 <i class="bi bi-list"></i>
