@@ -30,6 +30,32 @@
     </div>
 </div>
 
+{{-- Carousel Section --}}
+<div class="container" style="margin-top: -3rem; margin-bottom: 6rem; position: relative; z-index: 5;">
+    <div id="promoCarousel" class="carousel slide rounded-4 overflow-hidden shadow-lg border border-primary border-opacity-25" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ asset('images/background.jpeg') }}" class="d-block w-100" alt="Promo Laptop" style="height: 400px; object-fit: cover;">
+                <div class="carousel-caption d-none d-md-block p-4 rounded-3" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
+                    <h3 class="fw-bold text-white">Promo Spesial Bulan Ini</h3>
+                    <p class="lead text-light">Dapatkan penawaran terbaik untuk laptop gaming dan profesional.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
 {{-- Filter Section with Cozy Design --}}
 <div class="container">
     <div class="filter-section" id="katalog">

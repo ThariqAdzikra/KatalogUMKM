@@ -137,10 +137,19 @@ $(document).ready(function () {
         `;
       }
 
-      // Stock badge (optional, can be hidden via CSS)
+      // Stock badge
       const stockBadge = product.stok > 0
         ? `<span class="badge bg-success bg-opacity-25 text-success position-absolute top-0 end-0 m-2" style="font-size: 0.7rem;">Stok: ${product.stok}</span>`
         : `<span class="badge bg-danger bg-opacity-25 text-danger position-absolute top-0 end-0 m-2" style="font-size: 0.7rem;">Habis</span>`;
+
+      // Category badge
+      const categoryName = product.kategori ? product.kategori.nama_kategori : '';
+      const categoryBadge = categoryName
+        ? `<span class="product-category"><i class="bi bi-tag"></i> ${categoryName}</span>`
+        : '';
+
+      // Stock info
+      const stockInfo = `<span class="product-stock"><i class="bi bi-box-seam"></i> ${product.stok > 0 ? product.stok + ' unit' : 'Habis'}</span>`;
 
       // Product card HTML
       const cardHtml = `
@@ -151,6 +160,10 @@ $(document).ready(function () {
           <div class="product-info">
             <div class="product-title" title="${product.nama_produk}">
               ${product.nama_produk}
+            </div>
+            <div class="product-meta">
+              ${categoryBadge}
+              ${stockInfo}
             </div>
             <div class="product-price">${formatRupiah(product.harga_jual)}</div>
           </div>
@@ -178,8 +191,12 @@ $(document).ready(function () {
         </div>
       `);
       updateTotals(0);
+      $('#cart-summary').addClass('d-none');
       return;
     }
+
+    // Show summary if items exist
+    $('#cart-summary').removeClass('d-none');
 
     // Render cart items
     cart.forEach((item, index) => {
@@ -200,9 +217,6 @@ $(document).ready(function () {
             <button class="btn-qty" onclick="updateQty(${index}, 1)" title="Tambah">
               <i class="bi bi-plus"></i>
             </button>
-            <button class="btn-remove" onclick="removeFromCart(${index})" title="Hapus">
-              <i class="bi bi-trash"></i>
-            </button>
           </div>
         </div>
       `;
@@ -211,6 +225,18 @@ $(document).ready(function () {
 
     updateTotals(subtotal);
   }
+
+  // Summary Toggle Logic
+  $('#cart-summary-toggle').click(function () {
+    const $summary = $('#cart-summary');
+    $summary.toggleClass('collapsed');
+
+    if ($summary.hasClass('collapsed')) {
+      $(this).attr('title', 'Tampilkan detail pembayaran');
+    } else {
+      $(this).attr('title', 'Sembunyikan detail pembayaran');
+    }
+  });
 
   /**
    * Update total display
@@ -269,34 +295,38 @@ $(document).ready(function () {
    * Update item quantity
    */
   window.updateQty = function (index, change) {
+    if (index < 0 || index >= cart.length) return;
+
     const item = cart[index];
+    const product = products.find(p => p.id_produk == item.id);
+
+    // Calculate new quantity
     const newQty = item.qty + change;
 
-    if (newQty > item.maxStock) {
-      showToast('Stok tidak mencukupi!', 'warning');
-      return;
-    }
-
+    // If quantity would go to 0 or below, remove the item
     if (newQty <= 0) {
-      // Don't allow zero, use remove button instead
+      removeFromCart(index);
       return;
     }
 
+    // Check stock limit when increasing
+    if (change > 0 && product && newQty > product.stok) {
+      showToast('Stok tidak cukup!', 'warning');
+      return;
+    }
+
+    // Update quantity
     item.qty = newQty;
     renderCart();
+    showToast('Jumlah diperbarui', 'success');
   };
-
-  /**
-   * Remove item from cart
-   */
   window.removeFromCart = function (index) {
     const item = cart[index];
 
-    if (confirm(`Hapus ${item.name} dari keranjang?`)) {
-      cart.splice(index, 1);
-      renderCart();
-      showToast('Produk dihapus dari keranjang', 'info');
-    }
+    // Remove item if quantity is 0 or less
+    cart.splice(index, 1);
+    renderCart();
+    showToast('Produk dihapus dari keranjang', 'info');
   };
 
   // =====================================================
@@ -337,26 +367,70 @@ $(document).ready(function () {
   /**
    * Initialize Select2 for customer selection
    */
+  // Initialize Select2 for Customer Selection with AJAX
+  // Initialize Select2 for Customer Selection with AJAX
   $pelangganSelect.select2({
     theme: 'bootstrap-5',
     placeholder: '-- Cari atau Ketik Nama Pelanggan --',
-    tags: true,
-    createTag: params => {
+    allowClear: true,
+    minimumInputLength: 0,
+    tags: true, // Allow typing new names
+    ajax: {
+      url: '/api/pelanggan/search',
+      dataType: 'json',
+      delay: 250,
+      data: function (params) {
+        return {
+          search: params.term || '',
+          page: params.page || 1
+        };
+      },
+      processResults: function (data) {
+        return {
+          results: data.data.map(function (customer) {
+            return {
+              id: String(customer.id_pelanggan), // Force string ID
+              text: customer.nama_pelanggan + ' (' + customer.no_telepon + ')',
+              customer: customer
+            };
+          }),
+          pagination: {
+            more: data.current_page < data.last_page
+          }
+        };
+      },
+      cache: true
+    },
+    createTag: function (params) {
       const term = $.trim(params.term);
       if (term === '') return null;
-
       return {
-        id: 'NEW_' + term,
+        id: 'NEW_TEMP_' + term,
         text: term,
         newOption: true
       };
     },
-    templateResult: data => {
-      const $result = $('<span>').text(data.text);
+    templateResult: function (data) {
+      if (data.loading) return data.text;
       if (data.newOption) {
-        $result.append(' <em class="text-muted">(pelanggan baru)</em>');
+        return $('<span><i class="bi bi-plus-circle me-1"></i> Tambah Pelanggan Baru: <strong>' + data.text + '</strong></span>');
       }
-      return $result;
+      return $('<span>').text(data.text);
+    },
+    templateSelection: function (data) {
+      if (!data.id) return data.text; // Placeholder
+
+      const text = data.text || String(data.id) || 'Pelanggan Terpilih';
+
+      // Return a jQuery object with explicit styles to force visibility
+      return $('<span>')
+        .css({
+          'color': '#ffffff',
+          'display': 'block',
+          'width': '100%',
+          'font-weight': '500'
+        })
+        .text(text);
     }
   });
 
@@ -375,10 +449,21 @@ $(document).ready(function () {
       $('#modal_nama_pelanggan').val(data.text);
       $('#modal_no_hp, #modal_email, #modal_alamat').val('');
 
+      // Clear selection temporarily until saved
+      $pelangganSelect.val(null).trigger('change');
       $btnViewCustomer.hide();
     } else {
       // Existing customer
       $btnViewCustomer.show();
+
+      // Manually attach customer data to the option element
+      // This ensures our fallback logic in 'View Detail' works
+      if (data.customer) {
+        const $option = $(this).find(`option[value="${data.id}"]`);
+        if ($option.length) {
+          $option.data('customer', data.customer);
+        }
+      }
 
       // Clear new customer fields
       $('#hidden_nama_pelanggan_baru, #hidden_no_hp_baru, #hidden_email_baru, #hidden_alamat_baru').val('');
@@ -400,31 +485,82 @@ $(document).ready(function () {
       return;
     }
 
-    // Store in hidden inputs
+    // Store in hidden inputs for form submission
     $('#hidden_nama_pelanggan_baru').val(nama);
     $('#hidden_no_hp_baru').val(hp);
     $('#hidden_email_baru').val(email);
     $('#hidden_alamat_baru').val(alamat);
 
-    // Close modal
-    bootstrap.Modal.getInstance(document.getElementById('newCustomerModal')).hide();
+    // Create a temporary customer object for display
+    const tempId = 'NEW_' + Date.now();
+    const newOption = new Option(nama + ' (' + hp + ')', tempId, true, true);
 
-    showToast('Data pelanggan disimpan', 'success');
+    // Attach data to the option
+    $(newOption).data('customer', {
+      nama_pelanggan: nama,
+      no_telepon: hp,
+      email: email,
+      alamat: alamat
+    });
+
+    // Add to Select2 and select it
+    $pelangganSelect.append(newOption).trigger('change');
+
+    // Update View Detail button visibility
+    $btnViewCustomer.show();
+
+    // Close modal
+    const modalEl = document.getElementById('newCustomerModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    modal.hide();
+
+    showToast('Data pelanggan disimpan sementara', 'success');
   });
 
   /**
    * View customer details
    */
   $btnViewCustomer.click(function () {
-    const id = $pelangganSelect.val();
-    if (!id) return;
+    // Try to get data from Select2
+    let data = $pelangganSelect.select2('data')[0];
+    let customer = null;
 
-    const $opt = $pelangganSelect.find(`option[value="${id}"]`);
+    if (data) {
+      // 1. Try direct customer property (from AJAX)
+      if (data.customer) {
+        customer = data.customer;
+      }
+      // 2. Try data from element (from manually added option)
+      else if (data.element) {
+        customer = $(data.element).data('customer');
+      }
+    }
 
-    $('#detail_nama').text($opt.data('nama') || '-');
-    $('#detail_hp').text($opt.data('hp') || '-');
-    $('#detail_email').text($opt.data('email') || '-');
-    $('#detail_alamat').text($opt.data('alamat') || '-');
+    // 3. Fallback: Try to find the selected option manually
+    if (!customer) {
+      const selectedId = $pelangganSelect.val();
+      if (selectedId) {
+        const $option = $pelangganSelect.find(`option[value="${selectedId}"]`);
+        if ($option.length) {
+          customer = $option.data('customer');
+        }
+      }
+    }
+
+    if (!customer) {
+      // If still no customer, maybe it's an AJAX loaded one but 'customer' prop is lost?
+      // In that case, we might only have text.
+      if (data && data.text) {
+        // Parse text if possible? No, that's unreliable.
+        console.warn('Customer data not found, only text available:', data.text);
+      }
+      return;
+    }
+
+    $('#detail_nama').text(customer.nama_pelanggan || '-');
+    $('#detail_hp').text(customer.no_telepon || '-');
+    $('#detail_email').text(customer.email || '-');
+    $('#detail_alamat').text(customer.alamat || '-');
 
     const modal = new bootstrap.Modal(document.getElementById('customerDetailModal'));
     modal.show();
@@ -599,14 +735,29 @@ $(document).ready(function () {
   });
 
   // =====================================================
-  // 8. INITIALIZATION
+  // INITIALIZE
   // =====================================================
 
   // Initial render
   renderProductGrid(products);
-  renderCart();
 
   // Log initialization
   console.log('✅ POS System initialized');
   console.log(`📦 Loaded ${products.length} products`);
+
+  // =====================================================
+  // INFO WIDGET CLOCK
+  // =====================================================
+  function updateWidgetClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('id-ID', { hour12: false });
+    const clockElement = document.getElementById('widget-clock');
+    if (clockElement) {
+      clockElement.innerText = timeString;
+    }
+  }
+
+  // Update clock every second
+  setInterval(updateWidgetClock, 1000);
+  updateWidgetClock();
 });

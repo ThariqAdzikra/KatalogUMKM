@@ -125,4 +125,35 @@ class PelangganController extends Controller
 
         return response()->json($pelanggan);
     }
+
+    /**
+     * Search customers for Select2 with pagination
+     */
+    public function search(Request $request)
+    {
+        $searchTerm = $request->get('search', '');
+        $page = $request->get('page', 1);
+        $perPage = 15;
+
+        $query = Pelanggan::query()
+            ->select('id_pelanggan', 'nama as nama_pelanggan', 'no_hp as no_telepon', 'email', 'alamat')
+            ->when($searchTerm, function ($q) use ($searchTerm) {
+                $q->where(function($query) use ($searchTerm) {
+                    $query->where('nama', 'like', "%{$searchTerm}%")
+                          ->orWhere('no_hp', 'like', "%{$searchTerm}%")
+                          ->orWhere('email', 'like', "%{$searchTerm}%");
+                });
+            })
+            ->orderByRaw("
+                CASE 
+                    WHEN EXISTS (SELECT 1 FROM penjualan WHERE penjualan.id_pelanggan = pelanggan.id_pelanggan) THEN 0
+                    ELSE 1
+                END
+            ")
+            ->orderBy('nama');
+
+        $pelanggan = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json($pelanggan);
+    }
 }

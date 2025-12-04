@@ -65,8 +65,16 @@ class PenjualanController extends Controller
     public function create()
     {
         $pelanggan = Pelanggan::all();
-        $produk    = Produk::where('stok', '>', 0)->orderBy('nama_produk')->get();
-        return view('penjualan.create', compact('pelanggan', 'produk'));
+        // Eager load kategori relationship
+        $produk = Produk::with('kategori')
+            ->where('stok', '>', 0)
+            ->orderBy('nama_produk')
+            ->get();
+        
+        // Get all categories for filter
+        $kategori = \App\Models\Kategori::orderBy('nama_kategori')->get();
+        
+        return view('penjualan.create', compact('pelanggan', 'produk', 'kategori'));
     }
 
     /**

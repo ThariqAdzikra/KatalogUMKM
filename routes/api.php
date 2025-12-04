@@ -64,3 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
             'destroy' => 'api.penjualan.destroy',
         ]);
 });
+
+// =======================
+// 🔹 Public API Routes (No Authentication Required)
+// =======================
+// Customer search for Select2 autocomplete
+Route::get('/pelanggan/search', [\App\Http\Controllers\PelangganController::class, 'search'])
+    ->name('api.pelanggan.search');

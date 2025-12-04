@@ -73,26 +73,31 @@
         }
     </style>
 </head>
-<body class="{{ Auth::check() ? 'layout-auth' : 'layout-guest' }}">
-    
+<body>
     {{-- Navbar for Guests --}}
     @guest
-    <nav class="navbar navbar-expand-lg fixed-top navbar-glass">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(59, 130, 246, 0.2); z-index: 1050;">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-filtered" style="height: 32px; margin-right: 10px;">
-                <span class="fw-bold">LaptopPremium</span>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 40px; margin-right: 10px; filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));">
+                <span class="fw-bold text-white" style="font-size: 1.25rem; letter-spacing: 0.5px;">LaptopPremium</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#guestNavbar">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#guestNavbar" style="border-color: rgba(255,255,255,0.1);">
+                <i class="bi bi-list text-white fs-2"></i>
             </button>
             <div class="collapse navbar-collapse" id="guestNavbar">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('katalog.index') }}">Katalog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">Tentang Kami</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary px-4 rounded-pill" href="{{ route('login') }}">
+                <ul class="navbar-nav ms-auto align-items-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('home') }}" style="font-weight: 500;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('katalog.index') }}" style="font-weight: 500;">Katalog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ route('about') }}" style="font-weight: 500;">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a href="{{ route('login') }}" class="btn btn-primary px-4 py-2 rounded-pill btn-login-nav">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Login
                         </a>
                     </li>
@@ -102,7 +107,7 @@
     </nav>
     @endguest
 
-    {{-- Premium SaaS Sidebar (Only for Authenticated Users) --}}
+    {{-- Premium SaaS Sidebar (Only for Auth Users) --}}
     @auth
     <aside class="premium-sidebar" id="sidebar">
         {{-- Logo Section with Toggle Button --}}
@@ -227,20 +232,22 @@
     {{-- Mobile Overlay --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <main class="main-content">
+    <main class="main-content {{ Auth::check() ? '' : 'ms-0 pt-5 mt-4' }}">
         @yield('content')
     </main>
 
-    {{-- SECTION FOOTER PROFESIONAL (Only for Guests) --}}
+    {{-- SECTION FOOTER PROFESIONAL (Tata letak 4 kolom) --}}
     @guest
-    <footer class="py-5">
+    <footer class="py-5 ms-0">
         <div class="container">
             {{-- BARIS 1: LINK UTAMA (4 KOLOM) --}}
             <div class="row g-5">
                 
                 {{-- Kolom 1: Brand & Socials --}}
                 <div class="col-12 col-md-6 col-lg-4">
-                    <a class="footer-brand" href="{{ route('home') }}">
+                    {{-- LOGIKA ROLE FOOTER BRAND --}}
+                    <a class="footer-brand" 
+                       href="{{ route('home') }}">
                         <img src="{{ asset('images/logo.png') }}" alt="LaptopPremium Logo" class="logo-filtered">
                         <h5 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">LaptopPremium</h5>
                     </a>
@@ -258,8 +265,8 @@
                 <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                     <h6>Menu</h6>
                     <ul class="list-unstyled">
+                        {{-- LOGIKA ROLE FOOTER HOME --}}
                         <li><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ route('katalog.index') }}">Katalog</a></li>
                         <li><a href="{{ route('about') }}">Tentang Kami</a></li>
                     </ul>
                 </div>
