@@ -439,15 +439,12 @@
                     const target = this.getAttribute('target');
                     
                     // Check if link is valid, internal, and not opening in new tab
-                    // AND NOT a pagination link or ajax link
                     if (href && 
                         href.startsWith('/') || 
                         href.startsWith(window.location.origin) &&
                         href !== '#' &&
                         target !== '_blank' &&
-                        !e.ctrlKey && !e.metaKey &&
-                        !this.classList.contains('page-link') && 
-                        !this.classList.contains('ajax-link')) {
+                        !e.ctrlKey && !e.metaKey) {
                         
                         loader.classList.remove('hidden');
                     }

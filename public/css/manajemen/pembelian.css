@@ -13,11 +13,7 @@
 
 /* Header Card */
 .header-card {
-    background: linear-gradient(
-        135deg,
-        var(--primary-wood) 0%,
-        var(--primary-main) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
     border-radius: 16px;
     padding: 2rem;
     margin-bottom: 2rem;
@@ -26,11 +22,7 @@
 }
 
 .header-card.edit-mode {
-    background: linear-gradient(
-        135deg,
-        var(--primary-accent) 0%,
-        var(--primary-green-soft) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
 }
 
 .header-card h3 {
@@ -61,11 +53,7 @@
 
 /* Buttons - Add */
 .btn-add {
-    background: linear-gradient(
-        135deg,
-        var(--primary-wood) 0%,
-        var(--primary-main) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
     color: white;
     text-decoration: none;
     border: none;
@@ -77,11 +65,7 @@
 }
 
 .btn-add:hover {
-    background: linear-gradient(
-        135deg,
-        var(--primary-wood) 0%,
-        var(--primary-main) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     color: white;
@@ -107,6 +91,12 @@
 .alert-success i {
     margin-right: 0.5rem;
 }
+
+
+
+
+
+
 
 .form-card {
     background: rgba(30, 33, 57, 0.8);
@@ -152,22 +142,12 @@
 .section-divider {
     border: none;
     height: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--primary-wood),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, var(--primary-wood), transparent);
     margin: 2rem 0;
 }
 
 .section-divider.edit-mode {
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--primary-accent),
-        transparent
-    );
+    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
 }
 
 .section-title {
@@ -245,11 +225,7 @@
 }
 
 .btn-submit {
-    background: linear-gradient(
-        135deg,
-        var(--primary-wood) 0%,
-        var(--primary-main) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-main) 100%);
     color: white;
     border: none;
     padding: 1rem 2.5rem;
@@ -262,11 +238,7 @@
 }
 
 .btn-submit.edit-mode {
-    background: linear-gradient(
-        135deg,
-        var(--primary-accent) 0%,
-        var(--primary-green-soft) 100%
-    );
+    background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-green-soft) 100%);
 }
 
 .btn-submit:hover {
@@ -304,11 +276,7 @@
 }
 
 .info-badge {
-    background: linear-gradient(
-        135deg,
-        var(--primary-highlight) 0%,
-        #ffd966 100%
-    );
+    background: linear-gradient(135deg, var(--primary-highlight) 0%, #ffd966 100%);
     color: var(--primary-dark);
     padding: 0.75rem 1.25rem;
     border-radius: 10px;
@@ -323,6 +291,7 @@
 }
 
 @media (max-width: 768px) {
+
     .pembelian-container,
     .pembelian-container.form-view {
         padding: 1rem;
@@ -707,42 +676,3 @@
         opacity: 0;
     }
 }
-
-/* ==========================================================================
-   ✅ FIX: Filter Label Color (Dark Mode)
-   ========================================================================== */
-.filter-card .form-label {
-    color: #e5e7eb !important; /* text-gray-200 */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.filter-card .form-label i {
-    color: var(--primary-wood) !important;
-}
-
-/* =================================
-   Flatpickr Dark Input & Filter Button
-   ================================= */
-.flatpickr-input,
-input.date-picker,
-input.date-picker.form-control,
-.flatpickr-input.form-control {
-    background-color: rgba(30, 33, 57, 0.7) !important;
-    border: 1px solid rgba(59, 130, 246, 0.3) !important;
-    color: #ffffff !important;
-    backdrop-filter: blur(10px);
-}
-
-.flatpickr-input:focus,
-input.date-picker:focus {
-    background-color: rgba(30, 33, 57, 0.9) !important;
-    border-color: var(--primary-wood) !important;
-    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
-    color: #ffffff !important;
-}
-
-.flatpickr-input::placeholder {
-    color: rgba(156, 163, 175, 0.8) !important; /* text-gray-400 */
-}
-
-/* Flatpickr Calendar Dark Theme Overrides REMOVED - Reverting to Light Theme */

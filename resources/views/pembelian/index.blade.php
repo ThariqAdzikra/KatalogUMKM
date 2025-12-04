@@ -3,10 +3,6 @@
 @section('title', 'Data Pembelian - Laptop Store')
 
 @push('styles')
-{{-- Flatpickr CSS (Load BEFORE custom CSS) --}}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
-
 {{-- Memuat style dasar dan style pembelian yang sudah digabung dengan animasi/modal --}}
 <link rel="stylesheet" href="/css/manajemen/style.css">
 <link rel="stylesheet" href="/css/manajemen/pembelian.css">
@@ -66,11 +62,10 @@
                     <label class="form-label">
                         <i class="bi bi-calendar-start me-2"></i>Dari Tanggal
                     </label>
-                    <input type="text" 
+                    <input type="date" 
                            name="dari_tanggal" 
                            value="{{ request('dari_tanggal') }}"
-                           class="form-control date-picker"
-                           placeholder="Pilih tanggal">
+                           class="form-control">
                 </div>
 
                 <!-- Sampai Tanggal -->
@@ -78,11 +73,10 @@
                     <label class="form-label">
                         <i class="bi bi-calendar-end me-2"></i>Sampai Tanggal
                     </label>
-                    <input type="text" 
+                    <input type="date" 
                            name="sampai_tanggal" 
                            value="{{ request('sampai_tanggal') }}"
-                           class="form-control date-picker"
-                           placeholder="Pilih tanggal">
+                           class="form-control">
                 </div>
 
                 {{-- Kolom Tombol Search --}}
@@ -107,7 +101,7 @@
 
 {{-- 
 ==================================================
-✅ MODAL KONFIRMASI HAPUS (DESIGN BARU)
+✅ MODAL KONFIRMASI HAPUS (NEW DESIGN)
 ==================================================
 --}}
 <div class="modal fade modal-confirmation-style" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
@@ -142,11 +136,7 @@
   </div>
 </div>
 
-{{-- 
-    ==================================================
-    ✅ MODAL SUKSES (ANIMASI TRASH)
-    ==================================================
---}}
+{{-- Modal Sukses --}}
 <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -167,7 +157,7 @@
             <circle class="dust puff-right" cx="74" cy="108" r="2" fill="#dc3545" opacity="0.4" />
           </svg>
         </div>
-        <p class="mt-2">Data pembelian berhasil dihapus.</p>
+        <p id="successMessage" class="mt-2">Berhasil diproses.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" data-bs-dismiss="modal">
@@ -189,34 +179,6 @@
 @endsection
 
 @push('scripts')
-{{-- jQuery --}}
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-{{-- jQuery UI (untuk Autocomplete) --}}
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-{{-- Flatpickr JS --}}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-
-{{-- Pass data ke JS --}}
-<script id="pembelian-script-data"
-    data-search-url="{{ route('pembelian.search.ajax') }}"
-    data-supplier-search-url="{{ route('supplier.search') }}"
-    data-csrf-token="{{ csrf_token() }}"
-    data-delete-url-template="{{ route('pembelian.destroy', ['pembelian' => 'ID']) }}"
-></script>
-
-<script src="/js/pembelian/main.js"></script>
+{{-- Memuat script terpisah untuk logika popup --}}
 <script src="/js/pembelian/popup.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        flatpickr(".date-picker", {
-            dateFormat: "Y-m-d",
-            locale: "id",
-            allowInput: true,
-            altInput: true,
-            altFormat: "j F Y",
-        });
-    });
-</script>
 @endpush

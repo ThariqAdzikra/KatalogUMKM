@@ -182,56 +182,52 @@
 {{-- Modal Detail (Ada perubahan sedikit pada class agar konsisten jika diperlukan) --}}
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg modal-dark">
+        <div class="modal-content border-0 shadow-lg">
             <div class="modal-header border-0 bg-gradient-primary text-white" style="background: var(--primary-wood);">
                 <h5 class="modal-title fw-bold" id="detailModalLabel">
-                    <i class="bi bi-person-vcard me-2"></i>Detail Pegawai
+                    <i class="bi bi-person-circle me-2"></i>Detail Pegawai
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <div class="modal-body p-0">
-                <div class="modal-profile-header text-center p-4">
-                    <div class="avatar-circle mb-3 mx-auto">
-                        <i class="bi bi-person-fill"></i>
+            <div class="modal-body p-4">
+                <div class="customer-info-card">
+                    <div class="info-header">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Informasi Pegawai</span>
                     </div>
-                    <h4 class="text-white fw-bold mb-1" id="modalNama"></h4>
-                    <p class="text-muted mb-0" id="modalRoleBadge"></p>
-                </div>
-                
-                <div class="p-4 pt-0">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="info-group h-100">
-                                <label class="info-label"><i class="bi bi-envelope me-2"></i>Email</label>
-                                <div class="info-value text-break" id="modalEmail"></div>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-person"></i> Nama Lengkap
                             </div>
+                            <div class="info-value" id="modalNama"></div>
                         </div>
-                        
-                        <div class="col-6">
-                            <div class="info-group h-100">
-                                <label class="info-label"><i class="bi bi-calendar3 me-2"></i>Bergabung Sejak</label>
-                                <div class="info-value" id="modalTanggal"></div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-envelope"></i> Email
                             </div>
+                            <div class="info-value" id="modalEmail"></div>
                         </div>
-
-                        <div class="col-12">
-                            <div class="info-group">
-                                <label class="info-label"><i class="bi bi-shield-lock me-2"></i>Status Akun</label>
-                                <div class="info-value">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3">
-                                        <i class="bi bi-check-circle-fill me-1"></i> Aktif
-                                    </span>
-                                </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-briefcase"></i> Jabatan (Role)
                             </div>
+                            <div class="info-value text-capitalize" id="modalRole"></div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-check"></i> Tanggal Bergabung
+                            </div>
+                            <div class="info-value" id="modalTanggal"></div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="modal-footer border-0 bg-dark-soft">
-                <button type="button" class="btn btn-secondary-modern w-100" data-bs-dismiss="modal">
-                    Tutup
+            <div class="modal-footer border-0 bg-light">
+                <button type="button" class="btn btn-secondary-modern" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-2"></i>Tutup
                 </button>
             </div>
         </div>
