@@ -169,6 +169,57 @@
     </div>
 
     {{-- ========================================================== --}}
+    {{-- [BARU] AI Forecasting Widget --}}
+    {{-- ========================================================== --}}
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <div class="card theme-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h5 class="fw-bold mb-1"><i class="bi bi-stars text-warning me-2"></i>AI Forecasting & Restock</h5>
+                            <small class="text-gray">Prediksi cerdas berbasis data historis</small>
+                        </div>
+                        <button id="btn-generate-forecast" class="btn btn-sm btn-primary">
+                            <i class="bi bi-cpu me-1"></i> Analisa Sekarang
+                        </button>
+                    </div>
+
+                    <div id="forecast-loading" class="text-center py-5 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 text-gray">Sedang meminta analisis AI...</p>
+                    </div>
+
+                    <div id="forecast-error" class="alert alert-danger d-none"></div>
+
+                    <div id="forecast-results" class="table-responsive d-none">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produk</th>
+                                    <th class="text-center">Prediksi Bulan Depan</th>
+                                    <th>Rekomendasi AI</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecast-table-body">
+                                {{-- Data akan diisi oleh JS --}}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="forecast-empty" class="text-center py-4 text-gray">
+                        <i class="bi bi-bar-chart-line display-6 d-block mb-2"></i>
+                        Klik tombol "Analisa Sekarang" untuk melihat prediksi.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ========================================================== --}}
     {{-- Grafik Penjualan (DIUBAH UNTUK AJAX) --}}
     {{-- ========================================================== --}}
     <div class="row g-3">
@@ -216,6 +267,44 @@
             </div>
         </div>
     </div>
+    {{-- ========================================================== --}}
+    {{-- [BARU] Floating Chat Widget --}}
+    {{-- ========================================================== --}}
+    <div id="ai-chat-widget" class="position-fixed bottom-0 end-0 m-4" style="z-index: 1050;">
+        {{-- Chat Button --}}
+        <button id="ai-chat-toggle" class="btn btn-primary rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+            <i class="bi bi-robot fs-3"></i>
+        </button>
+
+        {{-- Chat Box --}}
+        <div id="ai-chat-box" class="card shadow-lg d-none" style="width: 350px; height: 500px; position: absolute; bottom: 80px; right: 0;">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"><i class="bi bi-stars me-2"></i>AI Assistant</h6>
+                <button id="ai-chat-close" class="btn btn-sm btn-link text-white p-0"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="card-body d-flex flex-column p-0">
+                {{-- Messages Area --}}
+                <div id="ai-chat-messages" class="flex-grow-1 p-3 overflow-auto" style="background-color: #f8f9fa;">
+                    <div class="d-flex flex-column gap-2">
+                        {{-- Welcome Message --}}
+                        <div class="align-self-start bg-white p-2 rounded shadow-sm" style="max-width: 80%;">
+                            <small class="text-muted d-block mb-1" style="font-size: 0.7rem;">AI Assistant</small>
+                            Halo! Saya bisa bantu cek omset, produk terlaris, atau buatkan draft restock. Mau tanya apa?
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Input Area --}}
+                <div class="p-3 border-top bg-white">
+                    <form id="ai-chat-form" class="d-flex gap-2">
+                        <input type="text" id="ai-chat-input" class="form-control form-control-sm" placeholder="Ketik pesan..." required>
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="bi bi-send-fill"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
 
