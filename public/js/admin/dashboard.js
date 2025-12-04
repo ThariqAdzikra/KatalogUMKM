@@ -339,4 +339,157 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 3. [BARU] Logika AI Forecasting
+    const btnForecast = document.getElementById('btn-generate-forecast');
+    const forecastLoading = document.getElementById('forecast-loading');
+    const forecastResults = document.getElementById('forecast-results');
+    const forecastTableBody = document.getElementById('forecast-table-body');
+    const forecastEmpty = document.getElementById('forecast-empty');
+    const forecastError = document.getElementById('forecast-error');
+
+    if (btnForecast) {
+        btnForecast.addEventListener('click', async () => {
+            // Reset UI
+            forecastLoading.classList.remove('d-none');
+            forecastResults.classList.add('d-none');
+            forecastEmpty.classList.add('d-none');
+            forecastError.classList.add('d-none');
+            btnForecast.disabled = true;
+
+            try {
+                const response = await fetch('/superadmin/dashboard/forecast');
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Render Table
+                forecastTableBody.innerHTML = '';
+                data.forEach(item => {
+                    const statusBadge = item.status === 'danger'
+                        ? '<span class="badge bg-danger">Perlu Restock</span>'
+                        : (item.status === 'warning' ? '<span class="badge bg-warning text-dark">Waspada</span>' : '<span class="badge bg-success">Aman</span>');
+
+                    const row = `
+                        <tr>
+                            <td class="fw-bold">${item.nama_produk}</td>
+                            <td class="text-center">${item.prediksi} Unit</td>
+                            <td>${item.saran}</td>
+                            <td class="text-center">${statusBadge}</td>
+                        </tr>
+                    `;
+                    forecastTableBody.innerHTML += row;
+                });
+
+                forecastResults.classList.remove('d-none');
+
+            } catch (error) {
+                console.error('Forecast Error:', error);
+                forecastError.textContent = 'Gagal memuat prediksi: ' + error.message;
+                forecastError.classList.remove('d-none');
+            } finally {
+                forecastLoading.classList.add('d-none');
+                btnForecast.disabled = false;
+            }
+            // 4. [BARU] Logika Chat Widget
+            const chatToggle = document.getElementById('ai-chat-toggle');
+            const chatBox = document.getElementById('ai-chat-box');
+            const chatClose = document.getElementById('ai-chat-close');
+            const chatForm = document.getElementById('ai-chat-form');
+            const chatInput = document.getElementById('ai-chat-input');
+            const chatMessages = document.getElementById('ai-chat-messages');
+
+            if (chatToggle && chatBox) {
+                // Toggle Chat Box
+                const toggleChat = () => {
+                    chatBox.classList.toggle('d-none');
+                    if (!chatBox.classList.contains('d-none')) {
+                        chatInput.focus();
+                    }
+                };
+
+                chatToggle.addEventListener('click', toggleChat);
+                chatClose.addEventListener('click', toggleChat);
+
+                // Helper: Add Message to UI
+                const addMessage = (text, sender) => {
+                    const isUser = sender === 'user';
+                    const align = isUser ? 'align-self-end bg-primary text-white' : 'align-self-start bg-white text-dark';
+                    const name = isUser ? 'Anda' : 'AI Assistant';
+
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `${align} p-2 rounded shadow-sm`;
+                    messageDiv.style.maxWidth = '80%';
+                    messageDiv.innerHTML = `
+                        <small class="${isUser ? 'text-white-50' : 'text-muted'} d-block mb-1" style="font-size: 0.7rem;">${name}</small>
+                        ${text}
+                    `;
+
+                    // Append to the flex-column container, not the scroll container
+                    const messageContainer = chatMessages.querySelector('.d-flex.flex-column');
+                    messageContainer.appendChild(messageDiv);
+
+                    // Auto-scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                };
+
+                // Handle Submit
+                chatForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const message = chatInput.value.trim();
+                    if (!message) return;
+
+                    // Tampilkan pesan user
+                    addMessage(message, 'user');
+                    chatInput.value = '';
+                    chatInput.disabled = true;
+
+                    // Tampilkan loading indicator
+                    const loadingId = 'chat-loading-' + Date.now();
+                    const loadingHtml = `
+                <div id="${loadingId}" class="align-self-start bg-white p-2 rounded shadow-sm" style="max-width: 80%;">
+                    <div class="spinner-dots">
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem;"></span>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem; animation-delay: 0.2s;"></span>
+                        <span class="spinner-grow spinner-grow-sm text-secondary" role="status" style="width: 0.5rem; height: 0.5rem; animation-delay: 0.4s;"></span>
+                    </div>
+                </div>
+            `;
+                    chatMessages.insertAdjacentHTML('beforeend', loadingHtml);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                    try {
+                        // Kirim ke Server
+                        const response = await fetch('/superadmin/ai/chat', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ message })
+                        });
+
+                        const data = await response.json();
+
+                        // Hapus loading
+                        document.getElementById(loadingId).remove();
+
+                        // Tampilkan balasan AI
+                        addMessage(data.reply, 'ai');
+
+                    } catch (error) {
+                        console.error('Chat Error:', error);
+                        document.getElementById(loadingId).remove();
+                        addMessage('Maaf, terjadi kesalahan koneksi.', 'ai');
+                    } finally {
+                        chatInput.disabled = false;
+                        chatInput.focus();
+                    }
+                });
+            }
+
+        });
+    }
+
 });

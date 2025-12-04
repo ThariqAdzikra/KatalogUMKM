@@ -99,6 +99,14 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
     Route::get('/superadmin/dashboard', [DashboardController::class, 'index'])->name('superadmin.dashboard');
     Route::get('/superadmin/dashboard/chart-data', [DashboardController::class, 'getChartData'])
         ->name('superadmin.dashboard.chartData');
+    
+    // [BARU] Route untuk AI Forecasting
+    Route::get('/superadmin/dashboard/forecast', [DashboardController::class, 'getForecastingData'])
+        ->name('superadmin.dashboard.forecast');
+
+    // [BARU] Route untuk AI Agent Chat
+    Route::post('/superadmin/ai/chat', [\App\Http\Controllers\SuperAdmin\AiAgentController::class, 'chat'])
+        ->name('superadmin.ai.chat');
 
     Route::resource('/pegawai', PegawaiController::class);
     Route::get('/pegawai/search/ajax', [PegawaiController::class, 'searchAjax'])->name('pegawai.search.ajax');
