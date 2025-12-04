@@ -1338,3 +1338,36 @@ code {
 .filter-card .form-control::placeholder {
     color: rgba(156, 163, 175, 0.8) !important;
 }
+
+/* ========================================================== */
+/* === Custom Form Inputs in Form Card (Create/Edit) === */
+/* ========================================================== */
+.form-card .form-control,
+.form-card .form-select {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.form-card .form-control::placeholder {
+    color: rgba(156, 163, 175, 0.8) !important;
+}
+
+/* Fix for autocomplete background in Chrome */
+.form-card input:-webkit-autofill,
+.form-card input:-webkit-autofill:hover,
+.form-card input:-webkit-autofill:focus,
+.form-card input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(30, 33, 57, 0.9) inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
