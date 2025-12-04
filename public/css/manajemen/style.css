@@ -114,7 +114,11 @@
 }
 
 .table-header {
-    background: linear-gradient(135deg, rgba(26, 31, 58, 0.9) 0%, rgba(30, 33, 57, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(26, 31, 58, 0.9) 0%,
+        rgba(30, 33, 57, 0.9) 100%
+    );
     padding: 1.5rem 2rem;
     border-bottom: 2px solid rgba(59, 130, 246, 0.3);
 }
@@ -127,7 +131,11 @@
 }
 
 .table-header .btn-outline-info {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-accent) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-accent) 100%
+    );
     color: #ffffff;
     border: none;
     font-weight: 600;
@@ -151,7 +159,11 @@
 }
 
 .table thead {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.25) 0%,
+        rgba(139, 92, 246, 0.25) 100%
+    );
 }
 
 .table thead th {
@@ -346,7 +358,6 @@
 .btn-delete:hover {
     background: #c82333;
 }
-
 
 /* ========================================================== */
 /* === Tombol Filter Search/Reset === */
@@ -549,7 +560,8 @@ textarea {
 .form-select:focus,
 textarea:focus {
     border-color: var(--primary-wood);
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
+        0 0 15px rgba(59, 130, 246, 0.2);
     outline: none;
     background: rgba(45, 51, 84, 0.9) !important;
     color: #e5e7eb !important;
@@ -572,7 +584,8 @@ textarea:focus {
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
     border-color: var(--primary-wood) !important;
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
+        0 0 15px rgba(59, 130, 246, 0.2) !important;
     outline: none !important;
 }
 
@@ -587,25 +600,31 @@ textarea:focus {
     z-index: 1019 !important;
 }
 
-.select2-container--bootstrap-5.select2-container--open.select2-container--above .select2-dropdown {
+.select2-container--bootstrap-5.select2-container--open.select2-container--above
+    .select2-dropdown {
     top: 100% !important;
     bottom: auto !important;
     border-radius: 8px !important;
     margin-top: 2px !important;
 }
 
-.select2-container--bootstrap-5.select2-container--open.select2-container--above .select2-selection {
+.select2-container--bootstrap-5.select2-container--open.select2-container--above
+    .select2-selection {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
 }
 
-.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
+.select2-container--bootstrap-5
+    .select2-search--dropdown
+    .select2-search__field {
     border: 2px solid var(--border-soft) !important;
     border-radius: 6px !important;
     padding: 0.5rem !important;
 }
 
-.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field:focus {
+.select2-container--bootstrap-5
+    .select2-search--dropdown
+    .select2-search__field:focus {
     border-color: var(--primary-wood) !important;
     box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
     outline: none !important;
@@ -643,7 +662,7 @@ textarea:focus {
     width: 100% !important;
 }
 
-.is-invalid+.select2-container--bootstrap-5 .select2-selection {
+.is-invalid + .select2-container--bootstrap-5 .select2-selection {
     border-color: #dc3545 !important;
 }
 
@@ -794,7 +813,6 @@ textarea:focus {
     font-weight: 600;
     display: inline-block;
 }
-
 
 /* === SHOW: Detail Page Styles === */
 .detail-container {
@@ -1076,7 +1094,11 @@ code {
 }
 
 .modal-header-cozy {
-    background: linear-gradient(to right, var(--primary-wood), var(--primary-main));
+    background: linear-gradient(
+        to right,
+        var(--primary-wood),
+        var(--primary-main)
+    );
     color: white;
     padding: 1.25rem 1.5rem;
     border-radius: 12px 12px 0 0;
@@ -1294,4 +1316,127 @@ code {
 
 .modal-footer-compact .btn-neutral-custom:hover {
     background-color: #5a6268 !important;
+}
+
+/* ========================================================== */
+/* === Custom Search Input in Filter Card === */
+/* ========================================================== */
+.filter-card .form-control {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.filter-card .form-control:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.filter-card .form-control::placeholder {
+    color: rgba(156, 163, 175, 0.8) !important;
+}
+
+/* ========================================================== */
+/* === Custom Form Inputs in Form Card (Create/Edit) === */
+/* ========================================================== */
+.form-card .form-control,
+.form-card .form-select {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.form-card .form-control:focus,
+.form-card .form-select:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.form-card .form-control::placeholder {
+    color: rgba(156, 163, 175, 0.8) !important;
+}
+
+/* Fix for autocomplete background in Chrome */
+.form-card input:-webkit-autofill,
+.form-card input:-webkit-autofill:hover,
+.form-card input:-webkit-autofill:focus,
+.form-card input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(30, 33, 57, 0.9) inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ========================================================== */
+/* === Dark Modal Styles (Detail Pegawai) === */
+/* ========================================================== */
+.modal-dark {
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #e5e7eb;
+}
+
+.modal-profile-header {
+    background: linear-gradient(
+        180deg,
+        rgba(30, 33, 57, 0.8) 0%,
+        rgba(30, 33, 57, 0) 100%
+    );
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: rgba(59, 130, 246, 0.15);
+    border: 2px solid var(--primary-wood);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--primary-wood);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.info-group {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.bg-dark-soft {
+    background: rgba(20, 23, 45, 0.5) !important;
 }
