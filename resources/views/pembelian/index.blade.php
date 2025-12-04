@@ -3,6 +3,10 @@
 @section('title', 'Data Pembelian - Laptop Store')
 
 @push('styles')
+{{-- Flatpickr CSS (Load BEFORE custom CSS) --}}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
 {{-- Memuat style dasar dan style pembelian yang sudah digabung dengan animasi/modal --}}
 <link rel="stylesheet" href="/css/manajemen/style.css">
 <link rel="stylesheet" href="/css/manajemen/pembelian.css">
@@ -62,10 +66,11 @@
                     <label class="form-label">
                         <i class="bi bi-calendar-start me-2"></i>Dari Tanggal
                     </label>
-                    <input type="date" 
+                    <input type="text" 
                            name="dari_tanggal" 
                            value="{{ request('dari_tanggal') }}"
-                           class="form-control">
+                           class="form-control date-picker"
+                           placeholder="Pilih tanggal">
                 </div>
 
                 <!-- Sampai Tanggal -->
@@ -73,10 +78,11 @@
                     <label class="form-label">
                         <i class="bi bi-calendar-end me-2"></i>Sampai Tanggal
                     </label>
-                    <input type="date" 
+                    <input type="text" 
                            name="sampai_tanggal" 
                            value="{{ request('sampai_tanggal') }}"
-                           class="form-control">
+                           class="form-control date-picker"
+                           placeholder="Pilih tanggal">
                 </div>
 
                 {{-- Kolom Tombol Search --}}
@@ -98,6 +104,25 @@
         @include('pembelian.partials.table_wrapper', ['pembelian' => $pembelian])
     </div>
 </div>
+
+
+@push('scripts')
+{{-- Flatpickr JS --}}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr(".date-picker", {
+            dateFormat: "Y-m-d",
+            locale: "id",
+            allowInput: true,
+            altInput: true,
+            altFormat: "j F Y",
+            theme: "material_blue" // Use light theme as requested
+        });
+    });
+</script>
+@endpush
 
 {{-- 
 ==================================================

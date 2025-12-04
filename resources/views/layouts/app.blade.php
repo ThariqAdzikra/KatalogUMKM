@@ -444,7 +444,9 @@
                         href.startsWith(window.location.origin) &&
                         href !== '#' &&
                         target !== '_blank' &&
-                        !e.ctrlKey && !e.metaKey) {
+                        !e.ctrlKey && !e.metaKey &&
+                        !this.classList.contains('page-link') && 
+                        !this.classList.contains('ajax-link')) {
                         
                         loader.classList.remove('hidden');
                     }
