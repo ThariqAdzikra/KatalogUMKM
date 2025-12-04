@@ -143,11 +143,24 @@
                     {{--    bagi user yang login.                      --}}
                     {{-- ============================================= --}}
                     @if($item->stok > 0)
-                        <span class="product-badge badge-success">
-                            <i class="bi bi-check-circle me-1"></i>Stok: {{ $item->stok }}
+                        @php
+                            // Color-coded stock levels
+                            if ($item->stok > 15) {
+                                $badgeClass = 'badge-success'; // Green - High stock
+                                $icon = 'bi-check-circle';
+                            } elseif ($item->stok >= 6) {
+                                $badgeClass = 'badge-warning'; // Yellow - Medium stock  
+                                $icon = 'bi-exclamation-circle';
+                            } else {
+                                $badgeClass = 'badge-danger'; // Red - Low stock
+                                $icon = 'bi-exclamation-triangle';
+                            }
+                        @endphp
+                        <span class="product-badge badge-premium {{ $badgeClass }}">
+                            <i class="bi {{ $icon }} me-1"></i>Stok: {{ $item->stok }}
                         </span>
                     @else
-                        <span class="product-badge badge-danger">
+                        <span class="product-badge badge-premium badge-danger">
                             <i class="bi bi-x-circle me-1"></i>Habis
                         </span>
                     @endif
