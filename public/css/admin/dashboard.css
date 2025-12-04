@@ -24,13 +24,25 @@
    ================================= */
 body {
     background-color: var(--cream-bg) !important;
-    background-image:
-        radial-gradient(2px 2px at 20px 30px, rgba(59, 130, 246, 0.15), transparent),
-        radial-gradient(2px 2px at 60px 70px, rgba(139, 92, 246, 0.15), transparent),
-        radial-gradient(1px 1px at 50px 50px, rgba(6, 182, 212, 0.1), transparent);
+    background-image: radial-gradient(
+            2px 2px at 20px 30px,
+            rgba(59, 130, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 60px 70px,
+            rgba(139, 92, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 50px 50px,
+            rgba(6, 182, 212, 0.1),
+            transparent
+        );
     background-size: 200px 200px;
     color: var(--text-medium);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Dashboard Text Colors */
@@ -48,9 +60,11 @@ body {
    🎨 PREMIUM WELCOME CARD - Dark Glassmorphism
    ================================= */
 .welcome-card {
-    background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.15) 0%,
-            rgba(139, 92, 246, 0.15) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.15) 0%,
+        rgba(139, 92, 246, 0.15) 100%
+    );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(59, 130, 246, 0.3);
@@ -58,8 +72,7 @@ body {
     border-radius: 20px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(59, 130, 246, 0.2),
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.2),
         inset 0 1px 0 rgba(59, 130, 246, 0.3);
 }
 
@@ -71,13 +84,17 @@ body {
 
 /* Subtle gradient background (static for performance) */
 .welcome-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     right: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+    background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.2) 0%,
+        transparent 70%
+    );
     border-radius: 50%;
     opacity: 0.6;
 }
@@ -137,7 +154,6 @@ body {
 }
 
 @keyframes float {
-
     0%,
     100% {
         transform: translateY(0);
@@ -174,16 +190,14 @@ body {
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(59, 130, 246, 0.2);
     border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.1);
     color: var(--text-medium);
     transition: all 0.3s ease;
 }
 
 .theme-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.2);
     border-color: rgba(59, 130, 246, 0.4);
 }
 
@@ -237,9 +251,11 @@ body {
 
 /* Premium Gradients for Each Stat */
 .stat-box.stat-box-produk {
-    background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.9) 0%,
-            rgba(37, 99, 235, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.9) 0%,
+        rgba(37, 99, 235, 0.9) 100%
+    );
     box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4),
         0 0 40px rgba(59, 130, 246, 0.2);
 }
@@ -251,9 +267,11 @@ body {
 }
 
 .stat-box.stat-box-pelanggan {
-    background: linear-gradient(135deg,
-            rgba(139, 92, 246, 0.9) 0%,
-            rgba(124, 58, 237, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.9) 0%,
+        rgba(124, 58, 237, 0.9) 100%
+    );
     box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4),
         0 0 40px rgba(139, 92, 246, 0.2);
 }
@@ -265,9 +283,11 @@ body {
 }
 
 .stat-box.stat-box-penjualan {
-    background: linear-gradient(135deg,
-            rgba(6, 182, 212, 0.9) 0%,
-            rgba(8, 145, 178, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(6, 182, 212, 0.9) 0%,
+        rgba(8, 145, 178, 0.9) 100%
+    );
     box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4),
         0 0 40px rgba(6, 182, 212, 0.2);
 }
@@ -279,9 +299,11 @@ body {
 }
 
 .stat-box.stat-box-pembelian {
-    background: linear-gradient(135deg,
-            rgba(236, 72, 153, 0.9) 0%,
-            rgba(219, 39, 119, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(236, 72, 153, 0.9) 0%,
+        rgba(219, 39, 119, 0.9) 100%
+    );
     box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4),
         0 0 40px rgba(236, 72, 153, 0.2);
 }
@@ -317,9 +339,11 @@ body {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg,
-            var(--primary-wood) 0%,
-            var(--primary-accent) 100%);
+    background: linear-gradient(
+        90deg,
+        var(--primary-wood) 0%,
+        var(--primary-accent) 100%
+    );
     box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
@@ -384,4 +408,44 @@ body {
 .chart-loader-overlay.show {
     opacity: 1;
     visibility: visible;
+}
+
+/* =================================
+   Flatpickr Dark Input & Filter Button
+   ================================= */
+.flatpickr-input,
+input.date-picker,
+input.date-picker.form-control,
+.flatpickr-input.form-control {
+    background-color: rgba(30, 33, 57, 0.7) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    color: #ffffff !important;
+    backdrop-filter: blur(10px);
+}
+
+.flatpickr-input:focus,
+input.date-picker:focus {
+    background-color: rgba(30, 33, 57, 0.9) !important;
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+    color: #ffffff !important;
+}
+
+.flatpickr-input::placeholder {
+    color: rgba(156, 163, 175, 0.8) !important; /* text-gray-400 */
+}
+
+/* Filter Button Custom Style */
+#btn-filter-chart {
+    color: #e5e7eb !important; /* text-gray-200 */
+    border-color: rgba(59, 130, 246, 0.4) !important;
+    background: rgba(30, 33, 57, 0.5);
+    transition: all 0.3s ease;
+}
+
+#btn-filter-chart:hover {
+    color: #ffffff !important;
+    background: var(--primary-wood);
+    border-color: var(--primary-wood) !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }

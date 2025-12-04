@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    {{-- Flatpickr CSS --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    {{-- Custom Dashboard CSS (Loaded last to override) --}}
+    <link rel="stylesheet" href="/css/admin/dashboard.css">
 @endpush
 
 @section('content')
@@ -238,11 +242,11 @@
                         <form id="chart-filter-form" class="d-flex flex-wrap align-items-end gap-2">
                             <div>
                                 <label for="chart-date-start" class="form-label form-label-sm text-gray mb-1">Mulai</label>
-                                <input type="date" class="form-control form-control-sm" id="chart-date-start" required>
+                                <input type="text" class="form-control form-control-sm date-picker" id="chart-date-start" placeholder="Pilih tanggal" required>
                             </div>
                             <div>
                                 <label for="chart-date-end" class="form-label form-label-sm text-gray mb-1">Selesai</label>
-                                <input type="date" class="form-control form-control-sm" id="chart-date-end" required>
+                                <input type="text" class="form-control form-control-sm date-picker" id="chart-date-end" placeholder="Pilih tanggal" required>
                             </div>
                             <button type="submit" class="btn btn-sm btn-outline-secondary" id="btn-filter-chart">
                                 <i class="bi bi-filter me-1"></i> Filter
@@ -310,5 +314,19 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- Flatpickr JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr(".date-picker", {
+                dateFormat: "Y-m-d",
+                locale: "id",
+                allowInput: true,
+                altInput: true,
+                altFormat: "j F Y",
+            });
+        });
+    </script>
     <script src="/js/admin/dashboard.js"></script>
 @endpush
