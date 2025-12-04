@@ -8,8 +8,8 @@
     <title>@yield('title', config('app.name', 'Laptop Store'))</title>
 
     {{-- Favicon & Theme Color --}}
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}">
+    <link rel="apple-touch-icon" href="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}">
     <meta name="theme-color" content="#0a0e27">
     <meta name="msapplication-TileColor" content="#0a0e27">
 
@@ -79,8 +79,8 @@
     <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(59, 130, 246, 0.2); z-index: 1050;">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 40px; margin-right: 10px; filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));">
-                <span class="fw-bold text-white" style="font-size: 1.25rem; letter-spacing: 0.5px;">LaptopPremium</span>
+                <img src="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}" alt="Logo" style="height: 40px; margin-right: 10px; filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));">
+                <span class="fw-bold text-white" style="font-size: 1.25rem; letter-spacing: 0.5px;">{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#guestNavbar" style="border-color: rgba(255,255,255,0.1);">
                 <i class="bi bi-list text-white fs-2"></i>
@@ -196,6 +196,20 @@
                 <span>Stok</span>
                 <div class="nav-item-glow"></div>
             </a>
+
+            {{-- Settings (Superadmin Only) --}}
+            @if(Auth::user()->role == 'superadmin')
+            <div class="nav-section">
+                <span class="nav-section-title">PENGATURAN</span>
+            </div>
+
+            <a href="{{ route('superadmin.settings') }}" 
+               class="nav-item {{ request()->routeIs('superadmin.settings') ? 'active' : '' }}">
+                <i class="bi bi-gear-fill"></i>
+                <span>Pengaturan Website</span>
+                <div class="nav-item-glow"></div>
+            </a>
+            @endif
         </nav>
 
         {{-- Profile Section (Bottom) --}}
@@ -248,8 +262,8 @@
                     {{-- LOGIKA ROLE FOOTER BRAND --}}
                     <a class="footer-brand" 
                        href="{{ route('home') }}">
-                        <img src="{{ asset('images/logo.png') }}" alt="LaptopPremium Logo" class="logo-filtered">
-                        <h5 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">LaptopPremium</h5>
+                        <img src="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}" alt="{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }} Logo" class="logo-filtered">
+                        <h5 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}</h5>
                     </a>
                     <p class="text-muted pe-lg-4 my-4">
                         Toko laptop terpercaya dengan koleksi lengkap dan harga terbaik untuk semua kebutuhan Anda. Memberikan solusi teknologi berkualitas sejak 2020.
@@ -322,7 +336,7 @@
             <div class="row copyright-section align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
                     <p class="mb-0">
-                        © {{ date('Y') }} LaptopPremium. All rights reserved.
+                        © {{ date('Y') }} {{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}. All rights reserved.
                     </p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
@@ -469,6 +483,11 @@
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
             const body = document.body;
+
+            // Exit if sidebar elements don't exist (guest pages)
+            if (!sidebar || !sidebarToggle || !sidebarOverlay) {
+                return;
+            }
 
             // Load sidebar state from localStorage (only for desktop)
             if (window.innerWidth >= 993) {

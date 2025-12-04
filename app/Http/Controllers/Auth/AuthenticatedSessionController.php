@@ -32,9 +32,10 @@ class AuthenticatedSessionController extends Controller
         // Arahkan berdasarkan role
         if ($user->role === 'superadmin') {
             return redirect()->intended('/superadmin/dashboard');
-    }
+        }
 
-    return redirect()->intended('/dashboard');
+        // Pegawai langsung ke katalog (tidak gunakan intended untuk avoid redirect ke halaman unauthorized)
+        return redirect()->route('katalog.index');
     }
 
     /**

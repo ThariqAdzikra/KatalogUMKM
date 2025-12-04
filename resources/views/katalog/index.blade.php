@@ -15,11 +15,10 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h1 class="hero-title">
-                        Temukan Laptop<br>
-                        <span class="hero-highlight">Impian Anda</span>
+                        {!! nl2br(e(App\Models\SiteSetting::get('hero_title', "Temukan Laptop\nImpian Anda"))) !!}
                     </h1>
                     <p class="hero-subtitle">
-                        Koleksi laptop terlengkap dengan spesifikasi terbaik untuk kebutuhan kerja, gaming, dan entertainment. Dapatkan harga terbaik dengan garansi resmi dan layanan purna jual terpercaya.
+                        {{ App\Models\SiteSetting::get('hero_subtitle', 'Koleksi laptop terlengkap dengan spesifikasi terbaik untuk kebutuhan kerja, gaming, dan entertainment. Dapatkan harga terbaik dengan garansi resmi dan layanan purna jual terpercaya.') }}
                     </p>
                     <a href="#katalog" class="btn btn-hero">
                         <i class="bi bi-arrow-down-circle me-2"></i>Jelajahi Katalog
@@ -34,16 +33,27 @@
 <div class="container" style="margin-top: -3rem; margin-bottom: 6rem; position: relative; z-index: 5;">
     <div id="promoCarousel" class="carousel slide rounded-4 overflow-hidden shadow-lg border border-primary border-opacity-25" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            @php
+                $carouselImages = App\Models\SiteSetting::get('carousel_images', []);
+                if (empty($carouselImages)) {
+                    $carouselImages = ['images/background.jpeg'];
+                }
+            @endphp
+            @foreach($carouselImages as $index => $imagePath)
+            <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="{{ $index }}" 
+                    class="{{ $index === 0 ? 'active' : '' }}" 
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                    aria-label="Slide {{ $index + 1 }}"></button>
+            @endforeach
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="{{ asset('images/background.jpeg') }}" class="d-block w-100" alt="Promo Laptop" style="height: 400px; object-fit: cover;">
-                <div class="carousel-caption d-none d-md-block p-4 rounded-3" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
-                    <h3 class="fw-bold text-white">Promo Spesial Bulan Ini</h3>
-                    <p class="lead text-light">Dapatkan penawaran terbaik untuk laptop gaming dan profesional.</p>
-                </div>
+            @foreach($carouselImages as $index => $imagePath)
+            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                <img src="{{ asset($imagePath) }}" class="d-block w-100" 
+                     alt="Carousel {{ $index + 1 }}" 
+                     style="height: 400px; object-fit: cover;">
             </div>
+            @endforeach
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

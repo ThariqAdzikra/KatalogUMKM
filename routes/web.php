@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     Pembelian\PembelianController,
     Penjualan\PenjualanController,
     SuperAdmin\DashboardController,
+    SuperAdmin\SiteSettingController,
     PegawaiController,
     SupplierController,
     PelangganController
@@ -101,6 +102,11 @@ Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
     Route::resource('/pegawai', PegawaiController::class);
     Route::get('/pegawai/search/ajax', [PegawaiController::class, 'searchAjax'])->name('pegawai.search.ajax');
+
+    // Site Settings
+    Route::get('/superadmin/settings', [SiteSettingController::class, 'index'])->name('superadmin.settings');
+    Route::post('/superadmin/settings', [SiteSettingController::class, 'update'])->name('superadmin.settings.update');
+    Route::delete('/superadmin/settings/carousel/{index}', [SiteSettingController::class, 'deleteCarouselImage'])->name('superadmin.settings.carousel.delete');
 
 });
 
