@@ -196,13 +196,13 @@
 ===================================================== --}}
 <div class="modal fade" id="kasirSuccessModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-content bg-dark text-light border-secondary">
             <div class="modal-header border-0">
                 <h5 class="modal-title">
                     <i class="bi bi-check-circle-fill text-success me-2"></i>
                     Transaksi Berhasil
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <div class="modal-body text-center py-4">
