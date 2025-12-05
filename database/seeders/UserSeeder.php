@@ -12,24 +12,39 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Super Admin',
+                'name' => 'M. Thariq Adzikra',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'superadmin',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
             [
-                'name' => 'Pegawai 1',
-                'email' => 'pegawai@example.com',
+                'name' => 'Andika Fitra Darmawan',
+                'email' => 'dika@example.com',
                 'password' => Hash::make('password'),
                 'role' => 'pegawai',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Devakhri Farhan',
+                'email' => 'devakhri@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'pegawai',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Ryanda Valents Anakri',
+                'email' => 'ryanda@example.com',
+                'password' => Hash::make('password'),
+                'role' => 'pegawai',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ];
 
-        foreach ($users as $user) {
-            DB::table('users')->updateOrInsert(
-                ['email' => $user['email']],
-                array_merge($user, ['created_at' => now(), 'updated_at' => now()])
-            );
-        }
+        DB::table('users')->insert($users);
     }
 }
