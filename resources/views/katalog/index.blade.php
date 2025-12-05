@@ -8,6 +8,7 @@
 @endpush
 
 @section('content')
+@if(!auth()->check() || auth()->user()->role !== 'pegawai')
 {{-- Hero Section with Warm Ambiance --}}
 <div class="hero-section">
     <div class="hero-content">
@@ -65,9 +66,56 @@
         </button>
     </div>
 </div>
+@endif
+
+@if(!auth()->check() || auth()->user()->role !== 'pegawai')
+<div class="section-header d-flex flex-column align-items-start container">
+        <h2 class="section-title pt-2 mb-2">Katalog Produk</h2>
+        <div class="section-divider mt-2 mx-0" style="width: 100%"></div>
+        {{-- Pastikan $produk memiliki data total() dari pagination --}}
+        <p class="section-subtitle">Menampilkan {{ $produk->total() }} produk berkualitas tinggi</p>
+    </div>
+@endif
+
+{{-- Section Header --}}
+    @if(auth()->check() && auth()->user()->role === 'pegawai')
+    <div class="container mb-4 mt-3">
+        <div class="card welcome-card shadow-sm">
+            <div class="card-body p-4 p-md-5">
+                <div class="row align-items-center">
+                    <div class="col-md-7">
+                        <h2 class="welcome-title mb-2">Selamat Datang, {{ Auth::user()->name }}!</h2>
+                        <p class="welcome-subtitle mb-3">Semoga harimu menyenangkan. Silakan cek katalog produk terbaru.</p>
+                        
+                        {{-- Grup Widget Cuaca & Jam --}}
+                        <div class="d-flex flex-column flex-lg-row gap-2 w-100">
+                            {{-- Widget Cuaca (diisi oleh JS) --}}
+                            <div id="weather-widget" class="weather-widget">
+                                <div class="spinner-border spinner-border-sm text-highlight" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="text-highlight ms-2">Memuat cuaca...</span>
+                            </div>
+
+                            {{-- Widget Jam (diisi oleh JS) --}}
+                            <div id="live-clock" class="weather-widget">
+                                <span class="bi-icon"><i class="bi bi-clock"></i></span>
+                                <span>Memuat jam...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-center text-md-end mt-4 mt-md-0">
+                        {{-- Gambar dinamis (diisi oleh JS) --}}
+                        <img src="" alt="Ilustrasi Cuaca" id="weather-image" class="weather-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
 {{-- Filter Section with Cozy Design --}}
-<div class="container">
+<div class="container" style="margin-top: 5rem;">
     <div class="filter-section" id="katalog">
         <div class="filter-card">
             <form action="{{ route('katalog.index') }}" method="GET">
@@ -113,13 +161,7 @@
         </div>
     </div>
 
-    {{-- Section Header --}}
-    <div class="section-header mt-5 pt-5">
-        <h2 class="section-title">Katalog Laptop Premium</h2>
-        <div class="section-divider"></div>
-        {{-- Pastikan $produk memiliki data total() dari pagination --}}
-        <p class="section-subtitle">Menampilkan {{ $produk->total() }} produk berkualitas tinggi</p>
-    </div>
+    
 
     {{-- Product Grid --}}
     <div class="row g-4 pb-5">
@@ -210,3 +252,115 @@
     @endif
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Fungsi untuk mengambil data cuaca
+    async function fetchWeather() {
+        const apiKey = '93b7587a55f39ff4f0dc94e189ea5bd3';
+        const city = 'Pekanbaru';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=id&appid=${apiKey}`;
+
+        const weatherWidget = document.getElementById('weather-widget');
+        if (!weatherWidget) return;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Gagal mengambil data cuaca');
+            }
+
+            const data = await response.json();
+
+            const temp = Math.round(data.main.temp);
+            const description = data.weather[0].description;
+            const iconCode = data.weather[0].icon.slice(0, -1);
+
+            const weatherIcons = {
+                '01': '<i class="bi bi-sun-fill"></i>',
+                '02': '<i class="bi bi-cloud-sun-fill"></i>',
+                '03': '<i class="bi bi-cloud-fill"></i>',
+                '04': '<i class="bi bi-clouds-fill"></i>',
+                '09': '<i class="bi bi-cloud-drizzle-fill"></i>',
+                '10': '<i class="bi bi-cloud-rain-fill"></i>',
+                '11': '<i class="bi bi-cloud-lightning-rain-fill"></i>',
+                '13': '<i class="bi bi-snow-fill"></i>',
+                '50': '<i class="bi bi-cloud-fog-fill"></i>'
+            };
+
+            const icon = weatherIcons[iconCode] || '<i class="bi bi-cloud-sun"></i>';
+
+            weatherWidget.innerHTML = `
+                <span class="bi-icon">${icon}</span>
+                <strong>${temp}°C</strong>
+                <span style="opacity: 0.9;">${description} di ${city}</span>
+            `;
+
+            const iconElement = weatherWidget.querySelector('.bi-icon i');
+            if (iconElement) {
+                iconElement.style.fontSize = '1.5rem';
+                iconElement.style.verticalAlign = 'bottom';
+            }
+
+        } catch (error) {
+            console.error('Error fetching weather:', error);
+            weatherWidget.innerHTML = '<span>Gagal memuat cuaca</span>';
+        }
+    }
+
+    // 2. Fungsi untuk mengatur gambar Siang/Malam
+    function updateWeatherImage() {
+        const imgElement = document.getElementById('weather-image');
+        if (!imgElement) return;
+
+        const hour = new Date().getHours();
+        const isDayTime = hour >= 6 && hour < 18;
+
+        if (isDayTime) {
+            imgElement.src = '/images/matahari.png';
+            imgElement.alt = 'Ilustrasi Siang Hari';
+        } else {
+            imgElement.src = '/images/bulan.png';
+            imgElement.alt = 'Ilustrasi Malam Hari';
+        }
+
+        imgElement.onerror = function () {
+            console.warn('Gambar cuaca tidak ditemukan di path:', this.src);
+            this.style.display = 'none';
+        };
+    }
+
+    function updateClock() {
+        const clockWidget = document.getElementById('live-clock');
+        if (!clockWidget) return;
+
+        const now = new Date();
+
+        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long' };
+        const formattedDate = now.toLocaleDateString('id-ID', dateOptions);
+
+        const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
+        const formattedTime = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+
+        clockWidget.innerHTML = `
+            <span class="bi-icon"><i class="bi bi-clock"></i></span>
+            <strong>${formattedTime}</strong>
+            <span style="opacity: 0.9;">${formattedDate}</span>
+        `;
+
+        const iconElement = clockWidget.querySelector('.bi-icon i');
+        if (iconElement) {
+            iconElement.style.fontSize = '1.5rem';
+            iconElement.style.verticalAlign = 'bottom';
+        }
+    }
+
+    // Panggil fungsi
+    fetchWeather();
+    updateWeatherImage();
+    updateClock();
+    setInterval(updateClock, 1000);
+});
+</script>
+@endpush
