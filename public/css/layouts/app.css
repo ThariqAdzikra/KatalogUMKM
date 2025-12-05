@@ -103,6 +103,67 @@ main.main-content {
     display: none !important;
 }
 
+/* Mobile Hamburger Button - Edge Mounted Tab Design */
+.mobile-hamburger {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 120px;
+    border-radius: 0 12px 12px 0;
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-left: none;
+    color: #ffffff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1050;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.mobile-hamburger i {
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+/* When sidebar is open, rotate arrow to point left */
+.premium-sidebar.mobile-open~.mobile-hamburger i {
+    transform: rotate(180deg);
+}
+
+/* Hide hamburger when sidebar is open */
+.premium-sidebar.mobile-open~.mobile-hamburger {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(-100%);
+}
+
+.mobile-hamburger:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(59, 130, 246, 0.4);
+    left: 0;
+}
+
+.mobile-hamburger:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Show hamburger on mobile */
+@media (max-width: 992px) {
+    .mobile-hamburger {
+        display: flex;
+    }
+}
+
 /* Premium Sidebar Container - Fixed Width */
 .premium-sidebar {
     position: fixed;
@@ -1567,6 +1628,7 @@ footer .social-icons a {
         font-size: 0.9rem;
     }
 }
+
 /* Navbar Login Button */
 .btn-login-nav {
     background: #3b82f6;

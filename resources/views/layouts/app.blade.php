@@ -123,6 +123,7 @@
     @endguest
     @endunless
 
+
     {{-- Premium SaaS Sidebar (Only for Auth Users) --}}
     @auth
     <aside class="premium-sidebar" id="sidebar">
@@ -257,6 +258,11 @@
             </div>
         </div>
     </aside>
+
+    {{-- Mobile Hamburger Button (Only for Auth Users) - Placed after sidebar for CSS sibling selector --}}
+    <button class="mobile-hamburger" id="mobileHamburger">
+        <i class="bi bi-chevron-right"></i>
+    </button>
     @endauth
 
     {{-- Mobile Overlay --}}
@@ -501,11 +507,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
+            const mobileHamburger = document.getElementById('mobileHamburger');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
             const body = document.body;
 
             // Exit if sidebar elements don't exist (guest pages)
-            if (!sidebar || !sidebarToggle || !sidebarOverlay) {
+            if (!sidebar || !sidebarOverlay) {
                 return;
             }
 
@@ -517,19 +524,29 @@
                 }
             }
 
-            // Toggle sidebar
-            sidebarToggle.addEventListener('click', function() {
-                if (window.innerWidth >= 993) {
-                    // Desktop: Toggle collapsed state
-                    body.classList.toggle('sidebar-collapsed');
-                    const isCollapsed = body.classList.contains('sidebar-collapsed');
-                    localStorage.setItem('sidebarCollapsed', isCollapsed);
-                } else {
-                    // Mobile: Toggle overlay
+            // Toggle sidebar (from sidebar toggle button)
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    if (window.innerWidth >= 993) {
+                        // Desktop: Toggle collapsed state
+                        body.classList.toggle('sidebar-collapsed');
+                        const isCollapsed = body.classList.contains('sidebar-collapsed');
+                        localStorage.setItem('sidebarCollapsed', isCollapsed);
+                    } else {
+                        // Mobile: Toggle overlay
+                        sidebar.classList.toggle('mobile-open');
+                        sidebarOverlay.classList.toggle('active');
+                    }
+                });
+            }
+
+            // Toggle sidebar (from mobile hamburger button)
+            if (mobileHamburger) {
+                mobileHamburger.addEventListener('click', function() {
                     sidebar.classList.toggle('mobile-open');
                     sidebarOverlay.classList.toggle('active');
-                }
-            });
+                });
+            }
 
             // Close mobile sidebar on overlay click
             sidebarOverlay.addEventListener('click', function() {
