@@ -598,3 +598,127 @@
 .product-card:nth-child(8) {
     animation-delay: 0.8s;
 }
+/* =================================
+   🎨 WELCOME CARD (Copied from Dashboard)
+   ================================= */
+.welcome-card {
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.15) 0%,
+        rgba(139, 92, 246, 0.15) 100%
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(59, 130, 246, 0.3);
+}
+
+.welcome-card .card-body {
+    padding: 2.5rem 3rem !important;
+    position: relative;
+    z-index: 2;
+}
+
+/* Subtle gradient background */
+.welcome-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.2) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.welcome-card .welcome-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.75rem;
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+}
+
+.welcome-card .welcome-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.weather-widget {
+    font-size: 1rem;
+    color: #3b82f6; /* primary-highlight */
+    background: rgba(59, 130, 246, 0.15);
+    border-radius: 12px;
+    padding: 0.75rem 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: flex-start;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+.weather-widget::-webkit-scrollbar {
+    display: none;
+}
+
+.weather-widget strong {
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.weather-image {
+    max-width: 200px;
+    height: auto;
+    opacity: 0.95;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.5));
+    margin-right: 2rem;
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .welcome-card .card-body {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .welcome-card .welcome-title {
+        font-size: 1.5rem;
+    }
+
+    .weather-image {
+        max-width: 120px;
+        margin-top: 1rem;
+        margin-right: 0;
+    }
+}

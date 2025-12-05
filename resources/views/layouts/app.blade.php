@@ -172,7 +172,7 @@
             @else
                 <a href="{{ route('penjualan.create') }}" 
                    class="nav-item {{ request()->routeIs('penjualan.create') ? 'active' : '' }}">
-                    <i class="bi bi-cash-register"></i>
+                    <i class="bi bi-cart-check"></i>
                     <span>Kasir</span>
                     <div class="nav-item-glow"></div>
                 </a>
