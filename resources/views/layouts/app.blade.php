@@ -96,6 +96,7 @@
     </style>
 </head>
 <body>
+    @unless(View::hasSection('hide_navbar'))
     {{-- Navbar for Guests --}}
     @guest
     <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(10, 14, 39, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(59, 130, 246, 0.2); z-index: 1050;">
@@ -119,6 +120,7 @@
         </div>
     </nav>
     @endguest
+    @endunless
 
     {{-- Premium SaaS Sidebar (Only for Auth Users) --}}
     @auth
@@ -259,11 +261,12 @@
     {{-- Mobile Overlay --}}
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <main class="main-content {{ Auth::check() ? '' : 'ms-0 pt-5 mt-4' }}">
+    <main class="main-content {{ Auth::check() ? '' : 'ms-0 ' . (View::hasSection('hide_navbar') ? '' : 'pt-5 mt-4') }}">
         @yield('content')
     </main>
 
     {{-- SECTION FOOTER PROFESIONAL (Tata letak 4 kolom) --}}
+    @unless(View::hasSection('hide_footer'))
     @guest
     <footer class="py-5 ms-0">
         <div class="container">
@@ -360,6 +363,7 @@
         </div>
     </footer>
     @endguest
+    @endunless
 
     {{-- Page Transition Loader --}}
     <div id="page-loader" class="page-loader">

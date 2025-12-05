@@ -1,5 +1,6 @@
 main {
     padding-top: 0 !important;
+    margin-top: 0 !important;
     background: none !important;
 }
 
@@ -14,13 +15,13 @@ footer {
     justify-content: center;
     position: relative;
     overflow: hidden;
-    padding: 85px 1rem 2rem 1rem;
+    padding: 1rem;
 }
 
 /* Background image removed */
 
 #login-wrapper::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -39,7 +40,11 @@ footer {
 
 /* Efek Glass Card Transparan */
 .login-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
     backdrop-filter: blur(15px);
     border-radius: 20px;
     padding: 3rem 2.5rem;
@@ -82,18 +87,18 @@ footer {
     align-items: center;
     justify-content: center;
     width: 3.75rem;
-    color: var(--primary-main);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 1.5rem;
     z-index: 10;
 }
 
 .form-control {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(10, 14, 39, 0.6);
     border-radius: 12px;
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1rem 3.5rem 1rem 4.5rem;
     font-size: 1rem;
-    color: var(--text-dark);
+    color: #ffffff !important;
     outline: none;
     transition: all 0.3s ease;
     height: 3.5rem;
@@ -102,13 +107,24 @@ footer {
 }
 
 .form-control::placeholder {
-    color: var(--text-gray);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .form-control:focus {
-    background: #ffffff;
+    background: rgba(10, 14, 39, 0.8);
     border-color: var(--primary-accent);
-    box-shadow: 0 0 0 4px rgba(107, 126, 74, 0.1);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    color: #ffffff !important;
+}
+
+/* Fix Browser Autofill Styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px rgba(10, 14, 39, 0.8) inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Posisikan password toggle di dalam .form-group */
@@ -120,7 +136,7 @@ footer {
     margin: auto 0;
     background: none;
     border: none;
-    color: var(--primary-main);
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     padding: 0.5rem;
     font-size: 1.25rem;
