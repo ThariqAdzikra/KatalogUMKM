@@ -37,5 +37,15 @@ class AppServiceProvider extends ServiceProvider
             ->line('Abaikan email ini jika Anda tidak meminta perubahan.');
     });
         Paginator::useBootstrapFive();
+
+        // Share data with layouts.app
+        \Illuminate\Support\Facades\View::composer('layouts.app', function ($view) {
+            $view->with('categories', \App\Models\Kategori::all());
+            $view->with('social_links', \App\Models\SiteSetting::get('social_links', []));
+            $view->with('footer_address', \App\Models\SiteSetting::get('footer_address', 'Pekanbaru, Riau, Indonesia'));
+            $view->with('footer_phone', \App\Models\SiteSetting::get('footer_phone', '+62 823-1659-2733'));
+            $view->with('footer_email', \App\Models\SiteSetting::get('footer_email', 'laptopPremium@gmail.com'));
+            $view->with('footer_copyright_text', \App\Models\SiteSetting::get('footer_copyright_text', '© 2025 LaptopPremium. All rights reserved.'));
+        });
     }
 }
