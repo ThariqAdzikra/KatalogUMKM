@@ -341,3 +341,55 @@
         max-width: 85%;
     }
 }
+
+/* ========================================
+   Professional Formatting Styles
+======================================== */
+
+/* Numbered List Items */
+.numbered-item {
+    margin: 8px 0;
+    padding-left: 4px;
+    line-height: 1.6;
+}
+
+.numbered-item strong {
+    color: #17a2b8;
+    margin-right: 8px;
+    font-size: 1.05em;
+}
+
+/* Bullet Points */
+.bullet-item {
+    margin: 6px 0;
+    padding-left: 12px;
+    line-height: 1.5;
+    position: relative;
+}
+
+.bullet-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 4px;
+    background: #17a2b8;
+    border-radius: 50%;
+}
+
+/* Code Formatting */
+.chat-bubble-text code {
+    background: rgba(23, 162, 184, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: #20c997;
+    border: 1px solid rgba(23, 162, 184, 0.3);
+}
+
+/* Better spacing for formatted content */
+.chat-bubble-ai .chat-bubble-text {
+    line-height: 1.7;
+}

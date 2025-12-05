@@ -462,12 +462,37 @@ document.addEventListener('DOMContentLoaded', () => {
             return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         };
 
+        // Helper: Format markdown to HTML for better display
+        const formatMarkdown = (text) => {
+            if (!text) return text;
+
+            // Convert newlines to <br>
+            text = text.replace(/\n/g, '<br>');
+
+            // Convert numbered lists (1. 2. 3.)
+            text = text.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="numbered-item"><strong>$1.</strong> $2</div>');
+
+            // Convert bullet points (•, -, *)
+            text = text.replace(/^[•\-\*]\s+(.+)$/gm, '<div class="bullet-item">• $1</div>');
+
+            // Convert bold (**text**)
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+            // Convert code (`code`)
+            text = text.replace(/`(.+?)`/g, '<code>$1</code>');
+
+            return text;
+        };
+
         // Helper: Add Message to UI (WhatsApp Style)
         const addMessage = (text, sender) => {
             const isUser = sender === 'user';
             const bubbleClass = isUser ? 'chat-bubble-user' : 'chat-bubble-ai';
             const senderName = isUser ? 'Anda' : 'AI Assistant';
             const senderIcon = isUser ? 'person-circle' : 'robot';
+
+            // Format AI responses with markdown
+            const formattedText = sender === 'ai' ? formatMarkdown(text) : text;
 
             const messageDiv = document.createElement('div');
             messageDiv.className = `chat-bubble ${bubbleClass}`;
@@ -476,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <i class="bi bi-${senderIcon}"></i>
                             <span>${senderName}</span>
                         </div>
-                        <div class="chat-bubble-text">${text}</div>
+                        <div class="chat-bubble-text">${formattedText}</div>
                         <div class="chat-bubble-time">${getCurrentTime()}</div>
                     `;
 
