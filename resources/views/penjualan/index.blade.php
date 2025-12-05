@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Penjualan - Laptop Store')
+@section('title', 'Manajemen Penjualan - ' . App\Models\SiteSetting::get('brand_name'))
+
 
 @push('styles')
 {{-- Memuat style dasar dan style khusus penjualan (pop-up) --}}
@@ -50,28 +51,28 @@
     @endif
 
     {{-- Statistik Ringkas --}}
-    <div class="row mb-4">
-      <div class="col-md-3">
+    <div class="row">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #e9ecef; color: #0d6efd;">
+          <div class="stats-icon" style="background: rgba(13, 110, 253, 0.15); color: #0d6efd;">
             <i class="bi bi-receipt"></i>
           </div>
           <div class="stats-value">{{ $penjualan->total() ?? $penjualan->count() }}</div>
           <div class="stats-label">Transaksi Selesai</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #e6ffed; color: #28a745;">
+          <div class="stats-icon" style="background: rgba(40, 167, 69, 0.15); color: #28a745;">
             <i class="bi bi-people"></i>
           </div>
           <div class="stats-value">{{ $penjualan->groupBy('id_pelanggan')->count() }}</div>
           <div class="stats-label">Pelanggan Hari Ini</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon mb-4" style="background: #fff3cd; color: #fd7e14;">
+          <div class="stats-icon mb-4" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
             <i class="bi bi-wallet2"></i>
           </div>
           <div class="stats-value" style="font-size: 1.2rem;">
@@ -80,9 +81,9 @@
           <div class="stats-label mt-2">Pendapatan Hari Ini</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #d1ecf1; color: #17a2b8;">
+          <div class="stats-icon" style="background: rgba(23, 162, 184, 0.15); color: #17a2b8;">
             <i class="bi bi-calendar3"></i>
           </div>
           <div class="stats-value">
@@ -179,18 +180,16 @@
     ✅ MODAL SUKSES (ANIMASI TRASH)
     ==================================================
     --}}
-    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade modal-confirmation-style" id="successModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              <i class="bi bi-trash3 me-2 icon-animate-wiggle"></i>
-              Berhasil
-            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-center">
-            <div class="anim-trash mx-auto mb-2" aria-hidden="true">
+            
+            {{-- Animasi Sampah (Untuk Delete) --}}
+            <div id="successIconTrash" class="anim-trash mx-auto mb-2" aria-hidden="true">
               <svg viewBox="0 0 120 120" width="100" height="100">
                 <rect x="30" y="40" width="60" height="70" rx="6" ry="6" fill="#dc3545" opacity="0.12" stroke="#dc3545" stroke-width="3" />
                 <rect class="trash-item" x="56" y="-12" width="8" height="18" rx="1" ry="1" fill="#dc3545" />
@@ -199,10 +198,12 @@
                 <circle class="dust puff-right" cx="74" cy="108" r="2" fill="#dc3545" opacity="0.4" />
               </svg>
             </div>
-            <p id="successMessage" class="mt-2">Data penjualan berhasil dihapus.</p>
+
+            <h5 class="modal-title-text mt-3">Berhasil</h5>
+            <p class="modal-desc-text mt-2" id="successMessage">Data penjualan berhasil dihapus.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
               <i class="bi bi-check2 me-2"></i>OK
             </button>
           </div>

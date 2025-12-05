@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', config('app.name', 'Laptop Store') . ' - Login')
+@section('hide_navbar', true)
+@section('hide_footer', true)
 
 @push('styles')
     {{-- Memuat CSS spesifik untuk halaman login --}}

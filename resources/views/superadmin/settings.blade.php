@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengaturan Website')
+@section('title', 'Pengaturan - ' . App\Models\SiteSetting::get('brand_name'))
 
 @push('styles')
 <style>

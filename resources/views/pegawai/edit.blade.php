@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Pegawai - Laptop Store')
+@section('title', 'Edit Pegawai - ' . App\Models\SiteSetting::get('brand_name'))
 
 @push('styles')
 <link rel="stylesheet" href="/css/manajemen/style.css">

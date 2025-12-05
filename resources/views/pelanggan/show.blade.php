@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Pelanggan - ' . $pelanggan->nama)
+@section('title', 'Detail Pelanggan - ' . App\Models\SiteSetting::get('brand_name'))
+
 
 @push('styles')
 {{-- CSS dari style.css akan otomatis diambil --}}

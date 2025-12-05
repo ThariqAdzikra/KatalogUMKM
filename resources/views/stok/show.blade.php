@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Produk - Laptop Store')
+@section('title', 'Detail Produk - ' . App\Models\SiteSetting::get('brand_name'))
 
 @push('styles')
 {{-- Pastikan path ini benar --}}

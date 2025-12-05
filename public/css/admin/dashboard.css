@@ -364,24 +364,56 @@ body {
     color: var(--text-gray) !important;
 }
 
+/* Dark Theme Date Inputs */
+.form-control {
+    background: rgba(30, 33, 57, 0.6) !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.form-control:focus {
+    background: rgba(30, 33, 57, 0.8) !important;
+    border-color: var(--primary-accent) !important;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Invert Calendar Icon for Dark Theme */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
 /* Button Groups */
-.btn-group-sm .btn-outline-secondary {
-    color: var(--text-medium);
-    border-color: var(--border-soft);
+/* Button Groups & Filter Button */
+.btn-group-sm .btn-outline-secondary,
+#btn-filter-chart {
+    color: #ffffff !important;
+    border-color: rgba(59, 130, 246, 0.4);
     background: rgba(30, 33, 57, 0.5);
+    transition: all 0.3s ease;
+    height: 38px; /* Force height alignment */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#chart-filter-form .form-control {
+    height: 38px; /* Match button height */
 }
 
 .btn-group-sm .btn-outline-secondary.active {
     background: var(--primary-wood);
-    color: #ffffff;
+    color: #ffffff !important;
     border-color: var(--primary-wood);
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }
 
-.btn-group-sm .btn-outline-secondary:hover {
-    background: rgba(59, 130, 246, 0.2);
-    color: #ffffff;
-    border-color: rgba(59, 130, 246, 0.4);
+.btn-group-sm .btn-outline-secondary:hover,
+#btn-filter-chart:hover {
+    background: rgba(59, 130, 246, 0.3);
+    color: #ffffff !important;
+    border-color: var(--primary-highlight);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
 
 /* =================================

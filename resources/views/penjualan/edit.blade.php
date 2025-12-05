@@ -251,19 +251,28 @@
 @endpush
 
 {{-- Modal Konfirmasi Edit Penjualan --}}
-<div class="modal fade" id="confirmEditPenjualanModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade modal-confirmation-style" id="confirmEditPenjualanModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm-custom">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Konfirmasi Edit</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Apakah Anda yakin ingin menyimpan perubahan pada data penjualan ini?</p>
+        <div class="modal-icon-wrapper">
+            <i class="bi bi-pencil-square"></i>
+        </div>
+        <span class="modal-title-text">Konfirmasi Edit</span>
+        <p class="modal-desc-text">
+            Apakah Anda yakin ingin menyimpan perubahan pada data penjualan ini?
+        </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle me-2"></i>Batal</button>
-        <button type="button" id="confirmEditPenjualanBtn" class="btn btn-primary-custom"><i class="bi bi-save me-2"></i>Simpan</button>
+        <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
+            <i class="bi bi-x-lg"></i> Batal
+        </button>
+        <button type="button" id="confirmEditPenjualanBtn" class="btn btn-modal-action btn-primary-custom">
+            <i class="bi bi-save-fill"></i> Simpan
+        </button>
       </div>
     </div>
   </div>
@@ -299,27 +308,23 @@
 </div>
 
 {{-- Modal Sukses Edit (Check icon) --}}
-<div class="modal fade" id="editPenjualanSuccessModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade modal-confirmation-style" id="editPenjualanSuccessModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-check-circle me-2 icon-animate-pop"></i>
-          Berhasil
-        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-        <div class="anim-check mx-auto mb-2" aria-hidden="true">
-          <svg viewBox="0 0 120 120" width="100" height="100">
-            <circle class="check-circle" cx="60" cy="60" r="42" fill="none" stroke="#198754" stroke-width="6" />
-            <path class="check-mark" d="M38 62 L54 76 L84 46" fill="none" stroke="#198754" stroke-linecap="round" stroke-linejoin="round" stroke-width="6" />
-          </svg>
+        <div class="modal-icon-wrapper success mx-auto mb-2">
+            <i class="bi bi-check-lg"></i>
         </div>
-        <p id="editPenjualanSuccessMessage" class="mt-2">Data penjualan berhasil diperbarui</p>
+        <h5 class="modal-title-text mt-3">Berhasil</h5>
+        <p class="modal-desc-text mt-2" id="editPenjualanSuccessMessage">Data penjualan berhasil diperbarui</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i class="bi bi-check2 me-2"></i>OK</button>
+        <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
+            <i class="bi bi-check2 me-2"></i>OK
+        </button>
       </div>
     </div>
   </div>

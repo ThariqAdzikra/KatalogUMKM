@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Pegawai - Laptop Store')
 
+@section('title', 'Manajemen Pegawai - ' . App\Models\SiteSetting::get('brand_name', 'KatalogUMKM'))
 @push('styles')
 <link rel="stylesheet" href="/css/manajemen/style.css">
 <link rel="stylesheet" href="/css/manajemen/pegawai.css">
@@ -30,7 +30,7 @@
         Jika ada session success, div ini akan dirender dan dideteksi oleh popup.js
     --}}
     @if(session('success'))
-        <div id="flash-success-flag" style="display: none;"></div>
+        <div id="flash-success-flag" data-message="{{ session('success') }}" style="display: none;"></div>
     @endif
 
     {{-- Error/Warning Alert tetap ditampilkan biasa --}}
@@ -99,7 +99,7 @@
                                 @if($p->role == 'admin')
                                     <span class="badge bg-primary">Admin</span>
                                 @elseif($p->role == 'pegawai')
-                                    <span class="badge bg-secondary">Pegawai</span>
+                                    <span class="badge badge-role-pegawai">Pegawai</span>
                                 @else
                                     <span class="badge bg-light text-dark">{{ $p->role ?? '-' }}</span>
                                 @endif
@@ -274,21 +274,19 @@
 
 {{-- 
 ==================================================
-✅ MODAL SUKSES (ANIMASI TRASH)
+✅ MODAL SUKSES (ANIMASI TRASH & CHECK)
 ==================================================
 --}}
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade modal-confirmation-style" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-trash3 me-2 icon-animate-wiggle"></i>
-          Berhasil
-        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
-        <div class="anim-trash mx-auto mb-2" aria-hidden="true">
+        
+        {{-- Animasi Sampah (Untuk Delete) --}}
+        <div id="successIconTrash" class="anim-trash mx-auto mb-2" aria-hidden="true" style="display: none;">
           <svg viewBox="0 0 120 120" width="100" height="100">
             <rect x="30" y="40" width="60" height="70" rx="6" ry="6" fill="#dc3545" opacity="0.12" stroke="#dc3545" stroke-width="3" />
             <rect class="trash-item" x="56" y="-12" width="8" height="18" rx="1" ry="1" fill="#dc3545" />
@@ -297,10 +295,17 @@
             <circle class="dust puff-right" cx="74" cy="108" r="2" fill="#dc3545" opacity="0.4" />
           </svg>
         </div>
-        <p class="mt-2">Data pegawai berhasil dihapus.</p>
+
+        {{-- Animasi Centang (Untuk Create/Edit) --}}
+        <div id="successIconCheck" class="modal-icon-wrapper success mx-auto mb-2" style="display: none;">
+            <i class="bi bi-check-lg"></i>
+        </div>
+
+        <h5 class="modal-title-text mt-3">Berhasil</h5>
+        <p class="modal-desc-text mt-2" id="successModalMessage">Data berhasil diproses.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
           <i class="bi bi-check2 me-2"></i>OK
         </button>
       </div>

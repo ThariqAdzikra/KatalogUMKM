@@ -1,11 +1,14 @@
-```
+
 @extends('layouts.app')
 
 @push('styles')
     <link rel="stylesheet" href="/css/admin/dashboard.css">
     <link rel="stylesheet" href="/css/manajemen/style.css">
     <link rel="stylesheet" href="/css/ai-chat.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
 @endpush
+
+@section('title', 'Dashboard - ' . App\Models\SiteSetting::get('brand_name'))
 
 @section('content')
 <div class="admin-dashboard-container container py-4">

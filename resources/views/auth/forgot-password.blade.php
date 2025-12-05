@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', config('app.name', 'Laptop Store') . ' - Lupa Password')
+@section('hide_navbar', true)
+@section('hide_footer', true)
 
 @push('styles')
     {{-- CSS bawaan login dipakai ulang --}}
