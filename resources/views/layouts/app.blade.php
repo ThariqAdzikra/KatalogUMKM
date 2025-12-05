@@ -20,6 +20,7 @@
     {{-- CSS Global Dimuat dari file eksternal (public/css/app.css) --}}
     <link rel="stylesheet" href="/css/layouts/app.css">
     <link rel="stylesheet" href="/css/global-premium.css">
+    <link rel="stylesheet" href="/css/manajemen/style.css">
     
     {{-- Stack untuk CSS spesifik per halaman --}}
     @stack('styles')
