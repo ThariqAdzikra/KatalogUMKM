@@ -543,13 +543,29 @@
 .form-control,
 .form-select,
 textarea {
-    background-color: rgba(10, 14, 39, 0.6) !important;
+    background-color: rgba(20, 24, 44, 0.8) !important;
     color: #e5e7eb !important;
     border-radius: 8px;
-    border: 2px solid var(--border-soft);
+    border: 2px solid rgba(6, 182, 212, 0.3);
     padding: 0.75rem 1rem;
     transition: all 0.3s ease;
     line-height: 1.5;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+    color: rgba(107, 114, 128, 0.6) !important;
+    opacity: 1 !important;
+}
+
+.form-control::-webkit-input-placeholder { color: rgba(107, 114, 128, 0.6) !important; }
+.form-control::-moz-placeholder { color: rgba(107, 114, 128, 0.6) !important; }
+.form-control:-ms-input-placeholder { color: rgba(107, 114, 128, 0.6) !important; }
+
+/* Readonly input styling */
+.form-control[readonly] {
+    background-color: rgba(20, 24, 44, 0.8) !important;
+    color: rgba(107, 114, 128, 0.7) !important;
 }
 
 /* === Custom File Input Button === */
@@ -565,17 +581,19 @@ input[type="file"]::file-selector-button {
 }
 
 input[type="file"]::file-selector-button:hover {
-    background-color: rgba(59, 130, 246, 0.5) !important;
+    border-color: rgba(59, 130, 246, 0.5) !important;
     color: #ffffff !important;
     border-color: #3b82f6 !important;
 }
 
+/* Number input spinner - keep default, browser handles styling */
+
 .form-control:focus,
 .form-select:focus,
 textarea:focus {
-    border-color: var(--primary-wood);
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
-        0 0 15px rgba(59, 130, 246, 0.2);
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25),
+        0 0 15px rgba(6, 182, 212, 0.2);
     outline: none;
     background: rgba(45, 51, 84, 0.9) !important;
     color: #e5e7eb !important;
@@ -587,7 +605,7 @@ textarea:focus {
 
 .select2-container--bootstrap-5 .select2-selection {
     border-radius: 8px !important;
-    border: 2px solid var(--border-soft) !important;
+    border: 2px solid rgba(6, 182, 212, 0.3) !important;
     padding: 0.75rem 1rem !important;
     min-height: calc(1.5em + 1.5rem + 4px) !important;
     transition: all 0.3s ease !important;
@@ -597,14 +615,14 @@ textarea:focus {
 
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
-    border-color: var(--primary-wood) !important;
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
-        0 0 15px rgba(59, 130, 246, 0.2) !important;
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25),
+        0 0 15px rgba(6, 182, 212, 0.2) !important;
     outline: none !important;
 }
 
 .select2-container--bootstrap-5 .select2-dropdown {
-    border: 2px solid var(--primary-wood) !important;
+    border: 2px solid rgba(6, 182, 212, 0.4) !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     background: rgba(30, 33, 57, 0.95) !important;
@@ -627,14 +645,16 @@ textarea:focus {
 }
 
 .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
-    border: 2px solid var(--border-soft) !important;
+    border: 2px solid rgba(6, 182, 212, 0.3) !important;
     border-radius: 6px !important;
     padding: 0.5rem !important;
+    background: rgba(20, 24, 44, 0.9) !important;
+    color: #e5e7eb !important;
 }
 
 .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field:focus {
-    border-color: var(--primary-wood) !important;
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25) !important;
     outline: none !important;
     background: rgba(45, 51, 84, 0.9) !important;
 }
@@ -642,11 +662,21 @@ textarea:focus {
 .select2-container--bootstrap-5 .select2-results__option {
     padding: 0.75rem 1rem !important;
     font-size: 0.95rem !important;
+    color: #e5e7eb !important;
+    background: transparent !important;
 }
 
 .select2-container--bootstrap-5 .select2-results__option--highlighted {
-    background-color: var(--primary-wood) !important;
+    background-color: #06b6d4 !important;
     color: white !important;
+}
+
+.select2-container--bootstrap-5 .select2-results__option--selectable {
+    color: #e5e7eb !important;
+}
+
+.select2-container--bootstrap-5 .select2-results {
+    background: rgba(30, 33, 57, 0.98) !important;
 }
 
 .select2-container--bootstrap-5 .select2-selection__rendered {
@@ -728,17 +758,18 @@ textarea:focus {
 }
 
 .btn-secondary-custom {
-    background: var(--primary-accent);
-    border: none;
+    background: rgba(30, 33, 57, 0.9);
+    border: 2px solid rgba(6, 182, 212, 0.4);
     padding: 0.875rem 2.5rem;
     border-radius: 8px;
-    color: white;
+    color: #e5e7eb;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .btn-secondary-custom:hover {
-    background: var(--primary-main);
+    background: rgba(6, 182, 212, 0.2);
+    border-color: #06b6d4;
     color: white;
 }
 
@@ -764,7 +795,7 @@ textarea:focus {
 }
 
 .input-group-icon {
-    background: var(--primary-wood);
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     border: none;
     color: white;
     border-radius: 8px 0 0 8px;
@@ -772,9 +803,37 @@ textarea:focus {
     line-height: 1.5;
 }
 
+/* Fix all input-group-text for dark theme */
+.input-group-text {
+    background: rgba(20, 24, 44, 0.8) !important;
+    border: 2px solid rgba(6, 182, 212, 0.3) !important;
+    color: #9ca3af !important;
+    border-radius: 8px 0 0 8px;
+}
+
+.input-group .input-group-text:last-child {
+    border-radius: 0 8px 8px 0;
+    border-left: none !important;
+}
+
 .input-group .form-control {
     border-left: none;
     border-radius: 0 8px 8px 0;
+    border: 2px solid rgba(6, 182, 212, 0.3) !important;
+    background-color: rgba(20, 24, 44, 0.8) !important;
+}
+
+.input-group .form-control::placeholder {
+    color: rgba(107, 114, 128, 0.6) !important;
+    opacity: 1 !important;
+}
+
+.input-group .form-control::-webkit-input-placeholder { color: rgba(107, 114, 128, 0.6) !important; }
+.input-group .form-control::-moz-placeholder { color: rgba(107, 114, 128, 0.6) !important; }
+
+.input-group .form-control:focus {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.25);
 }
 
 .form-section {
@@ -1118,19 +1177,20 @@ code {
 }
 
 .modal-content-cozy {
-    border: none;
+    border: 1px solid rgba(6, 182, 212, 0.3);
     border-radius: 12px;
-    box-shadow: var(--shadow-hover);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.1);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background: rgba(20, 24, 44, 0.98);
 }
 
 .preview-header-box {
-    background-color: var(--cream-bg);
+    background-color: rgba(30, 33, 57, 0.8);
     padding: 2rem;
     text-align: center;
-    border-bottom: 2px dashed var(--border-soft);
+    border-bottom: 2px dashed rgba(6, 182, 212, 0.2);
 }
 
 .preview-img-wrapper {
@@ -1140,8 +1200,8 @@ code {
     margin: 0 auto 1rem auto;
     border-radius: 12px;
     overflow: hidden;
-    background: #fff;
-    border: 4px solid white;
+    background: rgba(30, 33, 57, 0.5);
+    border: 2px solid rgba(6, 182, 212, 0.3);
     box-shadow: var(--shadow-soft);
     display: flex;
     align-items: center;
@@ -1170,7 +1230,7 @@ code {
 
 .modal-body-compact {
     padding: 0;
-    background: #fff;
+    background: rgba(20, 24, 44, 0.98);
 }
 
 .receipt-list {
@@ -1182,7 +1242,7 @@ code {
     justify-content: space-between;
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px dashed var(--border-soft);
+    border-bottom: 1px dashed rgba(6, 182, 212, 0.2);
     font-size: 0.95rem;
 }
 
@@ -1193,21 +1253,21 @@ code {
 }
 
 .r-label {
-    color: var(--text-medium);
+    color: #9ca3af;
     font-weight: 500;
 }
 
 .r-value {
-    color: var(--text-dark);
+    color: #e5e7eb;
     font-weight: 700;
     text-align: right;
     max-width: 60%;
 }
 
 .total-highlight-box {
-    background-color: #fdfbf7;
+    background-color: rgba(6, 182, 212, 0.1);
     padding: 1.25rem 1.5rem;
-    border-top: 2px solid var(--primary-wood);
+    border-top: 2px solid rgba(6, 182, 212, 0.4);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1215,23 +1275,23 @@ code {
 
 .total-title {
     font-weight: 700;
-    color: var(--primary-dark);
+    color: #ffffff;
     font-size: 1.1rem;
 }
 
 .total-amount {
     font-weight: 800;
-    color: var(--primary-accent);
+    color: #06b6d4;
     font-size: 1.5rem;
 }
 
 .modal-footer-compact {
-    background: var(--primary-wood);
+    background: rgba(20, 24, 44, 0.98);
     padding: 1.25rem 1.5rem;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(6, 182, 212, 0.2);
 }
 
 .modal-footer-compact .btn {
@@ -1437,4 +1497,161 @@ code {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
     color: #ffffff;
+}
+
+/* ==========================================================================
+   MODAL DARK THEME STYLING
+   ========================================================================== */
+.modal-content {
+    background: rgba(20, 24, 44, 0.98) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(6, 182, 212, 0.3) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.1) !important;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%) !important;
+    border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;
+    padding: 1.25rem 1.5rem !important;
+}
+
+.modal-title {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) !important;
+    opacity: 0.7 !important;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1 !important;
+}
+
+.modal-body {
+    background: rgba(20, 24, 44, 0.98) !important;
+    color: #e5e7eb !important;
+    padding: 1.5rem !important;
+}
+
+.modal-body h5,
+.modal-body h4,
+.modal-body strong {
+    color: #ffffff !important;
+}
+
+.modal-body p,
+.modal-body span,
+.modal-body small {
+    color: #9ca3af !important;
+}
+
+.modal-body .badge {
+    background: rgba(6, 182, 212, 0.2) !important;
+    color: #06b6d4 !important;
+    border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+.modal-body .text-success,
+.modal-body .text-primary {
+    color: #06b6d4 !important;
+}
+
+.modal-body .text-danger {
+    color: #ef4444 !important;
+}
+
+.modal-body hr {
+    border-color: rgba(6, 182, 212, 0.2) !important;
+}
+
+.modal-body .list-group-item,
+.modal-body .summary-row {
+    background: transparent !important;
+    border-color: rgba(6, 182, 212, 0.15) !important;
+    color: #e5e7eb !important;
+}
+
+.modal-footer {
+    background: rgba(20, 24, 44, 0.98) !important;
+    border-top: 1px solid rgba(6, 182, 212, 0.2) !important;
+    padding: 1rem 1.5rem !important;
+}
+
+/* Modal image preview */
+.modal-body .product-preview,
+.modal-body .image-preview {
+    border: 2px solid rgba(6, 182, 212, 0.3) !important;
+    border-radius: 12px !important;
+    background: rgba(30, 33, 57, 0.5) !important;
+}
+
+/* Fix ALL white areas in modal */
+.modal-body .card,
+.modal-body .product-card,
+.modal-body .summary-card,
+.modal-body .confirmation-card,
+.modal-body > div,
+.modal-body .row,
+.modal-body .col,
+.modal-body [class*="col-"] {
+    background: transparent !important;
+    color: #e5e7eb !important;
+}
+
+.modal-body .card-body,
+.modal-body .product-info,
+.modal-body .product-details {
+    background: transparent !important;
+}
+
+/* Product summary section */
+.modal-body .border-bottom {
+    border-color: rgba(6, 182, 212, 0.2) !important;
+}
+
+.modal-body .border-top {
+    border-color: rgba(6, 182, 212, 0.3) !important;
+}
+
+/* Total section */
+.modal-body .fw-bold,
+.modal-body .total-label {
+    color: #ffffff !important;
+}
+
+.modal-body .total-amount,
+.modal-body .text-primary.fw-bold {
+    color: #06b6d4 !important;
+}
+
+/* Image container */
+.modal-body .text-center,
+.modal-body .img-container {
+    background: rgba(30, 33, 57, 0.5) !important;
+}
+
+.modal-body img {
+    border-radius: 8px;
+}
+
+/* Badge fix */
+.modal-body .badge.bg-secondary,
+.modal-body .badge.bg-light {
+    background: rgba(6, 182, 212, 0.15) !important;
+    color: #e5e7eb !important;
+    border: 1px solid rgba(6, 182, 212, 0.3) !important;
+}
+
+/* Any remaining white backgrounds */
+.modal * {
+    --bs-body-bg: transparent !important;
+}
+
+.modal-body .bg-white,
+.modal-body .bg-light {
+    background: rgba(30, 33, 57, 0.5) !important;
 }
