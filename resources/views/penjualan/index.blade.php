@@ -180,18 +180,16 @@
     ✅ MODAL SUKSES (ANIMASI TRASH)
     ==================================================
     --}}
-    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade modal-confirmation-style" id="successModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">
-              <i class="bi bi-trash3 me-2 icon-animate-wiggle"></i>
-              Berhasil
-            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-center">
-            <div class="anim-trash mx-auto mb-2" aria-hidden="true">
+            
+            {{-- Animasi Sampah (Untuk Delete) --}}
+            <div id="successIconTrash" class="anim-trash mx-auto mb-2" aria-hidden="true">
               <svg viewBox="0 0 120 120" width="100" height="100">
                 <rect x="30" y="40" width="60" height="70" rx="6" ry="6" fill="#dc3545" opacity="0.12" stroke="#dc3545" stroke-width="3" />
                 <rect class="trash-item" x="56" y="-12" width="8" height="18" rx="1" ry="1" fill="#dc3545" />
@@ -200,10 +198,12 @@
                 <circle class="dust puff-right" cx="74" cy="108" r="2" fill="#dc3545" opacity="0.4" />
               </svg>
             </div>
-            <p id="successMessage" class="mt-2">Data penjualan berhasil dihapus.</p>
+
+            <h5 class="modal-title-text mt-3">Berhasil</h5>
+            <p class="modal-desc-text mt-2" id="successMessage">Data penjualan berhasil dihapus.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
               <i class="bi bi-check2 me-2"></i>OK
             </button>
           </div>

@@ -114,7 +114,11 @@
 }
 
 .table-header {
-    background: linear-gradient(135deg, rgba(26, 31, 58, 0.9) 0%, rgba(30, 33, 57, 0.9) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(26, 31, 58, 0.9) 0%,
+        rgba(30, 33, 57, 0.9) 100%
+    );
     padding: 1.5rem 2rem;
     border-bottom: 2px solid rgba(59, 130, 246, 0.3);
 }
@@ -127,7 +131,11 @@
 }
 
 .table-header .btn-outline-info {
-    background: linear-gradient(135deg, var(--primary-wood) 0%, var(--primary-accent) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-wood) 0%,
+        var(--primary-accent) 100%
+    );
     color: #ffffff;
     border: none;
     font-weight: 600;
@@ -151,7 +159,11 @@
 }
 
 .table thead {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.25) 0%,
+        rgba(139, 92, 246, 0.25) 100%
+    );
 }
 
 .table thead th {
@@ -347,7 +359,6 @@
     background: #c82333;
 }
 
-
 /* ========================================================== */
 /* === Tombol Filter Search/Reset === */
 /* ========================================================== */
@@ -538,6 +549,8 @@
 .form-control,
 .form-select,
 textarea {
+    background-color: rgba(10, 14, 39, 0.6) !important;
+    color: #e5e7eb !important;
     border-radius: 8px;
     border: 2px solid var(--border-soft);
     padding: 0.75rem 1rem;
@@ -545,11 +558,29 @@ textarea {
     line-height: 1.5;
 }
 
+/* === Custom File Input Button === */
+input[type="file"]::file-selector-button {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #e5e7eb;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: rgba(59, 130, 246, 0.3);
+    color: #ffffff;
+}
+
 .form-control:focus,
 .form-select:focus,
 textarea:focus {
     border-color: var(--primary-wood);
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
+        0 0 15px rgba(59, 130, 246, 0.2);
     outline: none;
     background: rgba(45, 51, 84, 0.9) !important;
     color: #e5e7eb !important;
@@ -572,7 +603,8 @@ textarea:focus {
 .select2-container--bootstrap-5.select2-container--focus .select2-selection,
 .select2-container--bootstrap-5.select2-container--open .select2-selection {
     border-color: var(--primary-wood) !important;
-    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25), 0 0 15px rgba(59, 130, 246, 0.2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25),
+        0 0 15px rgba(59, 130, 246, 0.2) !important;
     outline: none !important;
 }
 
@@ -587,25 +619,31 @@ textarea:focus {
     z-index: 1019 !important;
 }
 
-.select2-container--bootstrap-5.select2-container--open.select2-container--above .select2-dropdown {
+.select2-container--bootstrap-5.select2-container--open.select2-container--above
+    .select2-dropdown {
     top: 100% !important;
     bottom: auto !important;
     border-radius: 8px !important;
     margin-top: 2px !important;
 }
 
-.select2-container--bootstrap-5.select2-container--open.select2-container--above .select2-selection {
+.select2-container--bootstrap-5.select2-container--open.select2-container--above
+    .select2-selection {
     border-bottom-left-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
 }
 
-.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
+.select2-container--bootstrap-5
+    .select2-search--dropdown
+    .select2-search__field {
     border: 2px solid var(--border-soft) !important;
     border-radius: 6px !important;
     padding: 0.5rem !important;
 }
 
-.select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field:focus {
+.select2-container--bootstrap-5
+    .select2-search--dropdown
+    .select2-search__field:focus {
     border-color: var(--primary-wood) !important;
     box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
     outline: none !important;
@@ -643,7 +681,7 @@ textarea:focus {
     width: 100% !important;
 }
 
-.is-invalid+.select2-container--bootstrap-5 .select2-selection {
+.is-invalid + .select2-container--bootstrap-5 .select2-selection {
     border-color: #dc3545 !important;
 }
 
@@ -794,7 +832,6 @@ textarea:focus {
     font-weight: 600;
     display: inline-block;
 }
-
 
 /* === SHOW: Detail Page Styles === */
 .detail-container {
@@ -1076,7 +1113,11 @@ code {
 }
 
 .modal-header-cozy {
-    background: linear-gradient(to right, var(--primary-wood), var(--primary-main));
+    background: linear-gradient(
+        to right,
+        var(--primary-wood),
+        var(--primary-main)
+    );
     color: white;
     padding: 1.25rem 1.5rem;
     border-radius: 12px 12px 0 0;
@@ -1294,4 +1335,119 @@ code {
 
 .modal-footer-compact .btn-neutral-custom:hover {
     background-color: #5a6268 !important;
+}
+
+/* ==========================================================================
+   GLOBAL MODAL STYLES (DARK THEME)
+   Moved from pegawai.css to be available globally
+   ========================================================================== */
+
+/* === MODAL KONFIRMASI (DELETE/ACTION) === */
+.modal-confirmation-style .modal-content {
+    background: rgba(30, 33, 57, 0.95);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-radius: 16px;
+    color: #e5e7eb;
+    text-align: center;
+    padding: 1rem;
+}
+
+.modal-confirmation-style .modal-header {
+    border-bottom: none;
+    padding: 0.5rem 1rem;
+    justify-content: flex-end;
+}
+
+.modal-confirmation-style .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+.modal-confirmation-style .modal-body {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+}
+
+.modal-icon-wrapper i {
+    font-size: 2.5rem;
+    color: #dc3545;
+}
+
+.modal-icon-wrapper.success {
+    background: rgba(25, 135, 84, 0.1);
+}
+
+.modal-icon-wrapper.success i {
+    color: #198754;
+}
+
+.modal-title-text {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.modal-desc-text {
+    color: var(--text-medium);
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.modal-confirmation-style .modal-footer {
+    border-top: none;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    justify-content: center;
+    gap: 1rem;
+    background: transparent !important;
+}
+
+.btn-modal-action {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel-soft {
+    background: rgba(107, 114, 128, 0.2);
+    color: #e5e7eb;
+    border: 1px solid rgba(107, 114, 128, 0.3);
+}
+
+.btn-cancel-soft:hover {
+    background: rgba(107, 114, 128, 0.4);
+    color: #ffffff;
+}
+
+.btn-delete-solid {
+    background: #dc3545;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-delete-solid:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    color: #ffffff;
 }

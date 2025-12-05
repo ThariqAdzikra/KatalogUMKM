@@ -2,6 +2,29 @@
    STYLE MANAJEMEN PEGAWAI (DARK THEME)
    ========================================================================== */
 
+body {
+    background-color: var(--cream-bg) !important;
+    background-image: radial-gradient(
+            2px 2px at 20px 30px,
+            rgba(59, 130, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 60px 70px,
+            rgba(139, 92, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 50px 50px,
+            rgba(6, 182, 212, 0.1),
+            transparent
+        );
+    background-size: 200px 200px;
+    color: var(--text-medium);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+}
+
 /* === SEARCH INPUT (FILTER CARD) === */
 .filter-card .form-control {
     background-color: rgba(10, 14, 39, 0.6);
@@ -239,64 +262,6 @@
     color: #ffffff !important;
 }
 
-/* === MODAL KONFIRMASI (DELETE) === */
-.modal-confirmation-style .modal-content {
-    background: rgba(30, 33, 57, 0.95);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    border-radius: 16px;
-    color: #e5e7eb;
-    text-align: center;
-    padding: 1rem;
-}
-
-.modal-confirmation-style .modal-header {
-    border-bottom: none;
-    padding: 0.5rem 1rem;
-    justify-content: flex-end;
-}
-
-.modal-confirmation-style .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
-}
-
-.modal-confirmation-style .modal-body {
-    padding: 0 1.5rem 1.5rem 1.5rem;
-}
-
-.modal-icon-wrapper {
-    width: 80px;
-    height: 80px;
-    background: rgba(220, 53, 69, 0.1);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem auto;
-}
-
-.modal-icon-wrapper i {
-    font-size: 2.5rem;
-    color: #dc3545;
-}
-
-.modal-icon-wrapper.success {
-    background: rgba(25, 135, 84, 0.1);
-}
-
-.modal-icon-wrapper.success i {
-    color: #198754;
-}
-
-.modal-title-text {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-}
-
 /* === CUSTOM BADGE PEGAWAI === */
 .badge-role-pegawai {
     background: rgba(6, 182, 212, 0.15);
@@ -306,56 +271,4 @@
     border-radius: 6px;
     font-weight: 600;
     letter-spacing: 0.5px;
-}
-
-.modal-desc-text {
-    color: var(--text-medium);
-    font-size: 1rem;
-    margin-bottom: 0;
-}
-
-.modal-confirmation-style .modal-footer {
-    border-top: none;
-    padding: 0 1.5rem 1.5rem 1.5rem;
-    justify-content: center;
-    gap: 1rem;
-    background: transparent !important;
-}
-
-.btn-modal-action {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 120px;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.btn-cancel-soft {
-    background: rgba(107, 114, 128, 0.2);
-    color: #e5e7eb;
-    border: 1px solid rgba(107, 114, 128, 0.3);
-}
-
-.btn-cancel-soft:hover {
-    background: rgba(107, 114, 128, 0.4);
-    color: #ffffff;
-}
-
-.btn-delete-solid {
-    background: #dc3545;
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
-}
-
-.btn-delete-solid:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
-    color: #ffffff;
 }

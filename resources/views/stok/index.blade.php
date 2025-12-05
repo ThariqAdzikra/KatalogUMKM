@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Stok - Laptop Store')
+@section('title', 'Manajemen Stok - ' . App\Models\SiteSetting::get('brand_name'))
 
 @push('styles')
     {{-- CSS Global Manajemen --}}
@@ -40,7 +40,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="stats-card">
-                <div class="stats-icon" style="background: #d4edda; color: #28a745;">
+                <div class="stats-icon" style="background: rgba(40, 167, 69, 0.15); color: #28a745;">
                     <i class="bi bi-check-circle"></i>
                 </div>
                 <div class="stats-value">{{ $stats['tersedia'] }}</div>
@@ -49,7 +49,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="stats-card">
-                <div class="stats-icon" style="background: #fff3cd; color: #fd7e14;">
+                <div class="stats-icon" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
                     <i class="bi bi-exclamation-triangle"></i>
                 </div>
                 <div class="stats-value">{{ $stats['menipis'] }}</div>
@@ -58,7 +58,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="stats-card">
-                <div class="stats-icon" style="background: #f8d7da; color: #dc3545;">
+                <div class="stats-icon" style="background: rgba(220, 53, 69, 0.15); color: #dc3545;">
                     <i class="bi bi-x-circle"></i>
                 </div>
                 <div class="stats-value">{{ $stats['habis'] }}</div>
@@ -135,12 +135,9 @@
 <div class="modal fade modal-confirmation-style" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm-custom">
     <div class="modal-content">
-      {{-- Header Minimalis --}}
       <div class="modal-header">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      {{-- Body dengan Icon Besar --}}
       <div class="modal-body">
         <div class="modal-icon-wrapper">
             <i class="bi bi-trash3-fill"></i>
@@ -150,8 +147,6 @@
             Apakah Anda yakin ingin menghapus data stok ini secara permanen?
         </p>
       </div>
-
-      {{-- Footer dengan Flexbox Equal Width --}}
       <div class="modal-footer">
         <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
             <i class="bi bi-x-lg"></i> Batal
@@ -169,17 +164,15 @@
 ✅ MODAL SUKSES (ANIMASI TRASH)
 ==================================================
 --}}
-<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade modal-confirmation-style" id="successModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">
-          <i class="bi bi-trash3 me-2 icon-animate-wiggle"></i>
-          Berhasil
-        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body text-center">
+        
+        {{-- Animasi Sampah (Untuk Delete) --}}
         <div class="anim-trash mx-auto mb-2" aria-hidden="true">
           <svg viewBox="0 0 120 120" width="100" height="100">
             <rect x="30" y="40" width="60" height="70" rx="6" ry="6" fill="#dc3545" opacity="0.12" stroke="#dc3545" stroke-width="3" />
@@ -189,10 +182,12 @@
             <circle class="dust puff-right" cx="74" cy="108" r="2" fill="#dc3545" opacity="0.4" />
           </svg>
         </div>
-        <p class="mt-2">Data stok berhasil dihapus.</p>
+
+        <h5 class="modal-title-text mt-3">Berhasil</h5>
+        <p class="modal-desc-text mt-2">Data stok berhasil dihapus.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-modal-action btn-cancel-soft" data-bs-dismiss="modal">
           <i class="bi bi-check2 me-2"></i>OK
         </button>
       </div>

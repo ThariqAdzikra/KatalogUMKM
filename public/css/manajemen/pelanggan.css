@@ -239,6 +239,7 @@ textarea.form-control {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .btn-cancel:hover {
@@ -444,17 +445,19 @@ textarea.form-control {
 }
 
 .btn-action-edit {
-    background-color: #ffc107;
+    background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
     border: none;
-    color: #000;
+    color: #ffffff;
     font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-action-edit:hover {
-    background-color: #e0a800;
-    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+    background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
     transform: translateY(-2px);
+    color: #ffffff;
 }
 
 .btn-action-back {
@@ -503,6 +506,10 @@ textarea.form-control {
     background: rgba(45, 51, 84, 0.9);
 }
 
+.riwayat-search-bar .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
 .riwayat-search-bar .input-group-text {
     background-color: var(--primary-wood);
     border-right: none;
@@ -525,6 +532,9 @@ textarea.form-control {
 .riwayat-item {
     padding: 1rem 1.25rem;
     transition: background-color 0.2s ease;
+    background-color: transparent; /* Override Bootstrap default */
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    color: var(--text-dark);
 }
 
 .riwayat-item:hover {
