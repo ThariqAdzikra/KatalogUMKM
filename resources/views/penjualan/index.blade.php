@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Manajemen Penjualan - Laptop Store')
+@section('title', 'Manajemen Penjualan - ' . App\Models\SiteSetting::get('brand_name'))
+
 
 @push('styles')
 {{-- Memuat style dasar dan style khusus penjualan (pop-up) --}}
@@ -50,28 +51,28 @@
     @endif
 
     {{-- Statistik Ringkas --}}
-    <div class="row mb-4">
-      <div class="col-md-3">
+    <div class="row">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #e9ecef; color: #0d6efd;">
+          <div class="stats-icon" style="background: rgba(13, 110, 253, 0.15); color: #0d6efd;">
             <i class="bi bi-receipt"></i>
           </div>
           <div class="stats-value">{{ $penjualan->total() ?? $penjualan->count() }}</div>
           <div class="stats-label">Transaksi Selesai</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #e6ffed; color: #28a745;">
+          <div class="stats-icon" style="background: rgba(40, 167, 69, 0.15); color: #28a745;">
             <i class="bi bi-people"></i>
           </div>
           <div class="stats-value">{{ $penjualan->groupBy('id_pelanggan')->count() }}</div>
           <div class="stats-label">Pelanggan Hari Ini</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon mb-4" style="background: #fff3cd; color: #fd7e14;">
+          <div class="stats-icon mb-4" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
             <i class="bi bi-wallet2"></i>
           </div>
           <div class="stats-value" style="font-size: 1.2rem;">
@@ -80,9 +81,9 @@
           <div class="stats-label mt-2">Pendapatan Hari Ini</div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col">
         <div class="stats-card">
-          <div class="stats-icon" style="background: #d1ecf1; color: #17a2b8;">
+          <div class="stats-icon" style="background: rgba(23, 162, 184, 0.15); color: #17a2b8;">
             <i class="bi bi-calendar3"></i>
           </div>
           <div class="stats-value">

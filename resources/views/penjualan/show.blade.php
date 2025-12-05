@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Penjualan')
+@section('title', 'Detail Penjualan - ' . App\Models\SiteSetting::get('brand_name'))
 
 @push('styles')
 {{-- Gunakan CSS yang sama dengan detail produk --}}
@@ -68,7 +68,7 @@
                                             ];
                                             $metode = $metodeBadge[$penjualan->metode_pembayaran] ?? ['color' => '#6c757d', 'icon' => 'credit-card'];
                                         @endphp
-                                        <span class="badge-merk show-page" style="background-color: {{ $metode['color'] }}20; color: {{ $metode['color'] }}; border: 1px solid {{ $metode['color'] }};">
+                                        <span class="badge-merk show-page" style="background-color: {{ $metode['color'] }}20; color: #ffffff; border: 1px solid {{ $metode['color'] }};">
                                             <i class="bi bi-{{ $metode['icon'] }} me-2"></i>
                                             {{ strtoupper($penjualan->metode_pembayaran) }}
                                         </span>
