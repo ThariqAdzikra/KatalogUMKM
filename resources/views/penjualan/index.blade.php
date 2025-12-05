@@ -70,15 +70,15 @@
           <div class="stats-label">Pelanggan Hari Ini</div>
         </div>
       </div>
-      <div class="col">
+      <div class="col-lg-12">
         <div class="stats-card">
-          <div class="stats-icon mb-4" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
+          <div class="stats-icon" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
             <i class="bi bi-wallet2"></i>
           </div>
-          <div class="stats-value" style="font-size: 1.2rem;">
+          <div class="stats-value">
             Rp {{ number_format($penjualan->sum('total_harga'), 0, ',', '.') }}
           </div>
-          <div class="stats-label mt-2">Pendapatan Hari Ini</div>
+          <div class="stats-label">Pendapatan Hari Ini</div>
         </div>
       </div>
       <div class="col">
