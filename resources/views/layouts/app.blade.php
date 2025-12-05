@@ -274,91 +274,77 @@
             {{-- BARIS 1: LINK UTAMA (4 KOLOM) --}}
             <div class="row g-5">
                 
-                {{-- Kolom 1: Brand & Socials --}}
-                <div class="col-12 col-md-6 col-lg-4">
-                    {{-- LOGIKA ROLE FOOTER BRAND --}}
-                    <a class="footer-brand" 
-                       href="{{ route('home') }}">
-                        <img src="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}" alt="{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }} Logo" class="logo-filtered">
-                        <h5 class="text-white mb-0" style="font-size: 1.5rem; font-weight: 700;">{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}</h5>
-                    </a>
-                    <p class="text-muted pe-lg-4 my-4">
-                        Toko laptop terpercaya dengan koleksi lengkap dan harga terbaik untuk semua kebutuhan Anda. Memberikan solusi teknologi berkualitas sejak 2020.
+                {{-- Kolom 1: Brand & Deskripsi --}}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-5">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ asset(App\Models\SiteSetting::get('logo_path', 'images/logo.png')) }}" alt="Logo" style="height: 40px; margin-right: 10px; filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));">
+                        <h5 class="mb-0 fw-bold">{{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}</h5>
+                    </div>
+                    <p class="text-muted">
+                        {{ App\Models\SiteSetting::get('brand_description', 'Toko laptop terpercaya dengan koleksi lengkap dan harga terbaik untuk semua kebutuhan Anda. Memberikan solusi teknologi berkualitas sejak 2020.') }}
                     </p>
-                    <div class="social-icons d-flex gap-3">
-                        <a href="https://www.facebook.com/people/Laptop-Premium-Pekanbaru/61550669070817/" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i></a>
-                        <a href="https://www.instagram.com/laptoppremiumpku/" target="_blank" rel="noopener noreferrer"><i class="bi bi-instagram"></i></a>
-                        <a href="https://wa.me/6282316592733" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp"></i></a>
+                    <div class="social-links mt-3">
+                        @if(isset($social_links) && count($social_links) > 0)
+                            @foreach($social_links as $link)
+                                <a href="{{ $link['url'] }}" class="me-3" target="_blank" rel="noopener noreferrer">
+                                    <i class="bi bi-{{ $link['platform'] }} fs-4"></i>
+                                </a>
+                            @endforeach
+                        @else
+                            {{-- Default Social Links if none set --}}
+                            <a href="#" class="me-3"><i class="bi bi-facebook fs-4"></i></a>
+                            <a href="#" class="me-3"><i class="bi bi-instagram fs-4"></i></a>
+                            <a href="#"><i class="bi bi-whatsapp fs-4"></i></a>
+                        @endif
                     </div>
                 </div>
 
-                {{-- Kolom 2: Menu --}}
-                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
-                    <h6>Menu</h6>
-                    <ul class="list-unstyled">
-                        {{-- LOGIKA ROLE FOOTER HOME --}}
-                        <li><a href="{{ route('home') }}">Home</a></li>
-                        <li><a href="{{ route('about') }}">Tentang Kami</a></li>
-                    </ul>
-                </div>
-
-                {{-- Kolom 3: Kategori --}}
+                {{-- Kolom 2: Kategori --}}
                 <div class="col-12 col-sm-6 col-md-3 col-lg-3">
                     <h6>Kategori</h6>
                     <ul class="list-unstyled">
-                        <li><a href="{{ route('katalog.index', ['kategori' => 'gaming']) }}">Gaming</a></li>
-                        <li><a href="{{ route('katalog.index', ['kategori' => 'office']) }}">Office</a></li>
-                        <li><a href="{{ route('katalog.index', ['kategori' => 'ultrabook']) }}">Ultrabook</a></li>
-                        <li><a href="{{ route('katalog.index', ['kategori' => 'workstation']) }}">Workstation</a></li>
+                        @if(isset($categories) && $categories->count() > 0)
+                            @foreach($categories as $category)
+                                <li><a href="{{ route('katalog.index', ['kategori' => $category->slug]) }}">{{ $category->nama_kategori }}</a></li>
+                            @endforeach
+                        @else
+                            <li><a href="{{ route('katalog.index', ['kategori' => 'gaming']) }}">Gaming</a></li>
+                            <li><a href="{{ route('katalog.index', ['kategori' => 'office']) }}">Office</a></li>
+                            <li><a href="{{ route('katalog.index', ['kategori' => 'ultrabook']) }}">Ultrabook</a></li>
+                            <li><a href="{{ route('katalog.index', ['kategori' => 'workstation']) }}">Workstation</a></li>
+                        @endif
                     </ul>
                 </div>
 
-                {{-- Kolom 4: Kontak --}}
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                {{-- Kolom 3: Kontak --}}
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4">
                     <h6>Kontak Kami</h6>
                     <ul class="list-unstyled">
                         <li class="d-flex">
                             <i class="bi bi-geo-alt fs-5 me-3"></i>
-                            <span class="text-muted">Pekanbaru, Riau, Indonesia</span>
+                            <span class="text-muted">{{ $footer_address ?? 'Pekanbaru, Riau, Indonesia' }}</span>
                         </li>
                         <li class="d-flex">
                             <i class="bi bi-telephone fs-5 me-3"></i>
-                            <span class="text-muted">+62 823-1659-2733</span>
+                            <span class="text-muted">{{ $footer_phone ?? '+62 823-1659-2733' }}</span>
                         </li>
                         <li class="d-flex">
                             <i class="bi bi-envelope fs-5 me-3"></i>
-                            <span class="text-muted">laptopPremium@gmail.com</span>
+                            <span class="text-muted">{{ $footer_email ?? 'laptopPremium@gmail.com' }}</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            {{-- BARIS 2: LOKASI PETA --}}
-            <div class="row mt-5">
-                <div class="col-12">
-                    <h6>LokASI KAMI</h6>
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.6854362125373!2d101.37201277504735!3d0.467626199527809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5a9843387c835%3A0x5c89c63ba8cf2145!2sLaptop%20Premium%20Pekanbaru!5e0!3m2!1sid!2sid!4v1762483568987!5m2!1sid!2sid" 
-                        class="w-100" 
-                        style="border:0; height: 300px; border-radius: 12px;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-            </div>
+
 
             {{-- BARIS 3: COPYRIGHT --}}
             <hr class="mt-5 mb-4">
             <div class="row copyright-section align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                <div class="col-12 text-center">
                     <p class="mb-0">
-                        © {{ date('Y') }} {{ App\Models\SiteSetting::get('brand_name', 'LaptopPremium') }}. All rights reserved.
+                        {{ $footer_copyright_text ?? '© 2025 LaptopPremium. All rights reserved.' }}
                     </p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <a href="#" class="me-3">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
                 </div>
             </div>
         </div>

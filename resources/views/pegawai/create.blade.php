@@ -61,7 +61,7 @@
                             required
                         >
                             <option value="" disabled {{ old('role') ? '' : 'selected' }}>Pilih jabatan</option>
-                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+
                             <option value="pegawai" {{ old('role') == 'pegawai' ? 'selected' : '' }}>Pegawai</option>
                         </select>
                         @error('role')

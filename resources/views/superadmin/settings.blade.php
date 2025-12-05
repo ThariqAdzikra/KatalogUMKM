@@ -64,7 +64,7 @@
     }
 
     .form-control, .form-select {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.1);
         color: #fff;
         border-radius: 8px;
@@ -73,10 +73,32 @@
     }
 
     .form-control:focus, .form-select:focus {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(0, 0, 0, 0.3);
         border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         color: #fff;
+    }
+
+    .btn-add-social {
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px dashed rgba(59, 130, 246, 0.4);
+        color: #3b82f6;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-add-social:hover {
+        background: rgba(59, 130, 246, 0.2);
+        border-color: #3b82f6;
+        color: #fff;
+        transform: translateY(-2px);
     }
 
     .form-control::placeholder {
@@ -156,6 +178,20 @@
         box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
     }
 
+    .btn-danger {
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid rgba(220, 38, 38, 0.3);
+        color: #ef4444;
+        transition: all 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background: rgba(220, 38, 38, 0.2);
+        border-color: #ef4444;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+    }
+
     .alert {
         border-radius: 8px;
         border: none;
@@ -210,6 +246,17 @@
     .file-upload-label:hover {
         background: rgba(59, 130, 246, 0.15);
         border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    .input-group-text {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-right: none;
+        color: #fff;
+    }
+    
+    .input-group .form-control {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .file-upload-label i {
@@ -279,9 +326,13 @@
 
                 <div class="col-md-12">
                     <label class="form-label">Nama Brand</label>
-                    <input type="text" name="brand_name" class="form-control" 
+                    <input type="text" name="brand_name" class="form-control mb-3" 
                            value="{{ old('brand_name', $settings['brand_name']) }}" 
                            placeholder="Contoh: LaptopPremium">
+
+                    <label class="form-label">Deskripsi Brand</label>
+                    <textarea name="brand_description" class="form-control" rows="3"
+                              placeholder="Deskripsi singkat tentang brand...">{{ old('brand_description', $settings['brand_description']) }}</textarea>
                 </div>
             </div>
         </div>
@@ -347,6 +398,82 @@
             </div>
 
             <div id="carouselInputsContainer"></div>
+        </div>
+
+        {{-- Social Media Links --}}
+        <div class="settings-card">
+            <h3><i class="bi bi-share"></i> Social Media</h3>
+            
+            <div id="socialLinksContainer">
+                @php $socialLinks = $settings['social_links'] ?? []; @endphp
+                @if(count($socialLinks) > 0)
+                    @foreach($socialLinks as $index => $link)
+                    <div class="row mb-3 social-link-item">
+                        <div class="col-md-4">
+                            <select name="social_links[{{ $index }}][platform]" class="form-select" onchange="updateSocialIcon(this)">
+                                <option value="instagram" {{ $link['platform'] == 'instagram' ? 'selected' : '' }}>Instagram</option>
+                                <option value="twitter-x" {{ $link['platform'] == 'twitter-x' ? 'selected' : '' }}>X (Twitter)</option>
+                                <option value="facebook" {{ $link['platform'] == 'facebook' ? 'selected' : '' }}>Facebook</option>
+                                <option value="whatsapp" {{ $link['platform'] == 'whatsapp' ? 'selected' : '' }}>WhatsApp</option>
+                                <option value="linkedin" {{ $link['platform'] == 'linkedin' ? 'selected' : '' }}>LinkedIn</option>
+                                <option value="youtube" {{ $link['platform'] == 'youtube' ? 'selected' : '' }}>YouTube</option>
+                            </select>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0 text-white">
+                                    <i class="bi bi-{{ $link['platform'] }}"></i>
+                                </span>
+                                <input type="url" name="social_links[{{ $index }}][url]" class="form-control border-start-0" 
+                                       value="{{ $link['url'] }}" placeholder="https://..." required>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger w-100" onclick="removeSocialLink(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+            </div>
+
+            <button type="button" class="btn btn-add-social mt-2" onclick="addSocialLink()">
+                <i class="bi bi-plus-circle-fill"></i>Tambah Social Media
+            </button>
+        </div>
+
+        {{-- Footer Contact Info --}}
+        <div class="settings-card">
+            <h3><i class="bi bi-info-circle"></i> Informasi Kontak Footer</h3>
+            
+            <div class="mb-3">
+                <label class="form-label">Alamat</label>
+                <input type="text" name="footer_address" class="form-control" 
+                       value="{{ old('footer_address', $settings['footer_address']) }}" 
+                       placeholder="Contoh: Pekanbaru, Riau, Indonesia">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="text" name="footer_phone" class="form-control" 
+                           value="{{ old('footer_phone', $settings['footer_phone']) }}" 
+                           placeholder="Contoh: +62 823-1659-2733">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="footer_email" class="form-control" 
+                           value="{{ old('footer_email', $settings['footer_email']) }}" 
+                           placeholder="Contoh: laptopPremium@gmail.com">
+                </div>
+                <div class="col-12 mb-3">
+                    <label class="form-label">Teks Copyright</label>
+                    <input type="text" name="footer_copyright_text" class="form-control" 
+                           value="{{ old('footer_copyright_text', $settings['footer_copyright_text']) }}" 
+                           placeholder="Contoh: © 2025 LaptopPremium. All rights reserved.">
+                </div>
+            </div>
         </div>
 
         {{-- Submit Button --}}
@@ -443,6 +570,52 @@
             console.error('Error:', error);
             alert('Terjadi kesalahan saat menghapus gambar');
         });
+    }
+
+    // Social Media Management
+    // Make functions global
+    window.addSocialLink = function() {
+        const container = document.getElementById('socialLinksContainer');
+        const index = container.children.length; // Simple index, backend handles array
+        
+        const div = document.createElement('div');
+        div.className = 'row mb-3 social-link-item';
+        div.innerHTML = `
+            <div class="col-md-4">
+                <select name="social_links[${Date.now()}][platform]" class="form-select" onchange="updateSocialIcon(this)">
+                    <option value="instagram">Instagram</option>
+                    <option value="twitter-x">X (Twitter)</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="youtube">YouTube</option>
+                </select>
+            </div>
+            <div class="col-md-7">
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0 text-white">
+                        <i class="bi bi-instagram"></i>
+                    </span>
+                    <input type="url" name="social_links[${Date.now()}][url]" class="form-control border-start-0" 
+                           placeholder="https://..." required>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger w-100" onclick="removeSocialLink(this)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        `;
+        container.appendChild(div);
+    }
+
+    window.removeSocialLink = function(btn) {
+        btn.closest('.social-link-item').remove();
+    }
+
+    window.updateSocialIcon = function(select) {
+        const icon = select.closest('.row').querySelector('.input-group-text i');
+        icon.className = `bi bi-${select.value}`;
     }
 </script>
 @endpush
