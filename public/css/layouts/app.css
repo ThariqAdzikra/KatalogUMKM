@@ -37,7 +37,8 @@
 }
 
 * {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -45,19 +46,37 @@
 
 body {
     background: var(--primary-dark);
-    background-image:
-        radial-gradient(2px 2px at 20px 30px, rgba(59, 130, 246, 0.15), transparent),
-        radial-gradient(2px 2px at 60px 70px, rgba(139, 92, 246, 0.15), transparent),
-        radial-gradient(1px 1px at 50px 50px, rgba(6, 182, 212, 0.1), transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(59, 130, 246, 0.1), transparent),
-        radial-gradient(2px 2px at 90px 10px, rgba(139, 92, 246, 0.15), transparent);
+    background-image: radial-gradient(
+            2px 2px at 20px 30px,
+            rgba(59, 130, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 60px 70px,
+            rgba(139, 92, 246, 0.15),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 50px 50px,
+            rgba(6, 182, 212, 0.1),
+            transparent
+        ),
+        radial-gradient(
+            1px 1px at 130px 80px,
+            rgba(59, 130, 246, 0.1),
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 90px 10px,
+            rgba(139, 92, 246, 0.15),
+            transparent
+        );
     background-size: 200px 200px;
     background-position: 0 0, 40px 60px, 130px 270px, 70px 100px, 150px 50px;
     min-height: 100vh;
     color: var(--text-primary);
     line-height: 1.6;
 }
-
 
 /* =================================================================
    PREMIUM SAAS SIDEBAR - Dark Glassmorphism
@@ -95,8 +114,7 @@ main.main-content {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-right: 1px solid rgba(59, 130, 246, 0.2);
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5),
-        0 0 40px rgba(59, 130, 246, 0.1);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(59, 130, 246, 0.1);
     z-index: 1040;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -280,7 +298,12 @@ body.sidebar-collapsed .nav-item {
 
 /* Active state */
 .nav-item.active {
-    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), transparent);
+    background: rgba(
+        59,
+        130,
+        246,
+        0.25
+    ); /* Solid single color (transparent blue) */
     color: #ffffff;
     font-weight: 600;
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
@@ -495,17 +518,22 @@ body.sidebar-collapsed footer {
 }
 
 footer::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(59, 130, 246, 0.5),
+        transparent
+    );
 }
 
 footer::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -562,7 +590,6 @@ footer .col-lg-4 p.text-muted {
     text-align: justify;
 }
 
-
 footer hr {
     border-color: rgba(255, 255, 255, 0.15);
     margin: 3rem 0 2rem;
@@ -607,10 +634,12 @@ html {
 /* Responsive Adjustments */
 @media (max-width: 991px) {
     .navbar-collapse {
-        background: linear-gradient(135deg,
-                rgba(61, 40, 23, 0.75) 0%,
-                rgba(87, 68, 48, 0.7) 50%,
-                rgba(61, 40, 23, 0.75) 100%);
+        background: linear-gradient(
+            135deg,
+            rgba(61, 40, 23, 0.75) 0%,
+            rgba(87, 68, 48, 0.7) 50%,
+            rgba(61, 40, 23, 0.75) 100%
+        );
         backdrop-filter: blur(30px) saturate(180%);
         -webkit-backdrop-filter: blur(30px) saturate(180%);
         padding: 1.5rem;
@@ -644,13 +673,12 @@ html {
     }
 }
 
-main>* {
+main > * {
     animation: fadeInUp 0.6s ease-out;
 }
 
 /* Glow effect on hover for important elements */
 @keyframes glow {
-
     0%,
     100% {
         filter: drop-shadow(0 0 5px rgba(232, 199, 125, 0.4));
@@ -670,14 +698,16 @@ main>* {
 /* ========================================================== */
 
 .navbar-brand .logo-filtered {
-    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(3540%) hue-rotate(195deg) brightness(101%) contrast(93%);
+    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(3540%)
+        hue-rotate(195deg) brightness(101%) contrast(93%);
     /* Electric blue #3b82f6 */
     height: 40px;
     margin-right: 8px;
 }
 
 .footer-brand .logo-filtered {
-    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(3540%) hue-rotate(195deg) brightness(101%) contrast(93%);
+    filter: brightness(0) saturate(100%) invert(56%) sepia(89%) saturate(3540%)
+        hue-rotate(195deg) brightness(101%) contrast(93%);
     /* Electric blue #3b82f6 */
     height: 40px;
     margin-right: 8px;
@@ -701,10 +731,12 @@ footer .social-icons a {
 /* Tablet responsive */
 @media (max-width: 991px) {
     .navbar-collapse {
-        background: linear-gradient(135deg,
-                rgba(61, 40, 23, 0.75) 0%,
-                rgba(87, 68, 48, 0.7) 50%,
-                rgba(61, 40, 23, 0.75) 100%);
+        background: linear-gradient(
+            135deg,
+            rgba(61, 40, 23, 0.75) 0%,
+            rgba(87, 68, 48, 0.7) 50%,
+            rgba(61, 40, 23, 0.75) 100%
+        );
         backdrop-filter: blur(30px) saturate(180%);
         -webkit-backdrop-filter: blur(30px) saturate(180%);
         padding: 1.5rem;
@@ -906,7 +938,6 @@ footer .social-icons a {
    MOBILE NAVBAR DROPDOWN IMPROVEMENTS
 ===================================================== */
 @media (max-width: 991px) {
-
     /* Navbar collapse background */
     .navbar-collapse {
         background: rgba(93, 74, 59, 0.98);
@@ -1080,8 +1111,7 @@ footer .social-icons a {
     position: relative;
     transform-origin: bottom;
     animation: laptopOpen 2s ease-in-out infinite;
-    box-shadow:
-        0 0 30px rgba(59, 130, 246, 0.5),
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5),
         inset 0 0 40px rgba(59, 130, 246, 0.2);
     border: 2px solid #3b82f6;
 }
@@ -1090,10 +1120,12 @@ footer .social-icons a {
 .screen-glow {
     position: absolute;
     inset: 8px;
-    background: linear-gradient(135deg,
-            rgba(59, 130, 246, 0.3) 0%,
-            rgba(139, 92, 246, 0.4) 50%,
-            rgba(6, 182, 212, 0.3) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(59, 130, 246, 0.3) 0%,
+        rgba(139, 92, 246, 0.4) 50%,
+        rgba(6, 182, 212, 0.3) 100%
+    );
     border-radius: 4px;
     animation: screenPulse 2s ease-in-out infinite;
 }
@@ -1110,10 +1142,12 @@ footer .social-icons a {
 
 .code-lines span {
     height: 3px;
-    background: linear-gradient(90deg,
-            rgba(59, 130, 246, 0.8) 0%,
-            rgba(139, 92, 246, 0.9) 50%,
-            transparent 100%);
+    background: linear-gradient(
+        90deg,
+        rgba(59, 130, 246, 0.8) 0%,
+        rgba(139, 92, 246, 0.9) 50%,
+        transparent 100%
+    );
     border-radius: 2px;
     animation: codeLine 1.5s ease-in-out infinite;
 }
@@ -1146,16 +1180,18 @@ footer .social-icons a {
 }
 
 .laptop-base::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 2px;
     top: 0;
     left: 0;
-    background: linear-gradient(90deg,
-            transparent,
-            rgba(59, 130, 246, 0.7),
-            transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(59, 130, 246, 0.7),
+        transparent
+    );
     animation: baseShine 2s ease-in-out infinite;
 }
 
@@ -1164,9 +1200,11 @@ footer .social-icons a {
     position: absolute;
     width: 150px;
     height: 10px;
-    background: radial-gradient(ellipse,
-            rgba(61, 40, 23, 0.3) 0%,
-            transparent 70%);
+    background: radial-gradient(
+        ellipse,
+        rgba(61, 40, 23, 0.3) 0%,
+        transparent 70%
+    );
     top: 95px;
     left: -15px;
     border-radius: 50%;
@@ -1188,9 +1226,11 @@ footer .social-icons a {
     position: absolute;
     width: 8px;
     height: 8px;
-    background: linear-gradient(135deg,
-            var(--accent-blue),
-            var(--accent-purple));
+    background: linear-gradient(
+        135deg,
+        var(--accent-blue),
+        var(--accent-purple)
+    );
     border-radius: 50%;
     opacity: 0.7;
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
@@ -1247,10 +1287,12 @@ footer .social-icons a {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg,
-            var(--accent-blue) 0%,
-            var(--accent-purple) 50%,
-            var(--accent-cyan) 100%);
+    background: linear-gradient(
+        90deg,
+        var(--accent-blue) 0%,
+        var(--accent-purple) 50%,
+        var(--accent-cyan) 100%
+    );
     background-size: 200% 100%;
     border-radius: 10px;
     animation: progressFill 2s ease-in-out infinite,
@@ -1284,7 +1326,6 @@ footer .social-icons a {
 
 /* Laptop Opening Animation */
 @keyframes laptopOpen {
-
     0%,
     100% {
         transform: rotateX(0deg);
@@ -1297,7 +1338,6 @@ footer .social-icons a {
 
 /* Screen Pulse */
 @keyframes screenPulse {
-
     0%,
     100% {
         opacity: 0.6;
@@ -1310,7 +1350,6 @@ footer .social-icons a {
 
 /* Code Lines */
 @keyframes codeLine {
-
     0%,
     100% {
         opacity: 0.3;
@@ -1325,7 +1364,6 @@ footer .social-icons a {
 
 /* Base Shine */
 @keyframes baseShine {
-
     0%,
     100% {
         opacity: 0.3;
@@ -1338,7 +1376,6 @@ footer .social-icons a {
 
 /* Shadow Pulse */
 @keyframes shadowPulse {
-
     0%,
     100% {
         transform: scale(1);
@@ -1353,7 +1390,6 @@ footer .social-icons a {
 
 /* Particle Float Variations */
 @keyframes particleFloat1 {
-
     0%,
     100% {
         transform: translate(0, 0) scale(1);
@@ -1367,7 +1403,6 @@ footer .social-icons a {
 }
 
 @keyframes particleFloat2 {
-
     0%,
     100% {
         transform: translate(0, 0) scale(1);
@@ -1381,7 +1416,6 @@ footer .social-icons a {
 }
 
 @keyframes particleFloat3 {
-
     0%,
     100% {
         transform: translate(0, 0) scale(1);
@@ -1411,7 +1445,6 @@ footer .social-icons a {
 
 /* Progress Bar Shine */
 @keyframes progressShine {
-
     0%,
     100% {
         background-position: 0% 50%;
@@ -1424,7 +1457,6 @@ footer .social-icons a {
 
 /* Text Pulse */
 @keyframes textPulse {
-
     0%,
     100% {
         opacity: 0.7;
@@ -1437,25 +1469,24 @@ footer .social-icons a {
 
 /* Dots Blink */
 @keyframes dotBlink {
-
     0%,
     25% {
-        content: '.';
+        content: ".";
     }
 
     26%,
     50% {
-        content: '..';
+        content: "..";
     }
 
     51%,
     75% {
-        content: '...';
+        content: "...";
     }
 
     76%,
     100% {
-        content: '';
+        content: "";
     }
 }
 
