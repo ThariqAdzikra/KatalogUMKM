@@ -176,8 +176,10 @@ Setelah menjalankan seeder, gunakan kredensial berikut untuk login:
 
 | Role | Email | Password |
 |:-----|:------|:---------|
-| 🔴 **Super Admin** | `admin@example.com` | `password` |
-| 🔵 **Pegawai** | `pegawai@example.com` | `password` |
+| 🔴 **Super Admin (M. Thariq Adzikra)** | `admin@example.com` | `password` |
+| 🔵 **Pegawai 1 (Andika Fitra Darmawan)** | `andika@example.com` | `password` |
+| 🔵 **Pegawai 2 (Devakhri Farhan)** | `devakhri@example.com` | `password` |
+| 🔵 **Pegawai 3 (Ryanda Valents Anakri)** | `ryanda@example.com` | `password` |
 
 > **⚠️ KEAMANAN:** Segera ubah password default setelah instalasi pertama kali!
 
