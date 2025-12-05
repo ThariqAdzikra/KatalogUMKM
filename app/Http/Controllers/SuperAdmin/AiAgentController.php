@@ -26,7 +26,10 @@ class AiAgentController extends Controller
             // Langsung execute query dan berikan data ke AI
             $data = $this->fetchRelevantData($userMessage);
             
-            $systemPrompt = "Anda adalah Asisten Manajer Toko. Berikut adalah data dari database:\n\n" . $data . "\n\nJawab pertanyaan user berdasarkan data ini dengan singkat dan jelas dalam Bahasa Indonesia.";
+            // DEBUG: Log data yang akan dikirim ke AI
+            \Log::info('Data sent to AI:', ['data' => $data, 'user_message' => $userMessage]);
+            
+            $systemPrompt = "Anda adalah Asisten Manajer Toko LAPTOP. PENTING: Anda HANYA boleh menjawab berdasarkan data yang diberikan di bawah ini. JANGAN mengarang atau menambahkan informasi yang tidak ada dalam data.\n\nData dari database:\n\n" . $data . "\n\nJika data kosong atau tidak relevan dengan pertanyaan, katakan 'Maaf, data tidak tersedia.' JANGAN mengarang data produk.";
             
             try {
                 $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
@@ -61,7 +64,7 @@ class AiAgentController extends Controller
 
     private function detectUserIntent($message)
     {
-        $keywords = ['omset', 'penjualan', 'transaksi', 'produk terlaris', 'best seller', 'bulan', 'hari', 'minggu'];
+        $keywords = ['omset', 'penjualan', 'transaksi', 'produk terlaris', 'best seller', 'bulan', 'hari', 'minggu', 'stok', 'stock', 'barang', 'sisa', 'tersedia', 'hampir habis', 'menipis'];
         
         foreach ($keywords as $keyword) {
             if (stripos($message, $keyword) !== false) {
@@ -77,6 +80,7 @@ class AiAgentController extends Controller
         $now = Carbon::now();
         $data = [];
 
+        // --- 1. DATA PENJUALAN ---
         // Omset hari ini
         $todayRevenue = DB::table('penjualan')->whereDate('tanggal_penjualan', $now->today())->sum('total_harga');
         $data[] = "📊 Omset Hari Ini: Rp " . number_format($todayRevenue, 0, ',', '.');
@@ -110,7 +114,56 @@ class AiAgentController extends Controller
             $data[] = "🏆 Produk Terlaris Bulan Ini: {$bestSeller->nama_produk} ({$bestSeller->total} unit terjual)";
         }
 
-        return implode("\n", $data);
+        // --- 2. DATA STOK ---
+        $stockKeywords = ['stok', 'stock', 'barang', 'sisa', 'tersedia', 'hampir habis', 'menipis'];
+        $isStockQuery = false;
+        foreach ($stockKeywords as $kw) {
+            if (stripos($message, $kw) !== false) {
+                $isStockQuery = true;
+                break;
+            }
+        }
+
+        if ($isStockQuery) {
+            // 1. Bersihkan kata-kata umum (stop words) untuk mendapatkan keyword produk
+            $stopWords = ['cek', 'stok', 'stock', 'berapa', 'sisa', 'tersedia', 'barang', 'apakah', 'ada', 'di', 'gudang', 'toko', 'ini', 'itu', 'yang', 'mau', 'habis', 'ketersediaan', 'jumlah', 'hampir'];
+            $cleanMessage = str_ireplace($stopWords, '', $message);
+            $keyword = trim(preg_replace('/\s+/', ' ', $cleanMessage)); // Hapus spasi berlebih
+
+            // 2. Jika keyword terlalu pendek (misal cuma tanda tanya), anggap user tidak menyebut produk spesifik
+            if (strlen($keyword) < 3) {
+                // Tampilkan stok menipis (General Info)
+                $lowStock = DB::table('produk')
+                    ->select('nama_produk', 'stok')
+                    ->where('stok', '<', 10)
+                    ->orderBy('stok', 'asc')
+                    ->limit(5)
+                    ->get();
+                
+                if ($lowStock->count() > 0) {
+                    $list = $lowStock->map(fn($item) => "- {$item->nama_produk} (Sisa: {$item->stok} unit)")->implode("\n");
+                    $data[] = "⚠️ Peringatan Stok Menipis (<10):\n" . $list;
+                } else {
+                    $data[] = "✅ Semua stok produk aman (di atas 10 unit).";
+                }
+            } else {
+                // 3. Cari produk yang MENGANDUNG keyword tersebut (LIKE search)
+                $products = DB::table('produk')
+                    ->select('nama_produk', 'stok')
+                    ->where('nama_produk', 'like', "%{$keyword}%")
+                    ->limit(5) // Batasi 5 hasil agar tidak membanjiri prompt
+                    ->get();
+
+                if ($products->count() > 0) {
+                    $list = $products->map(fn($item) => "- {$item->nama_produk}: {$item->stok} unit")->implode("\n");
+                    $data[] = "🔍 Hasil pencarian untuk '{$keyword}':\n" . $list;
+                } else {
+                    $data[] = "❌ Tidak ditemukan produk dengan kata kunci '{$keyword}'. Coba kata kunci lain.";
+                }
+            }
+        }
+
+        return implode("\n\n", $data);
     }
 
     // --- IMPLEMENTASI LOGIKA BISNIS untuk restock (optional, jika diperlukan) ---
