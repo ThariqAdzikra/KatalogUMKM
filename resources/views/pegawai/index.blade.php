@@ -12,17 +12,15 @@
 
     {{-- Page Header --}}
     <div class="page-header">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h1 class="page-title">
-                    <i class="bi bi-people-fill me-2"></i>Manajemen Pegawai
-                </h1>
-                <p class="page-subtitle">Kelola data pegawai yang terdaftar dalam sistem</p>
-            </div>
-            <a href="{{ route('pegawai.create') }}" class="btn btn-primary-custom">
-                <i class="bi bi-plus-circle me-2"></i>Tambah Pegawai
-            </a>
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-people-fill me-2"></i>Manajemen Pegawai
+            </h1>
+            <p class="page-subtitle">Kelola data pegawai yang terdaftar dalam sistem</p>
         </div>
+        <a href="{{ route('pegawai.create') }}" class="btn btn-primary-custom w-100 mt-3">
+            <i class="bi bi-plus-circle me-2"></i>Tambah Pegawai
+        </a>
     </div>
     
     {{-- 

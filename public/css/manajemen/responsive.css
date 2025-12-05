@@ -18,7 +18,7 @@
     }
 
     .stats-value {
-        font-size: 1.75rem;
+        font-size: 1.2rem;
     }
 
     .stats-label {
@@ -46,6 +46,7 @@
 
 /* Table action buttons responsive */
 @media (max-width: 768px) {
+
     /* Make table scrollable horizontally */
     .table {
         font-size: 0.875rem;
@@ -65,6 +66,7 @@
 
 /* Small mobile adjustments */
 @media (max-width: 576px) {
+
     /* Action buttons stack vertically on small screens ONLY */
     .action-buttons {
         display: flex;
@@ -142,6 +144,7 @@
         display: block;
         margin: 0;
     }
+
     .filter-card {
         padding: 1rem;
     }
@@ -159,21 +162,25 @@
     }
 
     .stats-card {
-        padding: 1rem;
+        padding: 0.875rem;
     }
 
     .stats-icon {
         width: 40px;
         height: 40px;
         font-size: 1.25rem;
+        margin-bottom: 0.75rem;
     }
 
     .stats-value {
-        font-size: 1.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .stats-label {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     /* Compact filter inputs */
@@ -249,6 +256,7 @@
    MOBILE FORM BUTTONS RESPONSIVE
 ===================================================== */
 @media (max-width: 576px) {
+
     /* Button actions container */
     .d-flex.justify-content-end,
     .d-flex.justify-content-between,
