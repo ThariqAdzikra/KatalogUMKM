@@ -109,8 +109,7 @@ body {
    LEFT PANEL - CART SECTION
 ===================================================== */
 .pos-cart-section {
-    width: 100%;
-    /* Layout handled by Bootstrap col */
+    /* width: 100%; REMOVED to let Bootstrap col handle it */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -531,7 +530,7 @@ body {
    RIGHT PANEL - CATALOG SECTION
 ===================================================== */
 .pos-catalog-section {
-    flex: 1;
+    /* flex: 1; REMOVED to let Bootstrap col handle it */
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -824,6 +823,7 @@ body {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.4;
     min-height: 2.8rem;
@@ -986,8 +986,8 @@ body {
 /* Product Grid */
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* Force 4 columns */
+    /* Responsive Grid: min column width ~180px, auto-fill remaining space */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 1rem;
     overflow-y: auto;
     overflow-x: hidden;
@@ -995,9 +995,7 @@ body {
     padding-bottom: 1rem;
     align-content: start;
     flex: 1;
-    /* Take remaining space */
     min-height: 0;
-    /* Allow shrinking for scroll */
 }
 
 .catalog-grid::-webkit-scrollbar {
@@ -1040,13 +1038,11 @@ body {
 
     .catalog-grid {
         overflow: visible;
-        /* Let page scroll handle it */
         padding-right: 0;
         min-height: 0;
-        /* Allow scroll */
         height: auto;
-        grid-template-columns: repeat(2, 1fr);
-        /* Default to 2 cols for tablets */
+        /* On smaller tablets, slightly reduce min-width to fit 2 cols */
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
 
     .pos-info-widget {
@@ -1068,10 +1064,22 @@ body {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
     .catalog-grid {
-        grid-template-columns: repeat(1, 1fr) !important;
-        /* Stack products on phones */
+        /* On very small screens, force 2 columns but smaller */
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem;
+    }
+
+    .product-title {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .catalog-grid {
+        /* Ultra small screens (e.g. Galaxy Fold outer screen) -> Stack */
+        grid-template-columns: 1fr !important;
     }
 }
 

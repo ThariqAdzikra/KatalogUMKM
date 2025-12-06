@@ -5,6 +5,8 @@
 @push('styles')
 {{-- Gunakan CSS yang sama dengan detail produk --}}
 <link rel="stylesheet" href="/css/detail_produk/style.css">
+<link rel="stylesheet" href="/css/manajemen/penjualan.css">
+<link rel="stylesheet" href="/css/manajemen/pembelian-responsive.css">
 @endpush
 
 @section('content')
@@ -121,7 +123,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Barang</th>
-                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-center text-nowrap">Jumlah</th>
                                         <th class="text-end">Harga Satuan</th>
                                         <th class="text-end">Subtotal</th>
                                     </tr>
@@ -133,7 +135,7 @@
                                         <td>
                                             <strong>{{ $detail->produk->nama_produk ?? '-' }}</strong>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center text-nowrap">
                                             <span class="badge-merk show-page">{{ $detail->jumlah }} Unit</span>
                                         </td>
                                         <td class="text-end">
