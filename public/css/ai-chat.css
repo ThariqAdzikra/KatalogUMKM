@@ -198,6 +198,7 @@
 
 #ai-chat-input {
     flex: 1;
+    min-width: 0; /* Crucial: Allows input to shrink below its content size to fit button */
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
     border-radius: 24px;
@@ -232,6 +233,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+    flex-shrink: 0; /* Prevent button from shrinking/getting squashed */
 }
 
 #ai-chat-form button[type="submit"]:hover {
@@ -287,7 +289,9 @@
 }
 
 @keyframes typing {
-    0%, 60%, 100% {
+    0%,
+    60%,
+    100% {
         transform: translateY(0);
         opacity: 0.6;
     }
@@ -329,14 +333,14 @@
         left: 20px;
         bottom: 80px;
     }
-    
+
     #ai-chat-box.maximized {
         width: calc(100vw - 20px);
         height: 90vh;
         top: 50%;
         left: 50%;
     }
-    
+
     .chat-bubble {
         max-width: 85%;
     }
@@ -368,7 +372,7 @@
 }
 
 .bullet-item::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 10px;
@@ -383,7 +387,7 @@
     background: rgba(23, 162, 184, 0.15);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     font-size: 0.9em;
     color: #20c997;
     border: 1px solid rgba(23, 162, 184, 0.3);

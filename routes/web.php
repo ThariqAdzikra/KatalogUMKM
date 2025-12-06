@@ -55,9 +55,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // show dan create dikecualikan karena sudah didefinisikan di atas/bawah
     Route::resource('stok', StokController::class)->except(['show', 'create']);
 
-    // ROUTE PEMBELIAN
-    // Resource Route untuk Index, Create, Show, Edit, Update, Destroy
-    Route::resource('pembelian', PembelianController::class)->except(['store']);
+    // PEMBELIAN MANAGEMENT
+    // Create is EXCLUSIVE to Pegawai (Superadmin cannot Create)
+    Route::middleware(['role:pegawai'])->group(function() {
+        Route::get('pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
+    });
+
+    // Resource Route untuk Index, Show, Edit, Update, Destroy (Shared, except create/store)
+    Route::resource('pembelian', PembelianController::class)->except(['store', 'create']);
     // Route POST untuk Store Header didefinisikan terpisah
     Route::post('pembelian', [PembelianController::class, 'storeHeader'])->name('pembelian.store');
     // Route untuk finalize pembelian dan kirim notifikasi
@@ -84,19 +89,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'role:pegawai,superadmin'])
+Route::middleware(['auth', 'role:pegawai'])
     ->prefix('penjualan')
     ->name('penjualan.')
     ->group(function () {
-
-        // Route untuk Pegawai & Superadmin
+        // POS / Transactions (Pegawai Only - Superadmin cannot access POS)
         Route::get('/create', [PenjualanController::class, 'create'])->name('create');
         Route::post('/', [PenjualanController::class, 'store'])->name('store');
         Route::get('/print', [PenjualanController::class, 'print'])->name('print');
-
         Route::get('/struk/{penjualan}', [PenjualanController::class, 'generateStrukPdf'])->name('struk');
+    });
 
-        // Route khusus Superadmin (Middleware 'role' di sini sudah mengizinkan superadmin)
+Route::middleware(['auth', 'role:superadmin'])
+    ->prefix('penjualan')
+    ->name('penjualan.')
+    ->group(function () {
+        // Management / History (SuperAdmin Only)
         Route::get('/', [PenjualanController::class, 'index'])->name('index');
         Route::get('/export', [PenjualanController::class, 'export'])->name('export');
         Route::get('/laporan', [PenjualanController::class, 'laporan'])->name('laporan');
@@ -105,7 +113,6 @@ Route::middleware(['auth', 'role:pegawai,superadmin'])
         Route::delete('/{penjualan}', [PenjualanController::class, 'destroy'])->name('destroy');
         Route::get('/pembelian/{id_pembelian}', [PembelianController::class, 'show'])->name('pembelian.show');
         Route::get('/{id}', [PenjualanController::class, 'show'])->name('show');
-
     });
 
 
