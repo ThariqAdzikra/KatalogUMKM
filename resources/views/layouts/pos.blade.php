@@ -22,9 +22,7 @@
     @stack('styles')
 
     <style>
-        body {
-            overflow: hidden; /* Prevent global scroll */
-        }
+        /* body overflow handled by kasir.css media queries */
     </style>
 </head>
 <body>

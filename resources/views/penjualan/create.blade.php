@@ -26,9 +26,10 @@
         <div id="hidden-product-inputs"></div>
     </form>
 
-    <div class="pos-row">
+    <div class="row g-0 h-100">
         {{-- LEFT PANEL: SHOPPING CART --}}
-        <aside class="pos-cart-section">
+        {{-- Mobile: Order 2 (Bottom), Desktop: Order 1 (Left) --}}
+        <aside class="pos-cart-section col-12 col-lg-4 col-xl-3 order-2 order-lg-1 h-100 border-end border-secondary">
             <div class="cart-body">
                 {{-- Customer Selection --}}
                 <div class="customer-selection-wrapper">
@@ -99,7 +100,8 @@
         </aside>
 
         {{-- RIGHT PANEL: PRODUCT CATALOG --}}
-        <main class="pos-catalog-section">
+        {{-- Mobile: Order 1 (Top), Desktop: Order 2 (Right) --}}
+        <main class="pos-catalog-section col-12 col-lg-8 col-xl-9 order-1 order-lg-2 h-100">
             {{-- Info Widget --}}
             <div class="pos-info-widget">
                 <div class="info-left">
@@ -111,14 +113,14 @@
                         <i class="bi bi-clock"></i>
                         <span id="widget-clock">00:00:00</span>
                     </div>
-                    <div class="info-divider"></div>
-                    <div class="info-weather">
+                    <div class="info-divider d-none d-md-block"></div>
+                    <div class="info-weather d-none d-md-flex">
                         <i class="bi bi-cloud-sun"></i>
                         <span>28°C</span>
                     </div>
                 </div>
                 <div class="info-right">
-                    <div class="user-info">
+                    <div class="user-info d-none d-sm-flex">
                         <span class="user-name">{{ Auth::user()->name }}</span>
                         <span class="user-role">{{ ucfirst(Auth::user()->role ?? 'Staff') }}</span>
                     </div>
@@ -140,12 +142,12 @@
                     <input type="text" 
                            id="search-product" 
                            class="form-control" 
-                           placeholder="Cari produk (nama, merk, spesifikasi)..."
+                           placeholder="Cari produk..."
                            autocomplete="off">
                 </div>
 
                 {{-- Category Filter --}}
-                <select id="filter-category" class="form-select">
+                <select id="filter-category" class="form-select mt-2 mt-md-0 ms-md-2" style="width: auto;">
                     <option value="all">Semua Kategori</option>
                     @foreach($kategori as $kat)
                         <option value="{{ $kat->slug ?? strtolower($kat->nama_kategori) }}">{{ $kat->nama_kategori }}</option>

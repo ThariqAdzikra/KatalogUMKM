@@ -72,12 +72,28 @@ body {
 .pos-container {
     width: 100%;
     height: 100%;
-    /* Use 100% of body height */
     padding: 0;
     margin: 0;
     overflow: hidden;
+    /* Desktop default */
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 991.98px) {
+    .pos-container {
+        height: auto;
+        overflow-y: auto;
+        padding-bottom: 60px;
+        /* Space for bottom nav if needed */
+    }
+
+    html,
+    body {
+        overflow: auto;
+        /* Allow global scroll on mobile */
+        height: auto;
+    }
 }
 
 .pos-row {
@@ -93,12 +109,10 @@ body {
    LEFT PANEL - CART SECTION
 ===================================================== */
 .pos-cart-section {
-    width: 400px;
-    min-width: 400px;
-    max-width: 400px;
+    width: 100%;
+    /* Layout handled by Bootstrap col */
     height: 100%;
     display: flex;
-    flex-direction: column;
     flex-direction: column;
     background: rgba(20, 24, 44, 0.6);
     backdrop-filter: blur(20px);
@@ -138,7 +152,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
-    padding-bottom: 350px;
+    /* padding-bottom removed to allow natural flow */
     min-height: 0;
     display: flex;
     flex-direction: column;
@@ -522,9 +536,18 @@ body {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    /* Desktop default */
     padding: 1.5rem;
     background: transparent;
     /* Let body gradient show through */
+}
+
+@media (max-width: 991.98px) {
+    .pos-catalog-section {
+        height: auto;
+        overflow: visible;
+        padding: 1rem;
+    }
 }
 
 /* Catalog Header */
@@ -997,83 +1020,58 @@ body {
 /* =====================================================
    RESPONSIVE DESIGN
 ===================================================== */
-@media (max-width: 1400px) {
-    .catalog-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+/* =====================================================
+   RESPONSIVE DESIGN ADAPTATIONS
+   ===================================================== */
 
-@media (max-width: 1200px) {
+/* Mobile & Tablet adjustments */
+@media (max-width: 991.98px) {
     .pos-cart-section {
-        width: 340px;
-        min-width: 340px;
-        max-width: 340px;
-    }
-
-    .catalog-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Change layout to vertical only on mobile/small tablets */
-@media (max-width: 768px) {
-    .pos-row {
-        flex-direction: column-reverse;
+        border-right: none;
+        border-top: 1px solid rgba(6, 182, 212, 0.2);
+        box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
         height: auto;
-        margin-top: 60px;
     }
 
-    .pos-cart-section {
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        max-height: 500px;
-    }
-
-    .pos-catalog-section {
-        height: calc(100vh - 560px);
-        min-height: 400px;
+    .cart-body {
+        overflow: visible;
+        /* Let page scroll handle it */
     }
 
     .catalog-grid {
+        overflow: visible;
+        /* Let page scroll handle it */
+        padding-right: 0;
+        min-height: 0;
+        /* Allow scroll */
+        height: auto;
         grid-template-columns: repeat(2, 1fr);
+        /* Default to 2 cols for tablets */
+    }
+
+    .pos-info-widget {
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
     }
 
     .catalog-header {
         flex-direction: column;
+        gap: 0.75rem;
     }
 
-    #filter-category {
+    .search-wrapper {
         width: 100%;
     }
 
-    .catalog-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+    #filter-category {
+        width: 100% !important;
     }
 }
 
-@media (max-width: 576px) {
-    .pos-cart-section {
-        max-height: 450px;
-    }
-
-    .cart-header,
-    .cart-footer {
-        padding: 1rem;
-    }
-
+@media (max-width: 768px) {
     .catalog-grid {
-        grid-template-columns: repeat(1, 1fr);
-        gap: 0.875rem;
-    }
-
-    .product-img-wrapper {
-        height: 140px;
-    }
-
-    .product-info {
-        padding: 1rem;
+        grid-template-columns: repeat(1, 1fr) !important;
+        /* Stack products on phones */
     }
 }
 
