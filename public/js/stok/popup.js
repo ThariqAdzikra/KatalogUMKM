@@ -51,12 +51,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- 2. LOGIKA MODAL SUKSES (FLASH SESSION) ---
 
-    // Cek apakah ada elemen penanda sukses (dikirim dari Blade)
+    // Cek apakah ada elemen penanda sukses ADD/UPDATE
     const successFlag = document.getElementById('flash-success-flag');
     if (successFlag) {
-        const modalSuccessEl = document.getElementById('successModal'); // ID disesuaikan dengan Blade
+        const modalSuccessEl = document.getElementById('addSuccessModal');
         if (modalSuccessEl) {
             const modal = bootstrap.Modal.getOrCreateInstance(modalSuccessEl);
+            modal.show();
+        }
+    }
+
+    // Cek apakah ada elemen penanda sukses DELETE
+    const deleteFlag = document.getElementById('flash-delete-flag');
+    if (deleteFlag) {
+        const modalDeleteSuccessEl = document.getElementById('deleteSuccessModal');
+        if (modalDeleteSuccessEl) {
+            const modal = bootstrap.Modal.getOrCreateInstance(modalDeleteSuccessEl);
             modal.show();
         }
     }

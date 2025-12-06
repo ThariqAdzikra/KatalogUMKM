@@ -47,5 +47,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('footer_email', \App\Models\SiteSetting::get('footer_email', 'laptopPremium@gmail.com'));
             $view->with('footer_copyright_text', \App\Models\SiteSetting::get('footer_copyright_text', '© 2025 LaptopPremium. All rights reserved.'));
         });
+
+        // Register NotificationComposer for notifications
+        \Illuminate\Support\Facades\View::composer(
+            'layouts.app',
+            \App\View\Composers\NotificationComposer::class
+        );
     }
 }

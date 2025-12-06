@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     SuperAdmin\SiteSettingController,
     PegawaiController,
     SupplierController,
-    PelangganController
+    PelangganController,
+    NotificationController
 };
 
 // ========================
@@ -59,6 +60,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('pembelian', PembelianController::class)->except(['store']);
     // Route POST untuk Store Header didefinisikan terpisah
     Route::post('pembelian', [PembelianController::class, 'storeHeader'])->name('pembelian.store');
+    // Route untuk finalize pembelian dan kirim notifikasi
+    Route::post('pembelian/{pembelian}/finalize', [PembelianController::class, 'finalize'])->name('pembelian.finalize');
 
     // ROUTE SUPPLIER & PELANGGAN
     Route::get('/supplier/search', [SupplierController::class, 'search'])->name('supplier.search');
@@ -66,6 +69,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('pelanggan', PelangganController::class)->except(['create', 'store']);
     Route::get('/pelanggan/search/ajax', [PelangganController::class, 'searchAjax'])->name('pelanggan.search.ajax');
+
+    // ========================
+    // 🔔 Notification Routes
+    // ========================
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::get('/unread', [NotificationController::class, 'getUnread'])->name('unread');
+        Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::post('/read-all', [NotificationController::class, 'markAllAsRead'])->name('read-all');
+        Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('destroy');
+        Route::post('/bulk-delete', [NotificationController::class, 'bulkDelete'])->name('bulk-delete');
+    });
 
 });
 

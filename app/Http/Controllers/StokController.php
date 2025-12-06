@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use App\Models\Kategori;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str; 
 use App\Models\Pembelian;
 use App\Models\PembelianDetail;
@@ -195,7 +197,7 @@ class StokController extends Controller
 
         // LOGIKA PENCATATAN PEMBELIAN
         if (isset($validated['id_pembelian']) && $validated['id_pembelian']) {
-            $pembelian = Pembelian::find($validated['id_pembelian']);
+            $pembelian = Pembelian::with('supplier')->find($validated['id_pembelian']);
             $subtotal = $validated['harga_beli'] * $jumlah_ditambah; 
             
             PembelianDetail::create([
@@ -208,7 +210,31 @@ class StokController extends Controller
 
             $pembelian->increment('total_harga', $subtotal);
             
-            return redirect()->route('stok.create', ['pembelian' => $pembelian->id_pembelian])
+            // BUAT NOTIFIKASI PEMBELIAN
+            $userName = Auth::user()->name;
+            $newTotal = $pembelian->total_harga + $subtotal;
+            
+            Notification::create([
+                'type' => 'pembelian',
+                'title' => 'Pembelian Baru - ' . $userName,
+                'message' => 'Pembelian #' . $pembelian->id_pembelian . ' - ' . $produk->nama_produk . ' (x' . $jumlah_ditambah . ') dari ' . ($pembelian->supplier->nama_supplier ?? '-') . ' - Rp ' . number_format($subtotal, 0, ',', '.'),
+                'data' => [
+                    'id_transaksi' => $pembelian->id_pembelian,
+                    'supplier' => $pembelian->supplier->nama_supplier ?? '-',
+                    'user' => $userName,
+                    'tanggal' => \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->format('d M Y, H:i'),
+                    'total_harga' => $subtotal,
+                    'produk' => [[
+                        'nama' => $produk->nama_produk,
+                        'jumlah' => $jumlah_ditambah,
+                        'harga_satuan' => $validated['harga_beli'],
+                        'subtotal' => $subtotal,
+                    ]],
+                ],
+                'link' => route('pembelian.show', $pembelian->id_pembelian),
+            ]);
+            
+            return redirect()->route('stok.index')
                              ->with('success', $actionMessage . ' Data dicatat dalam pembelian.');
         }
 

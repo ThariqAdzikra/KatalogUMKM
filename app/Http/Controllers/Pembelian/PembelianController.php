@@ -7,6 +7,7 @@ use App\Models\Pembelian;
 use App\Models\PembelianDetail;
 use App\Models\Produk;
 use App\Models\Supplier;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -158,6 +159,37 @@ class PembelianController extends Controller
 
         $pembelian->update(['total_harga' => $total]);
 
+        // Create notification for restock with full transaction details
+        $userName = Auth::user()->name;
+        
+        // Load transaction details for notification
+        $pembelian->load(['supplier', 'detail.produk']);
+        
+        // Build product list for notification data
+        $produkList = $pembelian->detail->map(function($detail) {
+            return [
+                'nama' => $detail->produk->nama_produk ?? 'Produk tidak ditemukan',
+                'jumlah' => $detail->jumlah,
+                'harga_satuan' => $detail->harga_satuan,
+                'subtotal' => $detail->subtotal,
+            ];
+        })->toArray();
+        
+        Notification::create([
+            'type' => 'pembelian',
+            'title' => 'Restock Baru - ' . $userName,
+            'message' => 'Pembelian #' . $pembelian->id_pembelian . ' oleh ' . $userName . ' dari ' . $pembelian->supplier->nama_supplier . ' - Rp ' . number_format($total, 0, ',', '.'),
+            'data' => [
+                'id_transaksi' => $pembelian->id_pembelian,
+                'supplier' => $pembelian->supplier->nama_supplier ?? '-',
+                'user' => $userName,
+                'tanggal' => $pembelian->tanggal_pembelian,
+                'total_harga' => $total,
+                'produk' => $produkList,
+            ],
+            'link' => route('pembelian.show', $pembelian->id_pembelian),
+        ]);
+
         return redirect()->route('pembelian.index')->with('success', 'Data pembelian berhasil disimpan');
     }
 
@@ -247,10 +279,65 @@ class PembelianController extends Controller
         return redirect()->route('pembelian.index')->with('success', 'Data pembelian berhasil diperbarui');
     }
 
+    /**
+     * Display the specified resource.
+     * Only accessible by SuperAdmin
+     */
     public function show($id)
     {
+        // Only SuperAdmin can view pembelian detail
+        if (Auth::user()->role !== 'superadmin') {
+            return redirect()->route('pembelian.index')
+                ->with('error', 'Anda tidak memiliki akses untuk melihat detail pembelian.');
+        }
+
         $pembelian = Pembelian::with('supplier', 'detail.produk', 'user')->findOrFail($id);
         return view('pembelian.show', compact('pembelian'));
+    }
+
+    /**
+     * Finalize pembelian dan kirim notifikasi
+     */
+    public function finalize($id)
+    {
+        $pembelian = Pembelian::with(['supplier', 'detail.produk'])->findOrFail($id);
+        
+        // Check if pembelian has details
+        if ($pembelian->detail->isEmpty()) {
+            return redirect()->route('stok.create', ['pembelian' => $id])
+                ->with('error', 'Tambahkan setidaknya 1 produk sebelum menyelesaikan pembelian.');
+        }
+
+        // Build product list for notification data
+        $produkList = $pembelian->detail->map(function($detail) {
+            return [
+                'nama' => $detail->produk->nama_produk ?? 'Produk tidak ditemukan',
+                'jumlah' => $detail->jumlah,
+                'harga_satuan' => $detail->harga_satuan,
+                'subtotal' => $detail->subtotal,
+            ];
+        })->toArray();
+
+        $userName = Auth::user()->name;
+
+        // Create notification with full transaction details
+        Notification::create([
+            'type' => 'pembelian',
+            'title' => 'Pembelian Baru - ' . $userName,
+            'message' => 'Pembelian #' . $pembelian->id_pembelian . ' oleh ' . $userName . ' dari ' . ($pembelian->supplier->nama_supplier ?? '-') . ' - Rp ' . number_format($pembelian->total_harga, 0, ',', '.'),
+            'data' => [
+                'id_transaksi' => $pembelian->id_pembelian,
+                'supplier' => $pembelian->supplier->nama_supplier ?? '-',
+                'user' => $userName,
+                'tanggal' => \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->format('d M Y, H:i'),
+                'total_harga' => $pembelian->total_harga,
+                'produk' => $produkList,
+            ],
+            'link' => route('pembelian.show', $pembelian->id_pembelian),
+        ]);
+
+        return redirect()->route('pembelian.index')
+            ->with('success', 'Pembelian #' . $pembelian->id_pembelian . ' berhasil disimpan.');
     }
 
 }
