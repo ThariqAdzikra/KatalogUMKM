@@ -216,6 +216,7 @@
   </div>
 </div>
 
+    <x-ai-chat-widget context="pelanggan" />
 @endsection
 
 @push('scripts')

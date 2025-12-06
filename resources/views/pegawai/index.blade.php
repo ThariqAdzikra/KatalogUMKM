@@ -310,6 +310,7 @@
     </div>
   </div>
 </div>
+    <x-ai-chat-widget context="pegawai" />
 @endsection
 
 @push('scripts')
