@@ -24,7 +24,11 @@
     </div>
 
     @if(session('success'))
-        <div id="flash-success-flag" style="display: none;"></div>
+        @if(str_contains(session('success'), 'dihapus'))
+            <div id="flash-delete-flag" style="display: none;"></div>
+        @else
+            <div id="flash-success-flag" style="display: none;"></div>
+        @endif
     @endif
 
     {{-- Stats Cards --}}
@@ -161,10 +165,10 @@
 
 {{-- 
 ==================================================
-✅ MODAL SUKSES (ANIMASI TRASH)
+✅ MODAL SUKSES DELETE (ANIMASI TRASH)
 ==================================================
 --}}
-<div class="modal fade modal-confirmation-style" id="successModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade modal-confirmation-style" id="deleteSuccessModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -193,6 +197,53 @@
       </div>
     </div>
   </div>
+</div>
+
+{{-- 
+==================================================
+✅ MODAL SUKSES ADD/UPDATE (STYLE KASIR)
+==================================================
+--}}
+<div class="modal fade" id="addSuccessModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    Data Berhasil Disimpan
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body text-center py-4">
+                <div class="mx-auto mb-3" aria-hidden="true">
+                    <svg viewBox="0 0 120 120" width="100" height="100">
+                        <circle class="stok-check-circle" 
+                                cx="60" cy="60" r="42" 
+                                fill="none" 
+                                stroke="#10b981" 
+                                stroke-width="6" />
+                        <path class="stok-check-mark" 
+                              d="M38 62 L54 76 L84 46" 
+                              fill="none" 
+                              stroke="#10b981" 
+                              stroke-linecap="round" 
+                              stroke-linejoin="round" 
+                              stroke-width="6" />
+                    </svg>
+                </div>
+                <p class="mb-0 fs-6">
+                    Data stok produk berhasil disimpan ke database.
+                </p>
+            </div>
+            
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" class="btn btn-success px-5" data-bs-dismiss="modal">
+                    <i class="bi bi-check2 me-2"></i>OK, Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
     <x-ai-chat-widget context="stok" />
 @endsection

@@ -7,6 +7,7 @@ use App\Models\Penjualan;
 use App\Models\PenjualanDetail;
 use App\Models\Pelanggan;
 use App\Models\Produk;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -153,6 +154,38 @@ class PenjualanController extends Controller
                 return $penjualanHeader;
             });
 
+            // Create notification for the sale with full transaction details
+            $kasirName = Auth::user()->name;
+            
+            // Load transaction details for notification
+            $penjualan->load(['pelanggan', 'detail.produk']);
+            
+            // Build product list for notification data
+            $produkList = $penjualan->detail->map(function($detail) {
+                return [
+                    'nama' => $detail->produk->nama_produk ?? 'Produk tidak ditemukan',
+                    'jumlah' => $detail->jumlah,
+                    'harga_satuan' => $detail->harga_satuan,
+                    'subtotal' => $detail->subtotal,
+                ];
+            })->toArray();
+            
+            Notification::create([
+                'type' => 'penjualan',
+                'title' => 'Penjualan Baru - ' . $kasirName,
+                'message' => 'Transaksi #' . $penjualan->id_penjualan . ' oleh ' . $kasirName . ' - Rp ' . number_format($penjualan->total_harga, 0, ',', '.'),
+                'data' => [
+                    'id_transaksi' => $penjualan->id_penjualan,
+                    'pelanggan' => $penjualan->pelanggan->nama_pelanggan ?? 'Umum',
+                    'kasir' => $kasirName,
+                    'metode_pembayaran' => $penjualan->metode_pembayaran ?? 'CASH',
+                    'tanggal' => \Carbon\Carbon::parse($penjualan->tanggal_penjualan)->format('d M Y, H:i'),
+                    'total_harga' => $penjualan->total_harga,
+                    'produk' => $produkList,
+                ],
+                'link' => route('penjualan.show', $penjualan->id_penjualan),
+            ]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Transaksi berhasil disimpan.',
@@ -170,9 +203,16 @@ class PenjualanController extends Controller
 
     /**
      * Display the specified resource.
+     * Only accessible by SuperAdmin
      */
     public function show(string $id)
     {
+        // Only SuperAdmin can view penjualan detail
+        if (Auth::user()->role !== 'superadmin') {
+            return redirect()->route('penjualan.create')
+                ->with('error', 'Anda tidak memiliki akses untuk melihat detail penjualan.');
+        }
+
         $penjualan = Penjualan::with(['pelanggan', 'user', 'detail.produk'])->findOrFail($id);
         return view('penjualan.show', compact('penjualan'));
     }

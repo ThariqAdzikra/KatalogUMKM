@@ -127,3 +127,28 @@
     background-color: #1e2139;
     color: #ffffff;
 }
+
+/* Animation for Success Modal (Checkmark) */
+.stok-check-circle {
+    stroke-dasharray: 265;
+    stroke-dashoffset: 265;
+    animation: stok-circ 900ms ease-out forwards;
+}
+
+.stok-check-mark {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    animation: stok-check 700ms 350ms ease-out forwards;
+}
+
+@keyframes stok-circ {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes stok-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}

@@ -190,22 +190,13 @@
                 @if(isset($id_pembelian) && $id_pembelian)
                     <script>const isPembelianMode = true;</script>
 
-                    <div class="d-flex justify-content-between gap-3 mt-4">
-                        {{-- Tombol Kembali (Pemicu Batal) --}}
-                        {{-- Menggunakan mode 'kembali' yang langsung redirect di JS --}}
-                        <button type="button" onclick="openCancelModal('kembali')" class="btn btn-secondary-custom">
-                            <i class="bi bi-arrow-left me-2"></i>Kembali
+                    <div class="d-flex justify-content-between gap-2 mt-4">
+                        <button type="button" class="btn btn-outline-danger" onclick="openCancelModal('batal_transaksi')" style="padding: 0.6rem 1.25rem; border-radius: 8px; font-weight: 500;">
+                            <i class="bi bi-x-circle me-1"></i>Batal
                         </button>
-
-                        <div class="d-flex gap-3">
-                            {{-- Menggunakan mode 'batal_transaksi' yang memicu form DELETE di JS --}}
-                            <button type="button" class="btn btn-danger" onclick="openCancelModal('batal_transaksi')" style="padding: 0.875rem 2.5rem; border-radius: 8px; font-weight: 600;">
-                                <i class="bi bi-x-circle me-2"></i>Batalkan Transaksi
-                            </button>
-                            <button type="button" class="btn btn-primary-custom" onclick="openConfirmationModal()">
-                                <i class="bi bi-save me-2"></i>Simpan
-                            </button>
-                        </div>
+                        <button type="button" class="btn btn-primary-custom" onclick="openConfirmationModal()" style="padding: 0.6rem 1.25rem;">
+                            <i class="bi bi-save me-1"></i>Simpan Produk
+                        </button>
                     </div>
                 @else
                     <script>const isPembelianMode = false;</script>
@@ -226,6 +217,14 @@
                     </div>
                 @endif
             </form>
+            
+            {{-- FORM FINALIZE TERSEMBUNYI UNTUK MENYELESAIKAN PEMBELIAN --}}
+            {{-- Diletakkan di luar formProduk untuk menghindari nested form --}}
+            @if(isset($id_pembelian) && $id_pembelian)
+            <form id="form-finalize-pembelian" action="{{ route('pembelian.finalize', $id_pembelian) }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            @endif
             
             {{-- FORM DELETE TERSEMBUNYI UNTUK MEMBATALKAN PEMBELIAN --}}
             {{-- Diletakkan di luar formProduk untuk menghindari submission ganda --}}

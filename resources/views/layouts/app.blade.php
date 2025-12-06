@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/layouts/app.css">
     <link rel="stylesheet" href="/css/global-premium.css">
     <link rel="stylesheet" href="/css/manajemen/style.css">
+    <link rel="stylesheet" href="/css/notifications.css">
     
     {{-- Stack untuk CSS spesifik per halaman --}}
     @stack('styles')
@@ -140,6 +141,21 @@
 
         {{-- Navigation Menu --}}
         <nav class="sidebar-nav">
+            {{-- Notification Nav Item (TOP) --}}
+            <div class="notification-nav-wrapper" id="notificationNavWrapper">
+                <a href="javascript:void(0)" 
+                   class="nav-item notification-nav-item {{ request()->routeIs('notifications.*') ? 'active' : '' }}"
+                   id="notificationNavItem"
+                   onclick="toggleNotificationPopup(event)">
+                    <i class="bi bi-bell"></i>
+                    <span>Notifikasi</span>
+                    @if(isset($unreadCount) && $unreadCount > 0)
+                        <span class="nav-notification-badge">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+                    @endif
+                    <div class="nav-item-glow"></div>
+                </a>
+            </div>
+
             {{-- Main Menu Section --}}
             <div class="nav-section">
                 <span class="nav-section-title">MAIN MENU</span>
@@ -258,6 +274,45 @@
             </div>
         </div>
     </aside>
+
+    {{-- Notification Popup (OUTSIDE SIDEBAR - at body level) --}}
+    <div class="notification-popup" id="notificationPopup">
+        <div class="popup-header">
+            <h6><i class="bi bi-bell-fill me-2"></i>Notifikasi</h6>
+            <form action="{{ route('notifications.read-all') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="mark-all-read" title="Tandai Semua Dibaca">
+                    <i class="bi bi-check2-all"></i>
+                </button>
+            </form>
+        </div>
+        <div class="popup-body" id="notificationList">
+            @if(isset($unreadNotifications) && $unreadNotifications->count() > 0)
+            @foreach($unreadNotifications as $notif)
+                    <a href="{{ route('notifications.index') }}" class="notification-item {{ $notif->is_read ? 'read' : 'unread' }}">
+                        <div class="notification-icon" style="color: {{ $notif->color }};">
+                            <i class="bi {{ $notif->icon }}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">{{ $notif->title }}</div>
+                            <div class="notification-message">{{ Str::limit($notif->message, 50) }}</div>
+                            <div class="notification-time">{{ $notif->time_ago }}</div>
+                        </div>
+                    </a>
+                @endforeach
+            @else
+                <div class="notification-empty">
+                    <i class="bi bi-bell-slash"></i>
+                    <p>Tidak ada notifikasi baru</p>
+                </div>
+            @endif
+        </div>
+        <div class="popup-footer">
+            <a href="{{ route('notifications.index') }}">
+                <i class="bi bi-arrow-right-circle me-1"></i>Lihat Selengkapnya
+            </a>
+        </div>
+    </div>
 
     {{-- Mobile Hamburger Button (Only for Auth Users) - Placed after sidebar for CSS sibling selector --}}
     <button class="mobile-hamburger" id="mobileHamburger">
@@ -564,6 +619,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/notifications.js"></script>
     
     {{-- Stack untuk JS spesifik per halaman --}}
     @stack('scripts')
