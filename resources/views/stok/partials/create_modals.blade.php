@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="product-badges">
-                    <span class="badge bg-secondary" id="summaryKategoriBadge">Kategori</span>
-                    <span class="badge bg-light text-dark border" id="summaryMerkBadge">Merk</span>
+                    <span class="badge" id="summaryKategoriBadge" style="background: rgba(6, 182, 212, 0.2); color: #06b6d4; border: 1px solid rgba(6, 182, 212, 0.4);">Kategori</span>
+                    <span class="badge" id="summaryMerkBadge" style="background: rgba(100, 116, 139, 0.3); color: #e5e7eb; border: 1px solid rgba(100, 116, 139, 0.4);">Merk</span>
                 </div>
             </div>
 
@@ -33,12 +33,12 @@
                 <div class="receipt-list">
                     {{-- Nama Produk & Spesifikasi --}}
                     <div class="mb-3 text-center">
-                        <h5 class="mb-1" id="summaryNamaProduk" style="font-weight: 700; color: var(--primary-dark);">Nama Produk</h5>
+                        <h5 class="mb-1" id="summaryNamaProduk" style="font-weight: 700; color: #ffffff;">Nama Produk</h5>
                         {{-- Ini adalah elemen tersembunyi untuk data, yang terlihat ada di bawah --}}
                         <span id="summaryMerk" class="visually-hidden"></span>
                         <span id="summaryKategori" class="visually-hidden"></span>
                         
-                        <div id="summarySpesifikasi" class="text-muted small fst-italic text-truncate" style="max-width: 90%; margin: 0 auto;">
+                        <div id="summarySpesifikasi" class="small fst-italic text-truncate" style="max-width: 90%; margin: 0 auto; color: #9ca3af;">
                             Spesifikasi singkat...
                         </div>
                     </div>

@@ -107,7 +107,7 @@
                             <label class="form-label">Garansi (Tahun) <span class="required">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text input-group-icon"><i class="bi bi-shield-check"></i></span>
-                                <input type="number" name="garansi" id="garansi" class="form-control @error('garansi') is-invalid @enderror" value="{{ old('garansi', 0) }}" placeholder="0" min="0" required>
+                                <input type="number" name="garansi" id="garansi" class="form-control @error('garansi') is-invalid @enderror" value="{{ old('garansi') }}" placeholder="0" min="0" required>
                                 <span class="input-group-text">Tahun</span>
                             </div>
                             @error('garansi')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -139,7 +139,7 @@
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text input-group-icon"><i class="bi bi-box"></i></span>
-                                <input type="number" name="stok" id="stok_awal" class="form-control @error('stok') is-invalid @enderror" value="{{ old('stok', 0) }}" placeholder="0" min="1" required>
+                                <input type="number" name="stok" id="stok_awal" class="form-control @error('stok') is-invalid @enderror" value="{{ old('stok') }}" placeholder="0" min="1" required>
                             </div>
                             @error('stok')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
@@ -157,7 +157,7 @@
                             <label class="form-label">Total Harga (Subtotal)</label>
                             <div class="input-group">
                                 <span class="input-group-text input-group-icon">Rp</span>
-                                <input type="text" id="total_harga" class="form-control" value="0" readonly style="background-color: #ffffff;">
+                                <input type="text" id="total_harga" class="form-control" value="0" readonly>
                             </div>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                     <div class="d-flex justify-content-between gap-3 mt-4">
                         {{-- Tombol Kembali (Pemicu Batal) --}}
                         {{-- Menggunakan mode 'kembali' yang langsung redirect di JS --}}
-                        <button type="button" onclick="openCancelModal('kembali')" class="btn btn-secondary-custom" style="background: #6b7e4a; border-color: #6b7e4a;">
+                        <button type="button" onclick="openCancelModal('kembali')" class="btn btn-secondary-custom">
                             <i class="bi bi-arrow-left me-2"></i>Kembali
                         </button>
 
