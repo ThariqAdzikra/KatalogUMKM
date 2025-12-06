@@ -1,17 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // 1. Fungsi untuk mengambil data cuaca
     async function fetchWeather() {
-        const apiKey = '93b7587a55f39ff4f0dc94e189ea5bd3';
-        const city = 'Pekanbaru';
+        const apiKey = "93b7587a55f39ff4f0dc94e189ea5bd3";
+        const city = "Pekanbaru";
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=id&appid=${apiKey}`;
 
-        const weatherWidget = document.getElementById('weather-widget');
+        const weatherWidget = document.getElementById("weather-widget");
         if (!weatherWidget) return;
 
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Gagal mengambil data cuaca');
+                throw new Error("Gagal mengambil data cuaca");
             }
 
             const data = await response.json();
@@ -21,18 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const iconCode = data.weather[0].icon.slice(0, -1);
 
             const weatherIcons = {
-                '01': '<i class="bi bi-sun-fill"></i>',
-                '02': '<i class="bi bi-cloud-sun-fill"></i>',
-                '03': '<i class="bi bi-cloud-fill"></i>',
-                '04': '<i class="bi bi-clouds-fill"></i>',
-                '09': '<i class="bi bi-cloud-drizzle-fill"></i>',
-                '10': '<i class="bi bi-cloud-rain-fill"></i>',
-                '11': '<i class="bi bi-cloud-lightning-rain-fill"></i>',
-                '13': '<i class="bi bi-snow-fill"></i>',
-                '50': '<i class="bi bi-cloud-fog-fill"></i>'
+                "01": '<i class="bi bi-sun-fill"></i>',
+                "02": '<i class="bi bi-cloud-sun-fill"></i>',
+                "03": '<i class="bi bi-cloud-fill"></i>',
+                "04": '<i class="bi bi-clouds-fill"></i>',
+                "09": '<i class="bi bi-cloud-drizzle-fill"></i>',
+                10: '<i class="bi bi-cloud-rain-fill"></i>',
+                11: '<i class="bi bi-cloud-lightning-rain-fill"></i>',
+                13: '<i class="bi bi-snow-fill"></i>',
+                50: '<i class="bi bi-cloud-fog-fill"></i>',
             };
 
-            const icon = weatherIcons[iconCode] || '<i class="bi bi-cloud-sun"></i>';
+            const icon =
+                weatherIcons[iconCode] || '<i class="bi bi-cloud-sun"></i>';
 
             weatherWidget.innerHTML = `
                 <span class="bi-icon">${icon}</span>
@@ -40,51 +41,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span style="opacity: 0.9;">${description} di ${city}</span>
             `;
 
-            const iconElement = weatherWidget.querySelector('.bi-icon i');
+            const iconElement = weatherWidget.querySelector(".bi-icon i");
             if (iconElement) {
-                iconElement.style.fontSize = '1.5rem';
-                iconElement.style.verticalAlign = 'bottom';
+                iconElement.style.fontSize = "1.5rem";
+                iconElement.style.verticalAlign = "bottom";
             }
-
         } catch (error) {
-            console.error('Error fetching weather:', error);
-            weatherWidget.innerHTML = '<span>Gagal memuat cuaca</span>';
+            console.error("Error fetching weather:", error);
+            weatherWidget.innerHTML = "<span>Gagal memuat cuaca</span>";
         }
     }
 
     // 2. Fungsi untuk mengatur gambar Siang/Malam
     function updateWeatherImage() {
-        const imgElement = document.getElementById('weather-image');
+        const imgElement = document.getElementById("weather-image");
         if (!imgElement) return;
 
         const hour = new Date().getHours();
         const isDayTime = hour >= 6 && hour < 18;
 
         if (isDayTime) {
-            imgElement.src = '/images/matahari.png';
-            imgElement.alt = 'Ilustrasi Siang Hari';
+            imgElement.src = "/images/matahari.png";
+            imgElement.alt = "Ilustrasi Siang Hari";
         } else {
-            imgElement.src = '/images/bulan.png';
-            imgElement.alt = 'Ilustrasi Malam Hari';
+            imgElement.src = "/images/bulan.png";
+            imgElement.alt = "Ilustrasi Malam Hari";
         }
 
         imgElement.onerror = function () {
-            console.warn('Gambar cuaca tidak ditemukan di path:', this.src);
-            this.style.display = 'none';
+            console.warn("Gambar cuaca tidak ditemukan di path:", this.src);
+            this.style.display = "none";
         };
     }
 
     function updateClock() {
-        const clockWidget = document.getElementById('live-clock');
+        const clockWidget = document.getElementById("live-clock");
         if (!clockWidget) return;
 
         const now = new Date();
 
-        const dateOptions = { weekday: 'long', day: 'numeric', month: 'long' };
-        const formattedDate = now.toLocaleDateString('id-ID', dateOptions);
+        const dateOptions = { weekday: "long", day: "numeric", month: "long" };
+        const formattedDate = now.toLocaleDateString("id-ID", dateOptions);
 
-        const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Jakarta' };
-        const formattedTime = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
+        const timeOptions = {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+            timeZone: "Asia/Jakarta",
+        };
+        const formattedTime = now
+            .toLocaleTimeString("id-ID", timeOptions)
+            .replace(/\./g, ":");
 
         clockWidget.innerHTML = `
             <span class="bi-icon"><i class="bi bi-clock"></i></span>
@@ -92,10 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <span style="opacity: 0.9;">${formattedDate}</span>
         `;
 
-        const iconElement = clockWidget.querySelector('.bi-icon i');
+        const iconElement = clockWidget.querySelector(".bi-icon i");
         if (iconElement) {
-            iconElement.style.fontSize = '1.5rem';
-            iconElement.style.verticalAlign = 'bottom';
+            iconElement.style.fontSize = "1.5rem";
+            iconElement.style.verticalAlign = "bottom";
         }
     }
 
@@ -108,22 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Variabel global untuk menyimpan instance chart
     let penjualanChart = null;
 
-    const canvas = document.getElementById('chartPenjualan');
-    const ctx = canvas?.getContext('2d');
-    const filterForm = document.getElementById('chart-filter-form');
-    const dateStartInput = document.getElementById('chart-date-start');
-    const dateEndInput = document.getElementById('chart-date-end');
-    const loader = document.getElementById('chart-loader');
+    const canvas = document.getElementById("chartPenjualan");
+    const ctx = canvas?.getContext("2d");
+    const filterForm = document.getElementById("chart-filter-form");
+    const dateStartInput = document.getElementById("chart-date-start");
+    const dateEndInput = document.getElementById("chart-date-end");
+    const loader = document.getElementById("chart-loader");
 
     // Pastikan semua elemen ada
     if (canvas && filterForm && dateStartInput && dateEndInput && loader) {
-
         // Fungsi untuk mengambil data dan memperbarui chart
         async function fetchAndUpdateChart(startDate, endDate) {
-
             // Tampilkan loader
-            loader.classList.add('show');
-            canvas.style.opacity = '0.3';
+            loader.classList.add("show");
+            canvas.style.opacity = "0.3";
 
             try {
                 // Sesuaikan URL jika route Anda berbeda
@@ -137,89 +142,93 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 // Format tanggal (label) ke Bahasa Indonesia
-                const formattedLabels = data.labels.map(date => {
+                const formattedLabels = data.labels.map((date) => {
                     const d = new Date(date);
-                    const options = { day: 'numeric', month: 'short', timeZone: 'UTC' }; // UTC penting!
-                    return d.toLocaleDateString('id-ID', options);
+                    const options = {
+                        day: "numeric",
+                        month: "short",
+                        timeZone: "UTC",
+                    }; // UTC penting!
+                    return d.toLocaleDateString("id-ID", options);
                 });
 
                 // Render atau update chart
                 renderChart(formattedLabels, data.values);
-
             } catch (error) {
-                console.error('Gagal mengambil data chart:', error);
+                console.error("Gagal mengambil data chart:", error);
                 // Tampilkan pesan error di UI jika perlu
             } finally {
                 // Sembunyikan loader
-                loader.classList.remove('show');
-                canvas.style.opacity = '1';
+                loader.classList.remove("show");
+                canvas.style.opacity = "1";
             }
         }
 
         // Fungsi untuk me-render chart (atau menghancurkan & me-render ulang)
         function renderChart(labels, values) {
-
             // Hancurkan chart lama jika ada
             if (penjualanChart) {
                 penjualanChart.destroy();
             }
 
             // Warna tema untuk grafik - Dark Cyber Theme
-            const mainColor = '#3b82f6';        // Electric Blue
-            const accentColor = '#06b6d4';      // Cyan
-            const gradientStart = '#8b5cf6';    // Purple
+            const mainColor = "#3b82f6"; // Electric Blue
+            const accentColor = "#06b6d4"; // Cyan
+            const gradientStart = "#8b5cf6"; // Purple
 
             // Buat chart baru
             penjualanChart = new Chart(ctx, {
-                type: 'line',
+                type: "line",
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Total Penjualan (Rp)',
-                        data: values,
-                        borderColor: mainColor,
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        pointBackgroundColor: mainColor,
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2,
-                        pointHoverBackgroundColor: accentColor,
-                        pointHoverBorderColor: '#ffffff',
-                        pointHoverBorderWidth: 3,
-                    }]
+                    datasets: [
+                        {
+                            label: "Total Penjualan (Rp)",
+                            data: values,
+                            borderColor: mainColor,
+                            backgroundColor: "rgba(59, 130, 246, 0.1)",
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 5,
+                            pointHoverRadius: 7,
+                            pointBackgroundColor: mainColor,
+                            pointBorderColor: "#ffffff",
+                            pointBorderWidth: 2,
+                            pointHoverBackgroundColor: accentColor,
+                            pointHoverBorderColor: "#ffffff",
+                            pointHoverBorderWidth: 3,
+                        },
+                    ],
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     interaction: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false,
                     },
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top',
+                            position: "top",
                             labels: {
-                                color: '#cbd5e1',           // Light grey for dark theme
+                                color: "#cbd5e1", // Light grey for dark theme
                                 font: {
                                     size: 13,
-                                    weight: '500'
+                                    weight: "500",
                                 },
                                 padding: 15,
                                 usePointStyle: true,
-                            }
+                            },
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(30, 33, 57, 0.95)',  // Dark navy
-                            titleColor: '#ffffff',
-                            bodyColor: '#e5e7eb',
+                            backgroundColor: "rgba(30, 33, 57, 0.95)", // Dark navy
+                            titleColor: "#ffffff",
+                            bodyColor: "#e5e7eb",
                             padding: 12,
                             cornerRadius: 8,
                             displayColors: false,
-                            borderColor: 'rgba(59, 130, 246, 0.3)',
+                            borderColor: "rgba(59, 130, 246, 0.3)",
                             borderWidth: 1,
                             callbacks: {
                                 title: function (context) {
@@ -227,55 +236,73 @@ document.addEventListener('DOMContentLoaded', () => {
                                 },
                                 label: function (context) {
                                     const value = context.parsed.y;
-                                    return 'Total: Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                                }
-                            }
-                        }
+                                    return (
+                                        "Total: Rp " +
+                                        new Intl.NumberFormat("id-ID").format(
+                                            value
+                                        )
+                                    );
+                                },
+                            },
+                        },
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                color: '#9ca3af',           // Medium grey
+                                color: "#9ca3af", // Medium grey
                                 font: {
-                                    size: 11
+                                    size: 11,
                                 },
                                 callback: function (value) {
                                     if (value >= 1000000) {
-                                        return 'Rp ' + (value / 1000000).toFixed(1) + 'M';
+                                        return (
+                                            "Rp " +
+                                            (value / 1000000).toFixed(1) +
+                                            "M"
+                                        );
                                     } else if (value >= 1000) {
-                                        return 'Rp ' + (value / 1000).toFixed(0) + 'K';
+                                        return (
+                                            "Rp " +
+                                            (value / 1000).toFixed(0) +
+                                            "K"
+                                        );
                                     }
-                                    return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
-                                }
+                                    return (
+                                        "Rp " +
+                                        new Intl.NumberFormat("id-ID").format(
+                                            value
+                                        )
+                                    );
+                                },
                             },
                             grid: {
                                 drawBorder: false,
-                                color: 'rgba(59, 130, 246, 0.1)',  // Electric blue very subtle
+                                color: "rgba(59, 130, 246, 0.1)", // Electric blue very subtle
                                 lineWidth: 1,
-                            }
+                            },
                         },
                         x: {
                             ticks: {
-                                color: '#9ca3af',           // Medium grey
+                                color: "#9ca3af", // Medium grey
                                 font: {
-                                    size: 11
-                                }
+                                    size: 11,
+                                },
                             },
                             grid: {
                                 display: false,
-                            }
-                        }
+                            },
+                        },
                     },
-                }
+                },
             });
         }
 
         // Fungsi helper untuk format tanggal YYYY-MM-DD
         function getFormattedDate(date) {
             const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
             return `${year}-${month}-${day}`;
         }
 
@@ -290,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dateEndInput.value = defaultEndDate;
 
         // Tambahkan listener ke form 'submit'
-        filterForm.addEventListener('submit', (e) => {
+        filterForm.addEventListener("submit", (e) => {
             e.preventDefault();
 
             const startDate = dateStartInput.value;
@@ -303,18 +330,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Muat data chart pertama kali saat halaman dibuka
         fetchAndUpdateChart(defaultStartDate, defaultEndDate);
-
     } else {
-        console.warn('Elemen filter chart, canvas, atau loader tidak ditemukan.');
+        console.warn(
+            "Elemen filter chart, canvas, atau loader tidak ditemukan."
+        );
     }
 
     const animateValue = (element, start, end, duration) => {
         let startTimestamp = null;
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const progress = Math.min(
+                (timestamp - startTimestamp) / duration,
+                1
+            );
             const value = Math.floor(progress * (end - start) + start);
-            element.textContent = new Intl.NumberFormat('id-ID').format(value);
+            element.textContent = new Intl.NumberFormat("id-ID").format(value);
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             }
@@ -323,15 +354,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Animasi untuk angka di stat-box
-    document.querySelectorAll('.stat-box h2').forEach(el => {
-        const finalValue = parseInt(el.textContent.replace(/\./g, ''));
+    document.querySelectorAll(".stat-box h2").forEach((el) => {
+        const finalValue = parseInt(el.textContent.replace(/\./g, ""));
         if (!isNaN(finalValue)) {
             animateValue(el, 0, finalValue, 1000);
         }
     });
 
     // Animasi untuk angka di statistik cepat
-    document.querySelectorAll('.quick-stat-item h4').forEach(el => {
+    document.querySelectorAll(".quick-stat-item h4").forEach((el) => {
         const text = el.textContent.trim();
         if (!isNaN(text)) {
             const finalValue = parseInt(text);
@@ -339,243 +370,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. [BARU] Logika AI Forecasting
-    const btnForecast = document.getElementById('btn-generate-forecast');
-    const forecastLoading = document.getElementById('forecast-loading');
-    const forecastResults = document.getElementById('forecast-results');
-    const forecastTableBody = document.getElementById('forecast-table-body');
-    const forecastEmpty = document.getElementById('forecast-empty');
-    const forecastError = document.getElementById('forecast-error');
-
-    if (btnForecast) {
-        btnForecast.addEventListener('click', async () => {
-            // Reset UI
-            forecastLoading.classList.remove('d-none');
-            forecastResults.classList.add('d-none');
-            forecastEmpty.classList.add('d-none');
-            forecastError.classList.add('d-none');
-            btnForecast.disabled = true;
-
-            try {
-                const response = await fetch('/superadmin/dashboard/forecast');
-                const data = await response.json();
-
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-
-                // Render Table
-                forecastTableBody.innerHTML = '';
-                data.forEach(item => {
-                    const statusBadge = item.status === 'danger'
-                        ? '<span class="badge bg-danger">Perlu Restock</span>'
-                        : (item.status === 'warning' ? '<span class="badge bg-warning text-dark">Waspada</span>' : '<span class="badge bg-success">Aman</span>');
-
-                    const row = `
-                        <tr>
-                            <td class="fw-bold">${item.nama_produk}</td>
-                            <td class="text-center">${item.prediksi} Unit</td>
-                            <td>${item.saran}</td>
-                            
-                        </tr>
-                    `;
-                    forecastTableBody.innerHTML += row;
-                });
-
-                forecastResults.classList.remove('d-none');
-
-            } catch (error) {
-                console.error('Forecast Error:', error);
-                forecastError.textContent = 'Gagal memuat prediksi: ' + error.message;
-                forecastError.classList.remove('d-none');
-            } finally {
-                forecastLoading.classList.add('d-none');
-                btnForecast.disabled = false;
-            }
-        });
-    }
+    // 3. [REMOVED] Logika AI Forecasting (Moved to ai-forecasting.js)
 
     // ========================================
     // 4. [NEW] AI Chat Widget - WhatsApp Style
     // ========================================
-    const chatToggle = document.getElementById('ai-chat-toggle');
-    const chatBox = document.getElementById('ai-chat-box');
-    const chatClose = document.getElementById('ai-chat-close');
-    const chatMaximize = document.getElementById('ai-chat-maximize');
-    const maximizeIcon = document.getElementById('maximize-icon');
-    const chatBackdrop = document.getElementById('ai-chat-backdrop');
-    const chatForm = document.getElementById('ai-chat-form');
-    const chatInput = document.getElementById('ai-chat-input');
-    const chatMessages = document.getElementById('ai-chat-messages');
+    const chatToggle = document.getElementById("ai-chat-toggle");
+    const chatBox = document.getElementById("ai-chat-box");
+    const chatClose = document.getElementById("ai-chat-close");
+    const chatMaximize = document.getElementById("ai-chat-maximize");
+    const maximizeIcon = document.getElementById("maximize-icon");
+    const chatBackdrop = document.getElementById("ai-chat-backdrop");
+    const chatForm = document.getElementById("ai-chat-form");
+    const chatInput = document.getElementById("ai-chat-input");
+    const chatMessages = document.getElementById("ai-chat-messages");
 
     let isMaximized = false;
 
-    if (chatToggle && chatBox) {
-        // Toggle Chat Box Open/Close
-        const toggleChat = () => {
-            const isHidden = chatBox.classList.contains('d-none');
-            chatBox.classList.toggle('d-none');
-            if (isHidden) {
-                chatToggle.classList.add('active');
-                chatInput.focus();
-            } else {
-                chatToggle.classList.remove('active');
-                // Close also minimizes if maximized
-                if (isMaximized) {
-                    minimizeChat();
-                }
-            }
-        };
-
-        // Maximize/Minimize Chat
-        const toggleMaximize = () => {
-            isMaximized = !isMaximized;
-            if (isMaximized) {
-                chatBox.classList.add('maximized');
-                chatBackdrop.classList.add('active');
-                maximizeIcon.className = 'bi bi-arrows-angle-contract';
-            } else {
-                chatBox.classList.remove('maximized');
-                chatBackdrop.classList.remove('active');
-                maximizeIcon.className = 'bi bi-arrows-fullscreen';
-            }
-        };
-
-        const minimizeChat = () => {
-            if (isMaximized) {
-                isMaximized = false;
-                chatBox.classList.remove('maximized');
-                chatBackdrop.classList.remove('active');
-                maximizeIcon.className = 'bi bi-arrows-fullscreen';
-            }
-        };
-
-        // Event Listeners
-        chatToggle.addEventListener('click', toggleChat);
-        chatClose.addEventListener('click', toggleChat);
-        chatMaximize.addEventListener('click', toggleMaximize);
-        chatBackdrop.addEventListener('click', minimizeChat);
-
-        // Helper: Get current time
-        const getCurrentTime = () => {
-            const now = new Date();
-            return now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-        };
-
-        // Helper: Format markdown to HTML for better display
-        const formatMarkdown = (text) => {
-            if (!text) return text;
-
-            // Convert newlines to <br>
-            text = text.replace(/\n/g, '<br>');
-
-            // Convert numbered lists (1. 2. 3.)
-            text = text.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="numbered-item"><strong>$1.</strong> $2</div>');
-
-            // Convert bullet points (•, -, *)
-            text = text.replace(/^[•\-\*]\s+(.+)$/gm, '<div class="bullet-item">• $1</div>');
-
-            // Convert bold (**text**)
-            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-            // Convert code (`code`)
-            text = text.replace(/`(.+?)`/g, '<code>$1</code>');
-
-            return text;
-        };
-
-        // Helper: Add Message to UI (WhatsApp Style)
-        const addMessage = (text, sender) => {
-            const isUser = sender === 'user';
-            const bubbleClass = isUser ? 'chat-bubble-user' : 'chat-bubble-ai';
-            const senderName = isUser ? 'Anda' : 'AI Assistant';
-            const senderIcon = isUser ? 'person-circle' : 'robot';
-
-            // Format AI responses with markdown
-            const formattedText = sender === 'ai' ? formatMarkdown(text) : text;
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-bubble ${bubbleClass}`;
-            messageDiv.innerHTML = `
-                        <div class="chat-bubble-meta">
-                            <i class="bi bi-${senderIcon}"></i>
-                            <span>${senderName}</span>
-                        </div>
-                        <div class="chat-bubble-text">${formattedText}</div>
-                        <div class="chat-bubble-time">${getCurrentTime()}</div>
-                    `;
-
-            chatMessages.appendChild(messageDiv);
-
-            // Auto-scroll to bottom with smooth animation
-            setTimeout(() => {
-                chatMessages.scrollTo({
-                    top: chatMessages.scrollHeight,
-                    behavior: 'smooth'
-                });
-            }, 100);
-        };
-
-        // Helper: Show typing indicator
-        const showTypingIndicator = () => {
-            const typingId = 'typing-indicator';
-            const typingDiv = document.createElement('div');
-            typingDiv.id = typingId;
-            typingDiv.className = 'chat-bubble chat-bubble-ai';
-            typingDiv.innerHTML = `
-                        <div class="typing-indicator">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    `;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return typingId;
-        };
-
-        // Handle Submit
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            // Display user message
-            addMessage(message, 'user');
-            chatInput.value = '';
-            chatInput.disabled = true;
-
-            // Show typing indicator
-            const typingId = showTypingIndicator();
-
-            try {
-                // Send to server
-                const response = await fetch('/superadmin/ai/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ message })
-                });
-
-                const data = await response.json();
-
-                // Remove typing indicator
-                document.getElementById(typingId)?.remove();
-
-                // Display AI reply
-                addMessage(data.reply, 'ai');
-
-            } catch (error) {
-                console.error('Chat Error:', error);
-                document.getElementById(typingId)?.remove();
-                addMessage('❌ Maaf, terjadi kesalahan koneksi. Silakan coba lagi.', 'ai');
-            } finally {
-                chatInput.disabled = false;
-                chatInput.focus();
-            }
-        });
-    }
-
+    // AI Chat Widget logic removed (moved to ai-chat.js)
 });

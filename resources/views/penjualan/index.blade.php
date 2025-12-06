@@ -70,7 +70,7 @@
           <div class="stats-label">Pelanggan Hari Ini</div>
         </div>
       </div>
-      <div class="col-lg-12">
+      <div class="col-lg-3">
         <div class="stats-card">
           <div class="stats-icon" style="background: rgba(253, 126, 20, 0.15); color: #fd7e14;">
             <i class="bi bi-wallet2"></i>
@@ -211,6 +211,7 @@
       </div>
     </div>
   </div>
+    <x-ai-chat-widget context="penjualan" />
 @endsection
 
 @push('scripts')

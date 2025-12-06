@@ -13,6 +13,8 @@ class AiAgentController extends Controller
     public function chat(Request $request)
     {
         $userMessage = $request->input('message');
+        $context = $request->input('context', 'general'); // Default to general if not provided
+
         $apiKey = env('KOLOSAL_API_KEY') ?: env('OPENAI_API_KEY');
 
         if (!$apiKey) {
@@ -26,24 +28,75 @@ class AiAgentController extends Controller
 
         if ($detectedAction['type'] === 'query_database') {
             // Langsung execute query dan berikan data ke AI
-            $data = $this->fetchRelevantData($userMessage);
+            $data = $this->fetchRelevantData($userMessage, $context);
             
             // DEBUG: Log data yang akan dikirim ke AI
             \Log::info('Data sent to AI:', ['data' => $data, 'user_message' => $userMessage]);
             
-            $systemPrompt = "Anda adalah Asisten Manajer Toko LAPTOP yang friendly dan helpful.
+            $systemPrompt = "Anda adalah AI Assistant untuk sebuah toko laptop. Anda hanya boleh menjawab menggunakan data yang diberikan oleh aplikasi backend.
 
-Data terkini dari database:
+ATURAN WAJIB:
+1. Jangan pernah mengarang data, angka, nama produk, stok, harga, penjualan, pelanggan, supplier, atau informasi lain.
+2. Jika data tidak tersedia, jawab bahwa datanya tidak ditemukan.
+3. Selalu jawab secara ringkas, jelas, dan profesional.
+4. Gunakan format berikut:
+   - Bullet points untuk menjelaskan daftar
+   - Numbering untuk langkah-langkah
+   - Emoji hanya bila relevan
+5. Jika backend mengirimkan data database, gunakan DAN HANYA gunakan data tersebut.
+6. Jika user meminta sesuatu yang tidak ada dalam data, jawab:
+   \"Data tersebut tidak tersedia dalam database.\"
+7. Selalu validasi bahwa jawaban Anda sesuai konteks pertanyaan user.
+8. Jangan menambahkan kolom, tabel, atau atribut yang tidak ada pada struktur database.
 
-" . $data . "
+STRUKTUR DATABASE (Anda hanya boleh menyebut kolom-kolom ini):
 
-Gunakan data di atas untuk menjawab pertanyaan user. Format jawaban dengan rapi menggunakan:
-- Numbering untuk list
-- Bullet points untuk item
-- Emoji yang sesuai
-- Spacing yang baik
+produk:
+- id_produk, nama_produk, merk, id_kategori, spesifikasi, garansi, harga_beli, harga_jual, stok, gambar, created_at, updated_at
 
-Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
+penjualan:
+- id_penjualan, id_user, id_pelanggan, tanggal_penjualan, total_harga, metode_pembayaran, created_at, updated_at
+
+penjualan_detail:
+- id_penjualan_detail, id_penjualan, id_produk, jumlah, harga_satuan, subtotal, created_at, updated_at
+
+pembelian:
+- id_pembelian, id_supplier, id_user, tanggal_pembelian, total_harga, created_at, updated_at
+
+pembelian_detail:
+- id_pembelian_detail, id_pembelian, id_produk, jumlah, harga_satuan, subtotal, created_at, updated_at
+
+pelanggan:
+- id_pelanggan, id_kategori, nama, no_hp, email, alamat, garansi, tanggal_pembelian, catatan, created_at, updated_at
+
+supplier:
+- id_supplier, nama_supplier, kontak, alamat, email, created_at, updated_at
+
+users:
+- id, name, email, photo, email_verified_at, password, role, remember_token, created_at, updated_at
+
+CARA ANDA MERESPON:
+- Jika backend mengirim JSON berisi data database, gunakan data itu untuk menjawab.
+- Jika backend tidak mengirim data apapun, jawab sebagai asisten biasa (friendly dan informatif).
+- Selalu jelaskan sumber data dalam format:
+  \"Sumber: tabel.kolom\"
+
+FORMAT JAWABAN WAJIB JSON:
+{
+  \"jawaban\": \"isi jawaban ke user\",
+  \"sumber\": [\"nama_tabel.kolom\", \"nama_tabel.kolom\"]
+}
+
+Jika tidak ada data yang dipakai, kirim:
+{
+  \"jawaban\": \"isi jawaban\",
+  \"sumber\": []
+}
+
+Anda TIDAK BOLEH keluar dari format JSON.
+
+Data terkini dari backend:
+" . $data;
             
             try {
                 $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
@@ -64,17 +117,41 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                 
                 // Jika null, coba alternatif path
                 if (!$aiReply) {
-                    // Coba struktur alternatif
                     $aiReply = $response->json('message.content') 
                             ?? $response->json('content')
                             ?? $response->json('response')
                             ?? 'Maaf, AI tidak memberikan respons yang valid.';
-                    
-                    \Log::warning('AI response was null, used fallback', ['reply' => $aiReply]);
                 }
 
-                // Keep markdown untuk formatting yang rapi
-                return response()->json(['reply' => $aiReply]);
+                // Bersihkan markdown formatting jika ada (```json ... ```) atau teks tambahan
+                $firstBrace = strpos($aiReply, '{');
+                $lastBrace = strrpos($aiReply, '}');
+                
+                if ($firstBrace !== false && $lastBrace !== false) {
+                    $cleanReply = substr($aiReply, $firstBrace, $lastBrace - $firstBrace + 1);
+                } else {
+                    $cleanReply = $aiReply;
+                }
+
+                // Parse JSON response from AI
+                $decoded = json_decode($cleanReply, true);
+                
+                if (json_last_error() === JSON_ERROR_NONE && isset($decoded['jawaban'])) {
+                    $finalReply = $decoded['jawaban'];
+                    
+                    // Bersihkan tag [Source: ...] jika AI menambahkannya sendiri di dalam jawaban
+                    $finalReply = preg_replace('/\[Source:.*?\]/i', '', $finalReply);
+                    $finalReply = trim($finalReply);
+                } else {
+                    // Fallback if AI didn't return valid JSON
+                    \Log::warning('AI did not return valid JSON', ['reply' => $aiReply, 'clean_reply' => $cleanReply, 'json_error' => json_last_error_msg()]);
+                    // Jika gagal decode, tampilkan raw reply tapi coba bersihkan json syntaxnya jika terlihat seperti json
+                    $finalReply = $cleanReply;
+                }
+
+                return response()->json([
+                    'reply' => $finalReply
+                ]);
             } catch (\Exception $e) {
                 \Log::error('AI Chat Error:', ['error' => $e->getMessage()]);
                 return response()->json(['reply' => 'Maaf, terjadi kesalahan: ' . $e->getMessage()]);
@@ -145,22 +222,172 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
         return ['type' => 'general_chat'];
     }
 
-    private function fetchRelevantData($message)
+    private function fetchRelevantData($message, $context = 'general')
     {
         $now = Carbon::now();
         $data = [];
 
+        // Filter data based on context OR keywords
+        // UNIFIED CONTROLLER: Allow full access to all data regardless of module
+        // This makes the AI behave like SuperAdmin everywhere
+        $msg = strtolower($message);
+        
+        $showSales = true;
+        $showStock = true;
+        $showPurchase = true;
+        $showCustomer = true;
+        $showEmployee = true;
+
+        // --- UNIVERSAL ENTITY SEARCH (The "Deep Think" Logic) ---
+        // Extract meaningful words to find entities (Product, Customer, Supplier) mentioned in the chat
+        // regardless of the context or specific keywords used.
+        $words = preg_split('/[\s\W]+/', strtolower($message));
+        $universalStopWords = ['cek', 'berapa', 'apakah', 'ada', 'di', 'ini', 'itu', 'yang', 'mau', 'ketersediaan', 'jumlah', 'nya', 'siapa', 'cari', 'lihat', 'tampilkan', 'data', 'list', 'daftar', 'dari', 'untuk', 'oleh', 'pada', 'dengan', 'dan', 'atau'];
+        
+        $searchTerms = array_filter($words, function($word) use ($universalStopWords) {
+            $isNumeric = is_numeric($word);
+            return !in_array($word, $universalStopWords) && ($isNumeric || strlen($word) >= 3);
+        });
+
+        if (!empty($searchTerms)) {
+            // 1. Search Products (Universal)
+            $uniProducts = DB::table('produk')
+                ->select('id_produk', 'nama_produk', 'merk', 'stok', 'harga_jual')
+                ->where(function($query) use ($searchTerms) {
+                    foreach ($searchTerms as $term) {
+                        $query->orWhere('nama_produk', 'like', "%{$term}%")
+                              ->orWhere('merk', 'like', "%{$term}%");
+                    }
+                })
+                ->limit(3)
+                ->get();
+
+            if ($uniProducts->count() > 0) {
+                $list = $uniProducts->map(function($item) {
+                    $merk = $item->merk ? " ({$item->merk})" : "";
+                    $harga = number_format($item->harga_jual, 0, ',', '.');
+                    $status = $item->stok < 5 ? "⚠️" : ($item->stok < 10 ? "📦" : "✅");
+                    
+                    // Deep Context: Buyers
+                    $recentBuyers = DB::table('penjualan_detail')
+                        ->join('penjualan', 'penjualan_detail.id_penjualan', '=', 'penjualan.id_penjualan')
+                        ->join('pelanggan', 'penjualan.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                        ->where('penjualan_detail.id_produk', $item->id_produk)
+                        ->select('pelanggan.nama', 'penjualan.tanggal_penjualan')
+                        ->orderBy('penjualan.tanggal_penjualan', 'desc')
+                        ->limit(3)
+                        ->get();
+                        
+                    $buyersInfo = "";
+                    if ($recentBuyers->count() > 0) {
+                        $buyersList = $recentBuyers->map(function($b) {
+                            return $b->nama . " (" . date('d/m', strtotime($b->tanggal_penjualan)) . ")";
+                        })->implode(", ");
+                        $buyersInfo = "\n  👤 Pembeli Terakhir: " . $buyersList;
+                    }
+
+                    // Deep Context: Suppliers
+                    $suppliers = DB::table('pembelian_detail')
+                        ->join('pembelian', 'pembelian_detail.id_pembelian', '=', 'pembelian.id_pembelian')
+                        ->join('supplier', 'pembelian.id_supplier', '=', 'supplier.id_supplier')
+                        ->where('pembelian_detail.id_produk', $item->id_produk)
+                        ->select('supplier.nama_supplier')
+                        ->distinct()
+                        ->limit(3)
+                        ->get();
+                        
+                    $supplierInfo = "";
+                    if ($suppliers->count() > 0) {
+                        $suppList = $suppliers->pluck('nama_supplier')->implode(", ");
+                        $supplierInfo = "\n  🏢 Supplier: " . $suppList;
+                    }
+
+                    return "• {$item->nama_produk}{$merk}\n  {$status} Stok: {$item->stok} unit | 💰 Rp {$harga}{$buyersInfo}{$supplierInfo}";
+                })->implode("\n\n");
+                $data[] = "📦 Data Produk Relevan (Universal Search):\n" . $list;
+            }
+
+            // 2. Search Customers (Universal)
+            $uniCustomers = DB::table('pelanggan')
+                ->select('id_pelanggan', 'nama', 'no_hp', 'email', 'alamat')
+                ->where(function($query) use ($searchTerms) {
+                    foreach ($searchTerms as $term) {
+                        $query->orWhere('nama', 'like', "%{$term}%");
+                    }
+                })
+                ->limit(3)
+                ->get();
+
+            if ($uniCustomers->count() > 0) {
+                $list = $uniCustomers->map(function($item) {
+                    // Deep Context: Purchase History
+                    $history = DB::table('penjualan')
+                        ->join('penjualan_detail', 'penjualan.id_penjualan', '=', 'penjualan_detail.id_penjualan')
+                        ->join('produk', 'penjualan_detail.id_produk', '=', 'produk.id_produk')
+                        ->where('penjualan.id_pelanggan', $item->id_pelanggan)
+                        ->select('produk.nama_produk', 'penjualan.tanggal_penjualan')
+                        ->orderBy('penjualan.tanggal_penjualan', 'desc')
+                        ->limit(5)
+                        ->get();
+                        
+                    $historyInfo = "";
+                    if ($history->count() > 0) {
+                        $histList = $history->map(function($h) {
+                            return $h->nama_produk;
+                        })->implode(", ");
+                        $historyInfo = "\n  🛒 Riwayat Belanja: " . $histList;
+                    }
+                    return "• {$item->nama} | 📱 {$item->no_hp}{$historyInfo}";
+                })->implode("\n\n");
+                $data[] = "👥 Data Pelanggan Relevan (Universal Search):\n" . $list;
+            }
+
+            // 3. Search Suppliers (Universal)
+            $uniSuppliers = DB::table('supplier')
+                ->select('id_supplier', 'nama_supplier')
+                ->where(function($query) use ($searchTerms) {
+                    foreach ($searchTerms as $term) {
+                        $query->orWhere('nama_supplier', 'like', "%{$term}%");
+                    }
+                })
+                ->limit(3)
+                ->get();
+
+            if ($uniSuppliers->count() > 0) {
+                $list = $uniSuppliers->map(function($item) {
+                    // Deep Context: Supplied Products
+                    $products = DB::table('pembelian')
+                        ->join('pembelian_detail', 'pembelian.id_pembelian', '=', 'pembelian_detail.id_pembelian')
+                        ->join('produk', 'pembelian_detail.id_produk', '=', 'produk.id_produk')
+                        ->where('pembelian.id_supplier', $item->id_supplier)
+                        ->select('produk.nama_produk')
+                        ->distinct()
+                        ->limit(5)
+                        ->get();
+                        
+                    $productInfo = "";
+                    if ($products->count() > 0) {
+                        $prodList = $products->pluck('nama_produk')->implode(", ");
+                        $productInfo = "\n  📦 Supply: " . $prodList;
+                    }
+                    return "• {$item->nama_supplier}{$productInfo}";
+                })->implode("\n\n");
+                $data[] = "🏢 Data Supplier Relevan (Universal Search):\n" . $list;
+            }
+        }
+
         // --- 1. DATA PENJUALAN ---
+        if ($showSales) {
         // Omset hari ini
         $todayRevenue = DB::table('penjualan')->whereDate('tanggal_penjualan', $now->today())->sum('total_harga');
-        $data[] = "📊 Omset Hari Ini: Rp " . number_format($todayRevenue, 0, ',', '.');
+        $data[] = "📊 Omset Hari Ini: Rp " . number_format($todayRevenue, 0, ',', '.') . " [Source: penjualan.total_harga]";
 
         // Omset bulan ini
         $monthRevenue = DB::table('penjualan')
             ->whereMonth('tanggal_penjualan', $now->month)
             ->whereYear('tanggal_penjualan', $now->year)
             ->sum('total_harga');
-        $data[] = "📊 Omset Bulan Ini: Rp " . number_format($monthRevenue, 0, ',', '.');
+        $data[] = "📊 Omset Bulan Ini: Rp " . number_format($monthRevenue, 0, ',', '.') . " [Source: penjualan.total_harga]";
 
         // Omset bulan lalu
         $lastMonth = $now->copy()->subMonth();
@@ -168,7 +395,7 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
             ->whereMonth('tanggal_penjualan', $lastMonth->month)
             ->whereYear('tanggal_penjualan', $lastMonth->year)
             ->sum('total_harga');
-        $data[] = "📊 Omset Bulan Lalu: Rp " . number_format($lastMonthRevenue, 0, ',', '.');
+        $data[] = "📊 Omset Bulan Lalu: Rp " . number_format($lastMonthRevenue, 0, ',', '.') . " [Source: penjualan.total_harga]";
 
         // Produk terlaris bulan ini
         $bestSeller = DB::table('penjualan_detail')
@@ -181,10 +408,13 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
             ->first();
 
         if ($bestSeller) {
-            $data[] = "🏆 Produk Terlaris Bulan Ini: {$bestSeller->nama_produk} ({$bestSeller->total} unit terjual)";
+            $data[] = "🏆 Produk Terlaris Bulan Ini: {$bestSeller->nama_produk} ({$bestSeller->total} unit terjual) [Source: produk.nama_produk, penjualan_detail.jumlah]";
+        }
+
         }
 
         // --- 2. DATA STOK ---
+        if ($showStock) {
         $stockKeywords = ['stok', 'stock', 'barang', 'sisa', 'tersedia', 'hampir habis', 'menipis'];
         $isStockQuery = false;
         foreach ($stockKeywords as $kw) {
@@ -196,27 +426,60 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
 
         if ($isStockQuery) {
             // Extract meaningful words from the message
-            $words = preg_split('/\s+/', strtolower($message));
-            $stopWords = ['cek', 'berapa', 'apakah', 'ada', 'di', 'ini', 'itu', 'yang', 'mau', 'ketersediaan', 'jumlah', 'nya'];
+            // Split by non-word characters to handle punctuation
+            $words = preg_split('/[\s\W]+/', strtolower($message));
+            $stopWords = ['cek', 'berapa', 'apakah', 'ada', 'di', 'ini', 'itu', 'yang', 'mau', 'ketersediaan', 'jumlah', 'nya', 'stok', 'stock', 'barang', 'sisa', 'tersedia', 'habis', 'menipis'];
             
-            // Filter out stop words and stock keywords
+            // Filter out stop words
             $productKeywords = array_filter($words, function($word) use ($stopWords) {
-                return !in_array($word, $stopWords) && 
-                       !in_array($word, ['stok', 'stock', 'barang', 'sisa', 'tersedia', 'habis', 'menipis']) &&
-                       strlen($word) > 2;
+                // Allow short words if they are numeric (e.g., "5" in "Nitro 5")
+                // Otherwise require at least 3 chars
+                $isNumeric = is_numeric($word);
+                return !in_array($word, $stopWords) && ($isNumeric || strlen($word) >= 3);
             });
 
-            if (count($productKeywords) > 0) {
+            // Check for sorting intent (paling sedikit/banyak)
+            $isSortAsc = false;
+            $isSortDesc = false;
+            
+            if (preg_match('/(sedikit|rendah|kecil|min|habis)/i', $message)) {
+                $isSortAsc = true;
+            } elseif (preg_match('/(banyak|tinggi|besar|max|penuh)/i', $message)) {
+                $isSortDesc = true;
+            }
+
+            if ($isSortAsc || $isSortDesc) {
+                // Fetch products sorted by stock
+                $direction = $isSortAsc ? 'asc' : 'desc';
+                $label = $isSortAsc ? 'Sedikit' : 'Banyak';
+                
+                $sortedProducts = DB::table('produk')
+                    ->select('nama_produk', 'merk', 'stok', 'harga_jual')
+                    ->orderBy('stok', $direction)
+                    ->limit(5) // Top 5
+                    ->get();
+                    
+                if ($sortedProducts->count() > 0) {
+                    $list = $sortedProducts->map(function($item) {
+                        $merk = $item->merk ? " ({$item->merk})" : "";
+                        $status = $item->stok < 5 ? "⚠️" : ($item->stok < 10 ? "📦" : "✅");
+                        return "• {$item->nama_produk}{$merk}: {$status} {$item->stok} unit";
+                    })->implode("\n");
+                    $data[] = "📊 5 Produk dengan Stok Paling {$label}:\n" . $list;
+                } else {
+                    $data[] = "❌ Data produk tidak ditemukan.";
+                }
+            } elseif (count($productKeywords) > 0) {
                 // Search for products that match ANY of the keywords
                 $products = DB::table('produk')
-                    ->select('nama_produk', 'merk', 'stok', 'harga_jual')
+                    ->select('id_produk', 'nama_produk', 'merk', 'stok', 'harga_jual') // Added id_produk
                     ->where(function($query) use ($productKeywords) {
                         foreach ($productKeywords as $keyword) {
                             $query->orWhere('nama_produk', 'like', "%{$keyword}%")
                                   ->orWhere('merk', 'like', "%{$keyword}%");
                         }
                     })
-                    ->limit(10)
+                    ->limit(5) // Limit to 5 to avoid overload
                     ->get();
 
                 if ($products->count() > 0) {
@@ -224,7 +487,42 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                         $merk = $item->merk ? " ({$item->merk})" : "";
                         $harga = number_format($item->harga_jual, 0, ',', '.');
                         $status = $item->stok < 5 ? "⚠️" : ($item->stok < 10 ? "📦" : "✅");
-                        return "• {$item->nama_produk}{$merk}\n  {$status} Stok: {$item->stok} unit | 💰 Rp {$harga}";
+                        
+                        // DEEP CONTEXT: Get recent buyers for this product
+                        $recentBuyers = DB::table('penjualan_detail')
+                            ->join('penjualan', 'penjualan_detail.id_penjualan', '=', 'penjualan.id_penjualan')
+                            ->join('pelanggan', 'penjualan.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                            ->where('penjualan_detail.id_produk', $item->id_produk)
+                            ->select('pelanggan.nama', 'penjualan.tanggal_penjualan')
+                            ->orderBy('penjualan.tanggal_penjualan', 'desc')
+                            ->limit(3)
+                            ->get();
+                            
+                        $buyersInfo = "";
+                        if ($recentBuyers->count() > 0) {
+                            $buyersList = $recentBuyers->map(function($b) {
+                                return $b->nama . " (" . date('d/m', strtotime($b->tanggal_penjualan)) . ")";
+                            })->implode(", ");
+                            $buyersInfo = "\n  👤 Pembeli Terakhir: " . $buyersList;
+                        }
+
+                        // DEEP CONTEXT: Get suppliers for this product
+                        $suppliers = DB::table('pembelian_detail')
+                            ->join('pembelian', 'pembelian_detail.id_pembelian', '=', 'pembelian.id_pembelian')
+                            ->join('supplier', 'pembelian.id_supplier', '=', 'supplier.id_supplier')
+                            ->where('pembelian_detail.id_produk', $item->id_produk)
+                            ->select('supplier.nama_supplier')
+                            ->distinct()
+                            ->limit(3)
+                            ->get();
+                            
+                        $supplierInfo = "";
+                        if ($suppliers->count() > 0) {
+                            $suppList = $suppliers->pluck('nama_supplier')->implode(", ");
+                            $supplierInfo = "\n  🏢 Supplier: " . $suppList;
+                        }
+
+                        return "• {$item->nama_produk}{$merk}\n  {$status} Stok: {$item->stok} unit | 💰 Rp {$harga}{$buyersInfo}{$supplierInfo}";
                     })->implode("\n\n");
                     $data[] = "📦 Informasi Produk:\n" . $list;
                 } else {
@@ -244,7 +542,7 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                         $merk = $item->merk ? " ({$item->merk})" : "";
                         return "• {$item->nama_produk}{$merk}: {$item->stok} unit";
                     })->implode("\n");
-                    $data[] = "⚠️ Produk dengan Stok Menipis (<10):\n" . $list;
+                    $data[] = "⚠️ Produk dengan Stok Menipis (<10):\n" . $list . "\n[Source: produk.stok]";
                     
                     // Total produk dengan stok habis
                     $outOfStock = DB::table('produk')->where('stok', 0)->count();
@@ -260,12 +558,16 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                     ->selectRaw('SUM(stok * harga_beli) as total_value')
                     ->first();
                 if ($totalStockValue && $totalStockValue->total_value > 0) {
-                    $data[] = "💰 Total Nilai Stok: Rp " . number_format($totalStockValue->total_value, 0, ',', '.');
+                    $data[] = "💰 Total Nilai Stok: Rp " . number_format($totalStockValue->total_value, 0, ',', '.') . " [Source: produk.stok * produk.harga_beli]";
                 }
             }
         }
 
+        }
+
         // --- 3. DATA SUPPLIER ---
+        // Supplier relevan untuk Pembelian dan Stok
+        if ($showPurchase || $showStock) {
         $supplierKeywords = ['supplier', 'suplier', 'vendor', 'pemasok'];
         $isSupplierQuery = false;
         foreach ($supplierKeywords as $kw) {
@@ -277,14 +579,43 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
 
         if ($isSupplierQuery) {
             try {
-                $suppliers = DB::table('supplier')
-                    ->select('nama_supplier')
-                    ->limit(20)
-                    ->get();
+                $query = DB::table('supplier')->select('id_supplier', 'nama_supplier');
+                
+                // Filter by name if specific terms are provided
+                $words = preg_split('/[\s\W]+/', strtolower($message));
+                $searchTerms = array_filter($words, function($word) use ($supplierKeywords) {
+                    return strlen($word) >= 3 && !in_array($word, $supplierKeywords) && !in_array($word, ['data', 'list', 'daftar', 'siapa', 'cari', 'lihat', 'tampilkan']);
+                });
+
+                if (!empty($searchTerms)) {
+                    $query->where(function($q) use ($searchTerms) {
+                        foreach ($searchTerms as $term) {
+                            $q->orWhere('nama_supplier', 'like', "%{$term}%");
+                        }
+                    });
+                }
+
+                $suppliers = $query->limit(10)->get();
                 
                 if ($suppliers->count() > 0) {
                     $list = $suppliers->map(function($item, $index) {
-                        return ($index + 1) . ". {$item->nama_supplier}";
+                        // DEEP CONTEXT: Get products supplied by this supplier
+                        $products = DB::table('pembelian')
+                            ->join('pembelian_detail', 'pembelian.id_pembelian', '=', 'pembelian_detail.id_pembelian')
+                            ->join('produk', 'pembelian_detail.id_produk', '=', 'produk.id_produk')
+                            ->where('pembelian.id_supplier', $item->id_supplier)
+                            ->select('produk.nama_produk')
+                            ->distinct()
+                            ->limit(5)
+                            ->get();
+                            
+                        $productInfo = "";
+                        if ($products->count() > 0) {
+                            $prodList = $products->pluck('nama_produk')->implode(", ");
+                            $productInfo = "\n  📦 Supply: " . $prodList;
+                        }
+
+                        return ($index + 1) . ". {$item->nama_supplier}{$productInfo}";
                     })->implode("\n");
                     $data[] = "🏢 Daftar Supplier ({$suppliers->count()}):\n" . $list;
                 } else {
@@ -296,22 +627,48 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
             }
         }
 
-        // --- 4. DATA PELANGGAN ---
+        }
+
+        if ($showCustomer) {
         $customerKeywords = ['pelanggan', 'customer', 'konsumen'];
         $isCustomerQuery = false;
-        foreach ($customerKeywords as $kw) {
-            if (stripos($message, $kw) !== false) {
-                $isCustomerQuery = true;
-                break;
+        
+        // If context is explicitly 'pelanggan', we assume it's a customer query
+        if ($context === 'pelanggan') {
+            $isCustomerQuery = true;
+        } else {
+            foreach ($customerKeywords as $kw) {
+                if (stripos($message, $kw) !== false) {
+                    $isCustomerQuery = true;
+                    break;
+                }
             }
         }
 
         if ($isCustomerQuery) {
             try {
-                $customers = DB::table('pelanggan')
-                    ->select('nama', 'no_hp', 'email', 'alamat', 'tanggal_pembelian')
-                    ->orderBy('created_at', 'desc')
-                    ->limit(15)
+                $query = DB::table('pelanggan')
+                    ->select('id_pelanggan', 'nama', 'no_hp', 'email', 'alamat', 'garansi', 'tanggal_pembelian', 'catatan');
+
+                // Use the same robust splitting and filtering as Universal Search
+                $words = preg_split('/[\s\W]+/', strtolower($message));
+                $stopWords = ['cek', 'berapa', 'apakah', 'ada', 'di', 'ini', 'itu', 'yang', 'mau', 'ketersediaan', 'jumlah', 'nya', 'siapa', 'cari', 'lihat', 'tampilkan', 'data', 'list', 'daftar', 'dari', 'untuk', 'oleh', 'pada', 'dengan', 'dan', 'atau', 'bernama', 'pelanggan', 'customer', 'konsumen'];
+                
+                $searchTerms = array_filter($words, function($word) use ($stopWords) {
+                    $isNumeric = is_numeric($word);
+                    return !in_array($word, $stopWords) && ($isNumeric || strlen($word) >= 3);
+                });
+
+                if (!empty($searchTerms)) {
+                    $query->where(function($q) use ($searchTerms) {
+                        foreach ($searchTerms as $term) {
+                            $q->orWhere('nama', 'like', "%{$term}%");
+                        }
+                    });
+                }
+
+                $customers = $query->orderBy('created_at', 'desc')
+                    ->limit(5) // Limit to 5
                     ->get();
                 
                 if ($customers->count() > 0) {
@@ -319,7 +676,29 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                         $number = $index + 1;
                         $hp = $item->no_hp ? " | 📱 {$item->no_hp}" : "";
                         $email = $item->email ? " | ✉️ {$item->email}" : "";
-                        return "{$number}. {$item->nama}{$hp}{$email}";
+                        $alamat = $item->alamat ? " | 🏠 {$item->alamat}" : "";
+                        $garansi = $item->garansi ? " | 🛡️ Garansi: {$item->garansi}" : "";
+                        $catatan = $item->catatan ? " | 📝 {$item->catatan}" : "";
+                        
+                        // DEEP CONTEXT: Get purchase history
+                        $history = DB::table('penjualan')
+                            ->join('penjualan_detail', 'penjualan.id_penjualan', '=', 'penjualan_detail.id_penjualan')
+                            ->join('produk', 'penjualan_detail.id_produk', '=', 'produk.id_produk')
+                            ->where('penjualan.id_pelanggan', $item->id_pelanggan)
+                            ->select('produk.nama_produk', 'penjualan.tanggal_penjualan')
+                            ->orderBy('penjualan.tanggal_penjualan', 'desc')
+                            ->limit(3)
+                            ->get();
+                            
+                        $historyInfo = "";
+                        if ($history->count() > 0) {
+                            $histList = $history->map(function($h) {
+                                return $h->nama_produk;
+                            })->implode(", ");
+                            $historyInfo = "\n  🛒 Riwayat: " . $histList;
+                        }
+
+                        return "{$number}. {$item->nama}{$hp}{$email}{$alamat}{$garansi}{$catatan}{$historyInfo}";
                     })->implode("\n");
                     $data[] = "👥 Daftar Pelanggan ({$customers->count()}):\n" . $list;
                     
@@ -344,7 +723,10 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
             }
         }
 
+        }
+
         // --- 5. DATA PEMBELIAN ---
+        if ($showPurchase) {
         $purchaseKeywords = ['pembelian', 'beli', 'purchase', 'order'];
         $isPurchaseQuery = false;
         foreach ($purchaseKeywords as $kw) {
@@ -362,7 +744,7 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                     ->whereYear('tanggal_pembelian', $now->year)
                     ->sum('total_harga');
                 
-                $data[] = "🛒 Total Pembelian Bulan Ini: Rp " . number_format($monthPurchases, 0, ',', '.');
+                $data[] = "🛒 Total Pembelian Bulan Ini: Rp " . number_format($monthPurchases, 0, ',', '.') . " [Source: pembelian.total_harga]";
 
                 // Count pembelian
                 $purchaseCount = DB::table('pembelian')
@@ -387,7 +769,7 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                         $total = number_format($item->total_harga, 0, ',', '.');
                         return "{$number}. {$item->nama_supplier} - {$tanggal} - Rp {$total}";
                     })->implode("\n");
-                    $data[] = "📦 Pembelian Terbaru:\n" . $list;
+                    $data[] = "📦 Pembelian Terbaru:\n" . $list . "\n[Source: pembelian.tanggal_pembelian, pembelian.total_harga, supplier.nama_supplier]";
                 }
             } catch (\Exception $e) {
                 $data[] = "⚠️ Error mengambil data pembelian: " . $e->getMessage();
@@ -395,7 +777,10 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
             }
         }
 
+        }
+
         // --- 6. DATA PEGAWAI ---
+        if ($showEmployee) {
         $employeeKeywords = ['pegawai', 'karyawan', 'staff', 'user', 'admin'];
         $isEmployeeQuery = false;
         foreach ($employeeKeywords as $kw) {
@@ -407,9 +792,29 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
 
         if ($isEmployeeQuery) {
             try {
-                $employees = DB::table('users')
-                    ->select('name', 'email', 'role', 'created_at')
-                    ->orderBy('created_at', 'desc')
+                $query = DB::table('users')
+                    ->select('name', 'email', 'role', 'created_at');
+
+                // Filter by name if specific terms are provided
+                $words = preg_split('/[\s\W]+/', strtolower($message));
+                $stopWords = array_merge($employeeKeywords, ['data', 'list', 'daftar', 'siapa', 'cari', 'lihat', 'tampilkan', 'info', 'informasi', 'bernama', 'yang']);
+                
+                $searchTerms = array_filter($words, function($word) use ($stopWords) {
+                    $isNumeric = is_numeric($word);
+                    return !in_array($word, $stopWords) && ($isNumeric || strlen($word) >= 3);
+                });
+
+                if (!empty($searchTerms)) {
+                    $query->where(function($q) use ($searchTerms) {
+                        foreach ($searchTerms as $term) {
+                            $q->orWhere('name', 'like', "%{$term}%")
+                              ->orWhere('email', 'like', "%{$term}%");
+                        }
+                    });
+                }
+
+                $employees = $query->orderBy('created_at', 'desc')
+                    ->limit(10)
                     ->get();
                 
                 if ($employees->count() > 0) {
@@ -421,22 +826,26 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
                     
                     if ($admins->count() > 0) {
                         $adminList = $admins->map(function($item, $index) {
-                            return ($index + 1) . ". {$item->name} | ✉️ {$item->email}";
+                            return "• {$item->name} (Admin) | ✉️ {$item->email}";
                         })->implode("\n");
-                        $output[] = "👑 Admin ({$admins->count()}):\n" . $adminList;
+                        $output[] = "👑 Admin:\n" . $adminList;
                     }
                     
                     if ($staff->count() > 0) {
                         $staffList = $staff->map(function($item, $index) {
-                            return ($index + 1) . ". {$item->name} | ✉️ {$item->email}";
+                            return "• {$item->name} (Staff) | ✉️ {$item->email}";
                         })->implode("\n");
-                        $output[] = "👨‍💼 Pegawai ({$staff->count()}):\n" . $staffList;
+                        $output[] = "👨‍💼 Pegawai:\n" . $staffList;
                     }
                     
                     $data[] = "👥 Data Pegawai/Karyawan:\n\n" . implode("\n\n", $output);
-                    $data[] = "📊 Total Pengguna Sistem: {$employees->count()} orang";
+                    
+                    // Only show total count if not searching
+                    if (empty($searchTerms)) {
+                        $data[] = "📊 Total Pengguna Sistem: " . DB::table('users')->count() . " orang";
+                    }
                 } else {
-                    $data[] = "❌ Belum ada data pegawai.";
+                    $data[] = "❌ Data pegawai tidak ditemukan.";
                 }
             } catch (\Exception $e) {
                 $data[] = "⚠️ Error mengambil data pegawai: " . $e->getMessage();
@@ -445,6 +854,7 @@ Jawab dalam Bahasa Indonesia yang ramah dan profesional.";
         }
 
         return implode("\n\n", $data);
+    }
     }
 
     // --- IMPLEMENTASI LOGIKA BISNIS untuk restock (optional, jika diperlukan) ---

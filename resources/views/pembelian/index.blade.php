@@ -201,6 +201,7 @@
     <div id="flash-success-flag" style="display: none;"></div>
 @endif
 
+    <x-ai-chat-widget context="pembelian" />
 @endsection
 
 @push('scripts')

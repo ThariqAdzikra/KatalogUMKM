@@ -194,6 +194,7 @@
     </div>
   </div>
 </div>
+    <x-ai-chat-widget context="stok" />
 @endsection
 
 @push('scripts')
