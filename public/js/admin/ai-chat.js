@@ -133,22 +133,80 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 100);
         };
 
-        // Helper: Show typing indicator
-        const showTypingIndicator = () => {
+        // Helper: Show "Thinking" Process Indicator
+        const showThinkingIndicator = (userMessage) => {
             const typingId = "typing-indicator";
             const typingDiv = document.createElement("div");
             typingDiv.id = typingId;
-            typingDiv.className = "chat-bubble chat-bubble-ai";
+            typingDiv.style.opacity = "0.7";
+            typingDiv.style.fontSize = "0.85rem";
+            typingDiv.className =
+                "chat-bubble chat-bubble-ai d-flex align-items-center gap-2";
+
+            // Determine context for "Thinking Steps"
+            let steps = ["⏳ Sedang berpikir..."];
+            const lowerMsg = userMessage.toLowerCase();
+
+            if (
+                lowerMsg.includes("stok") ||
+                lowerMsg.includes("sisa") ||
+                lowerMsg.includes("barang")
+            ) {
+                steps = [
+                    "🔍 Menganalisis pertanyaan...",
+                    "📦 Mengecek database inventaris...",
+                    "🔢 Menghitung stok tersedia...",
+                    "✨ Menyusun jawaban...",
+                ];
+            } else if (
+                lowerMsg.includes("jual") ||
+                lowerMsg.includes("omset") ||
+                lowerMsg.includes("laku")
+            ) {
+                steps = [
+                    "🔍 Menganalisis pertanyaan...",
+                    "💰 Mengakses data transaksi...",
+                    "📊 Mengkalkulasi total penjualan...",
+                    "📈 Menganalisa tren...",
+                    "✨ Menyusun laporan...",
+                ];
+            } else if (
+                lowerMsg.includes("pelanggan") ||
+                lowerMsg.includes("beli")
+            ) {
+                steps = [
+                    "🔍 Menganalisis pertanyaan...",
+                    "👥 Mencari data pelanggan...",
+                    "⭐ Mengecek riwayat pembelian...",
+                    "✨ Menyusun informasi...",
+                ];
+            } else {
+                steps = [
+                    "🧠 Memproses input...",
+                    "📡 Menghubungi AI Brain...",
+                    "✨ Menyusun respon...",
+                ];
+            }
+
             typingDiv.innerHTML = `
-                        <div class="typing-indicator">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    `;
+                <div class="spinner-border spinner-border-sm text-cyan" role="status"></div>
+                <span id="thinking-text" class="text-secondary fst-italic typewriter">${steps[0]}</span>
+            `;
+
             chatMessages.appendChild(typingDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            return typingId;
+
+            // Cycle through steps
+            let stepIndex = 0;
+            const intervalId = setInterval(() => {
+                stepIndex = (stepIndex + 1) % steps.length;
+                const textEl = document.getElementById("thinking-text");
+                if (textEl) {
+                    textEl.innerText = steps[stepIndex];
+                }
+            }, 1500); // Change text every 1.5s
+
+            return { id: typingId, interval: intervalId };
         };
 
         // Handle Submit
@@ -162,8 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
             chatInput.value = "";
             chatInput.disabled = true;
 
-            // Show typing indicator
-            const typingId = showTypingIndicator();
+            // Show thinking indicator with context
+            const thinkingData = showThinkingIndicator(message);
 
             try {
                 // Send to server
@@ -183,14 +241,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const data = await response.json();
 
-                // Remove typing indicator
-                document.getElementById(typingId)?.remove();
+                // Remove typing indicator & clear interval
+                clearInterval(thinkingData.interval);
+                document.getElementById(thinkingData.id)?.remove();
 
                 // Display AI reply with sources
                 addMessage(data.reply, "ai", data.sources);
             } catch (error) {
                 console.error("Chat Error:", error);
-                document.getElementById(typingId)?.remove();
+
+                // Cleanup
+                clearInterval(thinkingData.interval);
+                document.getElementById(thinkingData.id)?.remove();
+
                 addMessage(
                     "❌ Maaf, terjadi kesalahan koneksi. Silakan coba lagi.",
                     "ai"
