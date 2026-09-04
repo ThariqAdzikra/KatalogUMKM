@@ -147,8 +147,8 @@ class DashboardController extends Controller
         }
         $prompt .= "\nOutputkan HANYA JSON valid dengan format: [{'nama_produk': '...', 'prediksi': 10, 'saran': '...', 'status': 'aman/warning/danger'}]";
 
-        // 2. Panggil API Kolosal (Claude)
-        $apiKey = env('KOLOSAL_API_KEY') ?: env('OPENAI_API_KEY');
+        // 2. Panggil API AI (Google Gemini via OpenAI-compatible endpoint)
+        $apiKey = env('GEMINI_API_KEY') ?: env('OPENAI_API_KEY');
         
         if (!$apiKey) {
             // Fallback jika API Key tidak ada (Simulasi AI)
@@ -156,14 +156,22 @@ class DashboardController extends Controller
         }
 
         try {
-            $response = \Illuminate\Support\Facades\Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
-                'model' => 'Claude Sonnet 4.5',
-                'messages' => [
-                    ['role' => 'system', 'content' => 'Anda adalah asisten manajemen stok ahli.'],
-                    ['role' => 'user', 'content' => $prompt]
-                ],
-                'temperature' => 0.7,
-            ]);
+            $response = \Illuminate\Support\Facades\Http::withToken($apiKey)
+                ->withoutVerifying()
+                ->timeout(30)
+                ->post('https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', [
+                    'model' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
+                    'messages' => [
+                        ['role' => 'system', 'content' => 'Anda adalah asisten manajemen stok ahli.'],
+                        ['role' => 'user', 'content' => $prompt]
+                    ],
+                    'temperature' => 0.7,
+                ]);
+
+            if ($response->failed()) {
+                $errorMsg = $response->json('error.message') ?? ('HTTP error ' . $response->status());
+                throw new \Exception($errorMsg);
+            }
 
             $content = $response->json('choices.0.message.content');
             
