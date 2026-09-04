@@ -21,10 +21,10 @@ class AiAgentController extends Controller
         $userMessage = $request->input('message');
         $context = $request->input('context', 'general'); // Default to general if not provided
 
-        $apiKey = env('KOLOSAL_API_KEY') ?: env('OPENAI_API_KEY');
+        $apiKey = env('GEMINI_API_KEY') ?: env('KOLOSAL_API_KEY') ?: env('OPENAI_API_KEY');
 
         if (!$apiKey) {
-            return response()->json(['reply' => 'Maaf, API Key belum dikonfigurasi. Silakan cek file .env Anda.']);
+            return response()->json(['reply' => 'Maaf, API Key Gemini belum dikonfigurasi. Silakan tambahkan GEMINI_API_KEY di file .env Anda.']);
         }
 
         // Cek intent user via Service
@@ -103,8 +103,8 @@ Data terkini dari backend:
 " . $data;
             
             try {
-                $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
-                    'model' => 'Claude Sonnet 4.5',
+                $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', [
+                    'model' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
                     'messages' => [
                         ['role' => 'system', 'content' => $systemPrompt],
                         ['role' => 'user', 'content' => $userMessage]
@@ -112,7 +112,7 @@ Data terkini dari backend:
                 ]);
 
                 // DEBUG: Log full API response
-                \Log::info('Kolosal API Response:', [
+                \Log::info('Gemini API Response:', [
                     'status' => $response->status(),
                     'body' => $response->json()
                 ]);
@@ -164,8 +164,8 @@ Data terkini dari backend:
 
         // Untuk chat biasa tanpa query database
         try {
-            $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://api.kolosal.ai/v1/chat/completions', [
-                'model' => 'Claude Sonnet 4.5',
+            $response = Http::withToken($apiKey)->withoutVerifying()->timeout(30)->post('https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', [
+                'model' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
                 'messages' => [
                     ['role' => 'system', 'content' => 'Anda adalah Asisten Manajer Toko LAPTOP yang ramah dan helpful. Jawab pertanyaan user dengan natural dan informatif. Gunakan format yang rapi dengan numbering dan bullet points. Bahasa Indonesia yang friendly tapi tetap profesional.'],
                     ['role' => 'user', 'content' => $userMessage]
@@ -173,7 +173,7 @@ Data terkini dari backend:
             ]);
 
             // DEBUG: Log full API response
-            \Log::info('Kolosal API Response (General):', [
+            \Log::info('Gemini API Response (General):', [
                 'status' => $response->status(),
                 'body' => $response->json()
             ]);
